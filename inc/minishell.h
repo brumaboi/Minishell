@@ -30,6 +30,18 @@
 # include <sys/stat.h>
 # include "../libft/inc/libft.h"
 
+typedef struct s_var
+{
+    char *name;
+    char *value;
+    struct s_var *next;
+} t_var;
+
+typedef struct s_data
+{
+    t_var *env; //linked list of env variables
+    t_var *exp; //linked list of exp variables
+} t_data;
 
 
 #endif
