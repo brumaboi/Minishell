@@ -43,7 +43,6 @@ typedef struct s_data
     t_var *exp; //linked list of exp variables
 } t_data;
 
-// token types
 typedef enum e_token_type
 {
 	T_PIPE,
@@ -60,13 +59,25 @@ typedef enum e_token_type
 	T_IDENTIFIER
 }	t_token_type;
 
-// token structure
 typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
 	struct s_token	*next;
 }	t_token;
+
+//init_data.c
+void init_data(t_data *data, char **env);
+void env_to_list(t_var **lst, char **env);
+void add_oldpwd_exp(t_var **exp);
+void sort_exp(t_var **export);
+//split_input.c
+int token_add(char *inpu, int i, t_token **lst);
+char	*copy_token(const char *start, const char *end);
+int is_special_char(const char *str);
+char *process_special_char(const char *str);
+int	special_char_len(const char *str);
+char **split_input(const char *str, int *count, t_token **lst);
 
 
 #endif

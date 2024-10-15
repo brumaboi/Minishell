@@ -24,7 +24,7 @@ int	special_char_len(const char *str)
 	return (0);
 }
 
-static char *process_special_char(const char *str)
+char *process_special_char(const char *str)
 {
     char *result;
     int len;
