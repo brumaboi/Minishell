@@ -35,6 +35,8 @@ int main(int argc, char **argv, char **env)
 {
     t_data data;
 
+    (void)argc;
+    (void)argv;
     init_data(&data, env);  //initialize env and exp linked lists
 //    init_signals(); //set up signal handlers
     while(1)

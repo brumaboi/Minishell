@@ -28,7 +28,7 @@ static t_token	*new_token(char *value, t_token_type type)
 }
 
 // Add a token to the end of the list
-static int	add_token_to_list(t_token **lst, t_token_type type, char *input, int *i)
+static int	add_token_to_list(t_token **lst, t_token_type type, int *i)
 {
 	t_token	*new;
 	t_token	*last;
@@ -54,28 +54,28 @@ static int	add_token_to_list(t_token **lst, t_token_type type, char *input, int 
 
 int token_add(char *input, int i, t_token **lst)
 {
-    if (input[*i] == '>' && input[*i + 1] == '>')
-		return (add_token_to_list(lst, T_DGREAT, input, i));
-	else if (input[*i] == '>')
-		return (add_token_to_list(lst, T_GREAT, input, i));
-	else if (input[*i] == '<' && input[*i + 1] == '<')
-		return (add_token_to_list(lst, T_DLESS, input, i));
-	else if (input[*i] == '<')
-		return (add_token_to_list(lst, T_LESS, input, i));
-	else if (input[*i] == '|' && input[*i + 1] == '|')
-		return (add_token_to_list(lst, T_OR, input, i));
-	else if (input[*i] == '|')
-		return (add_token_to_list(lst, T_PIPE, input, i));
-	else if (input[*i] == '&' && input[*i + 1] == '&')
-		return (add_token_to_list(lst, T_AND, input, i));
-    else if (input[*i] == '&')
-        return (add_token_to_list(lst, T_BACKGROUND, input, i));
-	else if (input[*i] == '(')
-		return (add_token_to_list(lst, T_OPAR, input, i));
-	else if (input[*i] == ')')
-		return (add_token_to_list(lst, T_CPAR, input, i));
-    else if (input[*i] == ';')
-        return (add_token_to_list(lst, T_SEMICOLON, input, i));
+    if (input[i] == '>' && input[i + 1] == '>')
+		return (add_token_to_list(lst, T_DGREAT, &i));
+	else if (input[i] == '>')
+		return (add_token_to_list(lst, T_GREAT, &i));
+	else if (input[i] == '<' && input[i + 1] == '<')
+		return (add_token_to_list(lst, T_DLESS, &i));
+	else if (input[i] == '<')
+		return (add_token_to_list(lst, T_LESS, &i));
+	else if (input[i] == '|' && input[i + 1] == '|')
+		return (add_token_to_list(lst, T_OR, &i));
+	else if (input[i] == '|')
+		return (add_token_to_list(lst, T_PIPE, &i));
+	else if (input[i] == '&' && input[i + 1] == '&')
+		return (add_token_to_list(lst, T_AND, &i));
+    else if (input[i] == '&')
+        return (add_token_to_list(lst, T_BACKGROUND, &i));
+	else if (input[i] == '(')
+		return (add_token_to_list(lst, T_OPAR, &i));
+	else if (input[i] == ')')
+		return (add_token_to_list(lst, T_CPAR, &i));
+    else if (input[i] == ';')
+        return (add_token_to_list(lst, T_SEMICOLON, &i));
 	else
-		return (add_token_to_list(lst, T_IDENTIFIER, input, i));
+		return (add_token_to_list(lst, T_IDENTIFIER, &i));
 }
