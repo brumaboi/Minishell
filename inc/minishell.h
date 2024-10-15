@@ -43,5 +43,30 @@ typedef struct s_data
     t_var *exp; //linked list of exp variables
 } t_data;
 
+// token types
+typedef enum e_token_type
+{
+	T_PIPE,
+	T_DGREAT,
+	T_GREAT,
+	T_DLESS,
+	T_LESS,
+	T_OR,
+	T_AND,
+    T_BACKGROUND,
+	T_OPAR,
+	T_CPAR,
+    T_SEMICOLON,
+	T_IDENTIFIER
+}	t_token_type;
+
+// token structure
+typedef struct s_token
+{
+	char			*value;
+	t_token_type	type;
+	struct s_token	*next;
+}	t_token;
+
 
 #endif

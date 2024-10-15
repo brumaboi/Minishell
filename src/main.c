@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-//syntax tree
+//abstract syntax tree
 
 int main(int argc, char **argv, char **env)
 {
