@@ -53,7 +53,7 @@ void env_to_list(t_var **lst, char **env)
         {
             //here we take what's before the = (name) and what's after the = (value)
             //and we add the paired name and value to the linked list
-            name = ft_substr(env[i], ft_strchr(env[i], '=') - env[i]);
+            name = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i]);
             value = ft_strdup(ft_strchr(env[i], '=') + 1);
             p_lstadd_back(lst, p_lstnew(name, value));
         }
@@ -98,7 +98,7 @@ void sort_exp(t_var **export)
         ptr = *export;
         while(ptr->next != last_sorted)
         {
-            if (ft_strncmp(ptr->name, ptr->next->name) > 0)
+            if (ft_strncmp(ptr->name, ptr->next->name, ft_strlen(ptr->name)) > 0)
             {
                 tmp_name = ptr->name;
                 ptr->name = ptr->next->name;

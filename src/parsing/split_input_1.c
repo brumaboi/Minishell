@@ -24,7 +24,7 @@ static int	validate_quotes(int in_single_quote, int in_double_quote)
 }
 
 // Handles quote toggling and escape sequences
-static int	quote_state_and_escape(const char *str, int *in_single_quote, int *in_double_quote)
+int	quote_state_and_escape(const char *str, int *in_single_quote, int *in_double_quote)
 {
 	if (*str == '\\' && *(str + 1) && !*in_single_quote)
 		return (1);
@@ -102,7 +102,7 @@ char **split_input(const char *str, int *count, t_token **lst)
             if(!end)
                 return (NULL); /// should make a function to handle errors
             result[idx++] = copy_token(str, end);
-            token_add((char *)str, (int *)&idx, lst);
+            token_add((char *)str, idx, lst);
             str = end;
         }
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbruma <sbruma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:37:09 by sbruma            #+#    #+#             */
-/*   Updated: 2024/05/16 12:04:10 by sbruma           ###   ########.fr       */
+/*   Updated: 2024/10/15 22:39:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
+int ft_isspace(int c);
 
 //ft_lst
 typedef struct s_list
@@ -66,7 +67,7 @@ int		*ft_range(int min, int max);
 int		ft_recursive_factorial(int nb);
 int		ft_recursive_power(int nb, int power);
 int		ft_sqrt(int nb);
-void	ft_rev_int_tab( int *tab, int size);
+void	ft_rev_int_tab(int *tab, int size);
 void	ft_sort_int_tab(int *tab, int size);
 void	ft_swap(int *a, int *b);
 int		ft_ultimate_range(int **range, int min, int max);
@@ -98,6 +99,7 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 size_t	ft_strnlen(const char *s, size_t maxlen);
 char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strcat(char *dest, const char *src);
+char	*ft_strndup(const char *s, size_t n);
 
 //ft_to
 int		ft_toupper(int c);

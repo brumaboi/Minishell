@@ -39,12 +39,12 @@ OBJ_DIR			= obj/
 # 				  $(SRC_DIR)$(EXEC_DIR) #name of file
 # 				  $(SRC_DIR)$(EXEC_DIR) #name of file
 
-PARS_FILES		= $(SRC_DIR)$(PARS_DIR) init_data_1.c \
-			 	  $(SRC_DIR)$(PARS_DIR) init_data_2.c \
-			 	  $(SRC_DIR)$(PARS_DIR) split_input_1.c \
-			 	  $(SRC_DIR)$(PARS_DIR) split_input_2.c \
-				  $(SRC_DIR)$(PARS_DIR) split_input_3.c \
-			 	  $(SRC_DIR)$(PARS_DIR) split_input_4.c \
+PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
+			 	  $(SRC_DIR)$(PARS_DIR)init_data_2.c \
+			 	  $(SRC_DIR)$(PARS_DIR)split_input_1.c \
+			 	  $(SRC_DIR)$(PARS_DIR)split_input_2.c \
+				  $(SRC_DIR)$(PARS_DIR)split_input_3.c \
+			 	  $(SRC_DIR)$(PARS_DIR)split_input_4.c
 
 SRC	= $(PARS_FILES) $(SRC_DIR)main.c
 OBJ = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))

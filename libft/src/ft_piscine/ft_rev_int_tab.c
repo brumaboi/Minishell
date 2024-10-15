@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_rev_int_tab.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbruma <sbruma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 21:23:19 by sbruma            #+#    #+#             */
-/*   Updated: 2024/05/09 10:59:13 by sbruma           ###   ########.fr       */
+/*   Updated: 2024/10/15 22:24:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/libft.h"
 
-void	ft_rev_int_tab( int *tab, int size)
+void	ft_rev_int_tab(int *tab, int size)
 {
 	int	i;
 	int	aux;

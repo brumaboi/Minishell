@@ -17,7 +17,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <termios.h>
-# include <term.h>
 # include <sys/ioctl.h>
 # include <signal.h>
 # include <fcntl.h>
@@ -78,6 +77,7 @@ int is_special_char(const char *str);
 char *process_special_char(const char *str);
 int	special_char_len(const char *str);
 char **split_input(const char *str, int *count, t_token **lst);
+int	quote_state_and_escape(const char *str, int *in_single_quote, int *in_double_quote);
 
 
 #endif

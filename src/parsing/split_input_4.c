@@ -52,7 +52,7 @@ static int	add_token_to_list(t_token **lst, t_token_type type, char *input, int 
 	return (0);
 }
 
-int token_add(char *inpu, int i, t_token **lst)
+int token_add(char *input, int i, t_token **lst)
 {
     if (input[*i] == '>' && input[*i + 1] == '>')
 		return (add_token_to_list(lst, T_DGREAT, input, i));
