@@ -12,43 +12,6 @@
 
 #include "../inc/minishell.h"
 
-//abstract syntax tree
-
-typedef enum e_ast_type
-{
-    N_COMMAND,
-    N_PIPE,
-    N_LESS,
-    N_GREAT,
-    N_DLESS,
-    N_DGREAT,
-    N_OR,
-    N_AND,
-} t_ast_type;
-
-typedef struct s_ast
-{
-    t_ast_type type;
-    struct s_ast *left;
-    struct s_ast *right;
-    char *file;
-    char **cmd_args;
-} t_ast;
-
-t_ast *build_ast(t_token *tokens)
-{
-    t_ast *ast;
-    t_token *current;
-
-    current = tokens;
-    ast = parse_command(&current); //function to parse input until the next operator
-    while(current)
-    {
-        //conditions for all op types
-    }
-    return (ast);
-}
-
 void process_input(t_data *data)
 {
     t_token *tokens;

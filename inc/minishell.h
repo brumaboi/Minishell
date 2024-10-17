@@ -65,6 +65,27 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef enum e_ast_type
+{
+    N_COMMAND,
+    N_PIPE,
+    N_LESS,
+    N_GREAT,
+    N_DLESS,
+    N_DGREAT,
+    N_OR,
+    N_AND,
+} t_ast_type;
+
+typedef struct s_ast
+{
+    t_ast_type type;
+    struct s_ast *left;
+    struct s_ast *right;
+    char *file;
+    char **cmd_args;
+} t_ast;
+
 //init_data.c
 void init_data(t_data *data, char **env);
 void env_to_list(t_var **lst, char **env);
@@ -80,6 +101,8 @@ char **split_input(const char *str, int *count, t_token **lst);
 int	quote_state_and_escape(const char *str, int *in_single_quote, int *in_double_quote);
 //user_input.c
 char *get_input(t_data *data);
+//build_ast.c
+t_ast *build_ast(t_token *tokens);
 
 
 #endif
