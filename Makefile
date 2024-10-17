@@ -52,7 +52,7 @@ OBJ = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))
 all : $(NAME)
 
 $(NAME) : $(OBJ) $(LIBFT_PATH)/$(LIBFT)
-			@$(CC) $(CFLAGS) $(LDFLAGS) -o $(NAME) $(OBJ) $(LIBFT_PATH)/$(LIBFT)
+			@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT_PATH)/$(LIBFT) $(LDFLAGS)
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
 				@mkdir -p $(@D)
