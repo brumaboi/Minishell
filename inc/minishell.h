@@ -75,6 +75,8 @@ typedef enum e_ast_type
     N_DGREAT,
     N_OR,
     N_AND,
+    N_BACKGROUND,
+    N_SEMICOLON
 } t_ast_type;
 
 typedef struct s_ast

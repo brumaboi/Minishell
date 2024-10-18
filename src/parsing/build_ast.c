@@ -27,6 +27,29 @@ t_ast *create_cmd_node(char **cmd_args)
     return (node);
 }
 
+t_ast *parse_operators(t_token **current, t_ast *ast)
+{
+    t_token *token;
+
+    token = *current;
+    while (token)
+    {
+        if (token->type == T_PIPE)
+            ast = parse_pipe(&token, ast);
+        else if (token->type == T_AND || token->type == T_OR)
+            ast = parse_logical(&token, ast);
+        else if (token->type == T_GREAT || token->type == T_DGREAT || token->type == T_LESS || token->type == T_DLESS)
+            ast = parse_redirection(&token, ast);
+        else if (token->type == T_BACKGROUND)
+            ast = parse_background(&token, ast);
+        else if (token->type == T_SEMICOLON)
+            ast = parse_semicolon(&token, ast);
+        token = token->next;
+    }
+    *current = token;
+    return (ast);
+}
+
 t_ast *parse_command(t_token **current)
 {
     t_token *token;
@@ -34,6 +57,7 @@ t_ast *parse_command(t_token **current)
     int args_count;
 
     token = *current;
+    cmd_args = NULL;
     args_count = 0;
     while(token && token->type == T_IDENTIFIER)
     {
@@ -43,6 +67,7 @@ t_ast *parse_command(t_token **current)
         cmd_args[args_count] = ft_strdup(token->value); //we copy the value of the token in the array
         if (!cmd_args[args_count])
             return (NULL); // need to see how to handle this error
+        args_count++;
         token = token->next;
     }
     cmd_args[args_count] = NULL; //we need to set the last element of the array to NULL
@@ -57,9 +82,13 @@ t_ast *build_ast(t_token *tokens)
 
     current = tokens;
     ast = parse_command(&current); //function to parse input until the next operator
+    if (!ast)
+        return (NULL); // need to see how to handle this error
     while(current)
     {
-        
+        ast = parse_operators(&current, &ast); //function to parse the operator
+        if (!ast)
+            return (NULL); // need to see how to handle this error
     }
     return (ast);
 }
