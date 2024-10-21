@@ -31,12 +31,12 @@ LIBFT_PATH		= ./libft
 LIBFT			= libft.a
 INC				= inc/
 SRC_DIR			= src/
-# EXEC_DIR		= execution/
+EXEC_DIR		= execution/
 PARS_DIR		= parsing/
 OBJ_DIR			= obj/
 
-# EXEC_FILES		= $(SRC_DIR)$(EXEC_DIR) #name of file
-# 				  $(SRC_DIR)$(EXEC_DIR) #name of file
+EXEC_FILES		= $(SRC_DIR)$(EXEC_DIR)execute_commands.c \
+				  $(SRC_DIR)$(EXEC_DIR)find_path.c \
 # 				  $(SRC_DIR)$(EXEC_DIR) #name of file
 
 PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
