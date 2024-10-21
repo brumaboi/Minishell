@@ -28,15 +28,69 @@
 
 // }
 
-// t_ast *parse_logical(t_token **current, t_ast *ast)
-// {
+t_ast create_logical_node(t_token_type type, t_ast *ast, t_ast right)
+{
+    t_ast *node;
 
-// }
+    node = malloc(sizeof(t_ast));
+    if (!node)
+        return (NULL); // need to see how to handle this error
+    if (type == T_AND)
+        node->type = N_AND;
+    else if (type == T_OR)
+        node->type = N_OR;
+    node->left = ast;
+    node->right = right;
+    return (node);
+}
 
-// t_ast parse_pipe(t_token **current, t_ast *ast)
-// {
+t_ast *parse_logical(t_token **current, t_ast *ast)
+{
+    t_token *token;
+    t_ast *right;
+    t_token_type type;
 
-// }
+    token = *current;
+    if(token && (token->type == T_AND || token->type == T_OR))
+    {
+        type = token->type;
+        token = token->next;
+        right = parse_command(&token);
+        if (!right)
+            return (NULL); // need to see how to handle this error
+        return(create_logical_node(type, ast, right));
+    }
+}
+
+t_ast create_pipe_node(t_ast *ast, t_ast right)
+{
+    t_ast *node;
+
+    node = malloc(sizeof(t_ast));
+    if (!node)
+        return (NULL); // need to see how to handle this error
+    node->type = N_PIPE;
+    node->left = ast;
+    node->right = right;
+    return (node);
+}
+
+t_ast parse_pipe(t_token **current, t_ast *ast)
+{
+    t_token *token;
+    t_ast *right;
+
+    token = *current;
+    if (token && token->type == T_PIPE)
+    {
+        token = token->next;
+        right = parse_command(&token);
+        if (!right)
+            return (NULL); // need to see how to handle this error
+        return(create_pipe_node(ast, right));
+    }
+    return (ast);
+}
 
 t_ast *parse_operators(t_token **current, t_ast *ast)
 {
