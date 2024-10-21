@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_ast.c                                        :+:      :+:    :+:   */
+/*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/17 16:29:33 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/17 16:29:33 by marvin           ###   ########.fr       */
+/*   Created: 2024/10/21 12:16:04 by marvin            #+#    #+#             */
+/*   Updated: 2024/10/21 12:16:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../../../inc/minishell.h"
 
-t_ast *create_cmd_node(char **cmd_args)
+static t_ast *create_cmd_node(char **cmd_args)
 {
     t_ast *node;
 
@@ -25,29 +25,6 @@ t_ast *create_cmd_node(char **cmd_args)
     node->left = NULL;
     node->right = NULL;
     return (node);
-}
-
-t_ast *parse_operators(t_token **current, t_ast *ast)
-{
-    t_token *token;
-
-    token = *current;
-    while (token)
-    {
-        if (token->type == T_PIPE)
-            ast = parse_pipe(&token, ast);
-        else if (token->type == T_AND || token->type == T_OR)
-            ast = parse_logical(&token, ast);
-        else if (token->type == T_GREAT || token->type == T_DGREAT || token->type == T_LESS || token->type == T_DLESS)
-            ast = parse_redirection(&token, ast);
-        else if (token->type == T_BACKGROUND)
-            ast = parse_background(&token, ast);
-        else if (token->type == T_SEMICOLON)
-            ast = parse_semicolon(&token, ast);
-        token = token->next;
-    }
-    *current = token;
-    return (ast);
 }
 
 t_ast *parse_command(t_token **current)
@@ -74,22 +51,3 @@ t_ast *parse_command(t_token **current)
     *current = token; //so it points to the last token processed
     return (create_cmd_node(cmd_args));
 }
-
-t_ast *build_ast(t_token *tokens)
-{
-    t_ast *ast;
-    t_token *current;
-
-    current = tokens;
-    ast = parse_command(&current); //function to parse input until the next operator
-    if (!ast)
-        return (NULL); // need to see how to handle this error
-    while(current)
-    {
-        ast = parse_operators(&current, &ast); //function to parse the operator
-        if (!ast)
-            return (NULL); // need to see how to handle this error
-    }
-    return (ast);
-}
-
