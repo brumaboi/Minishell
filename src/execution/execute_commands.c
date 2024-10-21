@@ -6,7 +6,7 @@
 /*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:59:31 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/21 19:13:15 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/10/21 20:36:04 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ int	execute_child_command(t_ast *ast, t_data *data)
 		// execution of external commands
 {
 	char *path;
-	char **args;
+	char **args;//env variablea array
 
 	path = find_command_path(ast->cmd_args[0], data->env);
 	if (!path)
 	{
 		printf("minishell: %s: command not found(exe_cmd)\n", ast->cmd_args[0]);
-		exit(127);
+		exit(126);
 	}
 	args = get_args(ast->cmd_args, data->env);
-	execve(path, args, NULL);
+	execve(path, ast->cmd_args, args);
 	perror("execve");
 	exit(126);
 }
@@ -70,6 +70,7 @@ int	execute_commands(t_ast *ast, t_data *data)
 		execute_child_command(ast, data);
 	}
 	else // Parent process
+    // waitpid() system call suspends execution of the calling process until a child specified by pid argument has changed state.
 		waitpid(pid, &status, 0);
 	return (status);
 }

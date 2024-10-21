@@ -107,6 +107,14 @@ char *get_input(t_data *data);
 t_ast *parse_operators(t_token **current, t_ast *ast);
 t_ast *parse_command(t_token **current);
 t_ast *build_ast(t_token *tokens);
+//execute_commands.c
+int execute_commands(t_ast *ast, t_data *data);
+int execute_builtin(char **cmd_args, t_data *data);
+int is_builtin(char **cmd_args);
+//find_path.c
+char *get_enviroment_val(t_var *env, const char *name);
+char *join_path(const char *dir, const char *cmd);
+char *find_command_path(char *cmd_name, t_var *env);
 
 
 #endif
