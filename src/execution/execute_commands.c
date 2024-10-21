@@ -6,13 +6,13 @@
 /*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:59:31 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/21 18:54:57 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/10/21 19:13:15 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	is_builtin(char **cmd_args)// checks if its built in cmmnd;
+int	is_builtin(char **cmd_args) // checks if its built in cmmnd;
 {
 	if (strcmp(cmd_args[0], "echo") == 0)
 		return (1);
@@ -31,10 +31,11 @@ int	is_builtin(char **cmd_args)// checks if its built in cmmnd;
 	return (0);
 }
 
-int	execute_child_command(t_ast *ast, t_data *data)//execution of external commands
+int	execute_child_command(t_ast *ast, t_data *data)
+		// execution of external commands
 {
-	char	*path;
-	char	**args;
+	char *path;
+	char **args;
 
 	path = find_command_path(ast->cmd_args[0], data->env);
 	if (!path)
@@ -48,7 +49,7 @@ int	execute_child_command(t_ast *ast, t_data *data)//execution of external comma
 	exit(126);
 }
 
-//this one deciedes whether to execute built-in command or fork a external command
+// this one deciedes whether to execute built-in command or fork a external command
 int	execute_commands(t_ast *ast, t_data *data)
 {
 	int		status;
@@ -59,15 +60,15 @@ int	execute_commands(t_ast *ast, t_data *data)
 	if (is_builtin(ast->cmd_args))
 		return (execute_builtin(ast->cmd_args, data));
 	pid = fork();
-	if (pid < 0)// child process
+	if (pid < 0) // child process
 	{
 		perror("fork");
 		return (-1);
 	}
-    else if(pid == 0)
-    {
-        execute_child_command(ast, data);
-    } 
+	else if (pid == 0)
+	{
+		execute_child_command(ast, data);
+	}
 	else // Parent process
 		waitpid(pid, &status, 0);
 	return (status);
