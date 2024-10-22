@@ -14,7 +14,23 @@
 
 t_ast create_redirection_node(t_token_type type, char *file)
 {
+    t_ast *node;
 
+    node = malloc(sizeof(t_ast));
+    if (!node)
+        return (NULL); // need to see how to handle this error
+    if (type == T_GREAT)
+        node->type = N_GREAT; //redirect_out
+    else if (type == T_DGREAT)
+        node->type = N_DGREAT; //append
+    else if (type == T_LESS)
+        node->type = N_LESS; //redirect_in
+    else if (type == T_DLESS)
+        node->type = N_DLESS; //here_doc
+    node->file = file;
+    node->left = NULL;
+    node->right = NULL;
+    return (node);
 }
 
 t_ast parse_redirection(t_token **current, t_ast *ast)

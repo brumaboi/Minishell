@@ -25,8 +25,6 @@ t_ast *parse_operators(t_token **current, t_ast *ast)
         ast = parse_redirection(&token, ast); //need to do
     else if (token->type == T_BACKGROUND)
         ast = parse_background(&token, ast); //need to do
-    else if (token->type == T_SEMICOLON)
-        ast = parse_semicolon(&token, ast); //need to do
     *current = token;
     return (ast);
 }

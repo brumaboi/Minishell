@@ -74,8 +74,6 @@ int token_add(char *input, int i, t_token **lst)
 		return (add_token_to_list(lst, T_OPAR, &i));
 	else if (input[i] == ')')
 		return (add_token_to_list(lst, T_CPAR, &i));
-    else if (input[i] == ';')
-        return (add_token_to_list(lst, T_SEMICOLON, &i));
 	else
 		return (add_token_to_list(lst, T_IDENTIFIER, &i));
 }

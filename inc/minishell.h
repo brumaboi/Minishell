@@ -54,7 +54,6 @@ typedef enum e_token_type
     T_BACKGROUND,
 	T_OPAR,
 	T_CPAR,
-    T_SEMICOLON,
 	T_IDENTIFIER
 }	t_token_type;
 
@@ -76,7 +75,6 @@ typedef enum e_ast_type
     N_OR,
     N_AND,
     N_BACKGROUND,
-    N_SEMICOLON
 } t_ast_type;
 
 typedef struct s_ast
