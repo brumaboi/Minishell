@@ -12,7 +12,7 @@
 
 #include "../../../inc/minishell.h"
 
-t_ast create_redirection_node(t_token_type type, char *file)
+t_ast *create_redirection_node(t_token_type type, char *file)
 {
     t_ast *node;
 
@@ -33,7 +33,7 @@ t_ast create_redirection_node(t_token_type type, char *file)
     return (node);
 }
 
-t_ast parse_redirection(t_token **current, t_ast *ast)
+t_ast *parse_redirection(t_token **current, t_ast *ast)
 {
     t_token *token;
     char *file;

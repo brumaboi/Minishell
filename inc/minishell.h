@@ -101,9 +101,9 @@ int	quote_state_and_escape(const char *str, int *in_single_quote, int *in_double
 //user_input.c
 char *get_input(t_data *data);
 //build_ast.c
-t_ast parse_redirection(t_token **current, t_ast *ast);
+t_ast *parse_redirection(t_token **current, t_ast *ast);
 t_ast *parse_logical(t_token **current, t_ast *ast);
-t_ast parse_pipe(t_token **current, t_ast *ast);
+t_ast *parse_pipe(t_token **current, t_ast *ast);
 t_ast *parse_command(t_token **current);
 t_ast *build_ast(t_token *tokens);
 //execute_commands.c

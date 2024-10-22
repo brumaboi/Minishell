@@ -12,7 +12,7 @@
 
 #include "../../../inc/minishell.h"
 
-t_ast create_pipe_node(t_ast *ast, t_ast right)
+t_ast *create_pipe_node(t_ast *ast, t_ast *right)
 {
     t_ast *node;
 
@@ -25,7 +25,7 @@ t_ast create_pipe_node(t_ast *ast, t_ast right)
     return (node);
 }
 
-t_ast parse_pipe(t_token **current, t_ast *ast)
+t_ast *parse_pipe(t_token **current, t_ast *ast)
 {
     t_token *token;
     t_ast *right;

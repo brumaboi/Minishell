@@ -12,7 +12,7 @@
 
 #include "../../../inc/minishell.h"
 
-t_ast create_logical_node(t_token_type type, t_ast *ast, t_ast right)
+t_ast *create_logical_node(t_token_type type, t_ast *ast, t_ast *right)
 {
     t_ast *node;
 
@@ -44,4 +44,5 @@ t_ast *parse_logical(t_token **current, t_ast *ast)
             return (NULL); // need to see how to handle this error
         return(create_logical_node(type, ast, right));
     }
+    return (ast);
 }

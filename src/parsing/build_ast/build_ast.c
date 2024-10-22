@@ -44,11 +44,11 @@ t_ast *build_ast(t_token *tokens)
     while(current)
     {
         if (current->type == T_PIPE)
-            ast = parse_pipe(&token, ast);
+            ast = parse_pipe(&current, ast);
         else if (current->type == T_AND || current->type == T_OR)
-            ast = parse_logical(&token, ast);
+            ast = parse_logical(&current, ast);
         else if (current->type == T_GREAT || current->type == T_DGREAT || current->type == T_LESS || current->type == T_DLESS)
-            ast = parse_redirection(&token, ast);
+            ast = parse_redirection(&current, ast);
         else if (current->type == T_OPAR)
             ast = parse_grouping(&current);
         if (!ast)
