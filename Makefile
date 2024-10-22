@@ -45,6 +45,11 @@ PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
 			 	  $(SRC_DIR)$(PARS_DIR)split_input_2.c \
 				  $(SRC_DIR)$(PARS_DIR)split_input_3.c \
 			 	  $(SRC_DIR)$(PARS_DIR)split_input_4.c \
+				  $(SRC_DIR)$(PARS_DIR)build_ast/build_ast.c \
+				  $(SRC_DIR)$(PARS_DIR)build_ast/commands.c \
+				  $(SRC_DIR)$(PARS_DIR)build_ast/op_and_or.c \
+				  $(SRC_DIR)$(PARS_DIR)build_ast/op_pipe.c \
+				  $(SRC_DIR)$(PARS_DIR)build_ast/op_redirection.c \
 				  $(SRC_DIR)$(PARS_DIR)user_input.c
 
 SRC	= $(PARS_FILES) $(SRC_DIR)main.c
