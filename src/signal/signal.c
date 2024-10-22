@@ -11,3 +11,10 @@
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+//NEEDS WORK!!!!
+void init_signals(void)
+{
+    signal(SIGINT, signal_handler);
+    signal(SIGQUIT, signal_handler);
+}

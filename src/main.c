@@ -50,10 +50,7 @@ int main(int argc, char **argv, char **env)
     (void)argc;
     (void)argv;
     init_data(&data, env);  //initialize env and exp linked lists
-
-    ///TODO: Signals
-    // init_signals(); //set up signal handlers
-
+    init_signals(); //set up signal handlers
     while(1)
     {
         process_input(&data);

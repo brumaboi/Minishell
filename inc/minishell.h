@@ -106,6 +106,8 @@ t_ast *parse_logical(t_token **current, t_ast *ast);
 t_ast *parse_pipe(t_token **current, t_ast *ast);
 t_ast *parse_command(t_token **current);
 t_ast *build_ast(t_token *tokens);
+//signal.c
+void init_signals(void);
 //execute_commands.c
 int execute_commands(t_ast *ast, t_data *data);
 int execute_builtin(char **cmd_args, t_data *data);
