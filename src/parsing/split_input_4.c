@@ -68,8 +68,6 @@ int token_add(char *input, int i, t_token **lst)
 		return (add_token_to_list(lst, T_PIPE, &i));
 	else if (input[i] == '&' && input[i + 1] == '&')
 		return (add_token_to_list(lst, T_AND, &i));
-    else if (input[i] == '&')
-        return (add_token_to_list(lst, T_BACKGROUND, &i));
 	else if (input[i] == '(')
 		return (add_token_to_list(lst, T_OPAR, &i));
 	else if (input[i] == ')')

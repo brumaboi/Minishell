@@ -12,6 +12,26 @@
 
 #include "../../../inc/minishell.h"
 
+t_ast  *parse_grouping(t_token **current)
+{
+    t_token *token;
+    t_ast *group;
+
+    token = *current;
+    if(token && token->type == T_OPAR)
+    {
+        *current = token->next;
+        group = build_ast(*current);
+        if (!group)
+            return (NULL); // need to see how to handle this error
+        while (*current && (*current)->type != T_CPAR)
+            *current = (*current)->next;
+        if (*current && (*current)->type == T_CPAR)
+            *current = (*current)->next;
+    }
+    return (group);
+}
+
 t_ast *build_ast(t_token *tokens)
 {
     t_ast *ast;
@@ -23,7 +43,14 @@ t_ast *build_ast(t_token *tokens)
         return (NULL); // need to see how to handle this error
     while(current)
     {
-        ast = parse_operators(&current, &ast); //function to parse the operator
+        if (current->type == T_PIPE)
+            ast = parse_pipe(&token, ast);
+        else if (current->type == T_AND || current->type == T_OR)
+            ast = parse_logical(&token, ast);
+        else if (current->type == T_GREAT || current->type == T_DGREAT || current->type == T_LESS || current->type == T_DLESS)
+            ast = parse_redirection(&token, ast);
+        else if (current->type == T_OPAR)
+            ast = parse_grouping(&current);
         if (!ast)
             return (NULL); // need to see how to handle this error
     }
