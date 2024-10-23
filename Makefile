@@ -33,10 +33,11 @@ INC				= inc/
 SRC_DIR			= src/
 EXEC_DIR		= execution/
 PARS_DIR		= parsing/
+SIG_DIR			= signal/
 OBJ_DIR			= obj/
 
 EXEC_FILES		= $(SRC_DIR)$(EXEC_DIR)execute_commands.c \
-				  $(SRC_DIR)$(EXEC_DIR)find_path.c \
+				  $(SRC_DIR)$(EXEC_DIR)find_path.c
 # 				  $(SRC_DIR)$(EXEC_DIR) #name of file
 
 PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
@@ -52,7 +53,10 @@ PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
 				  $(SRC_DIR)$(PARS_DIR)build_ast/op_redirection.c \
 				  $(SRC_DIR)$(PARS_DIR)user_input.c
 
-SRC	= $(PARS_FILES) $(SRC_DIR)main.c
+SIG_FILES		= $(SRC_DIR)$(SIG_DIR)signal.c
+
+
+SRC	= $(PARS_FILES) $(EXEC_FILES) $(SIG_FILES) $(SRC_DIR)main.c
 OBJ = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))
 
 all : $(NAME)

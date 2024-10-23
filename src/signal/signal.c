@@ -12,9 +12,24 @@
 
 #include "../../inc/minishell.h"
 
+void signal_handler(int signal)
+{
+    if(signal == SIGINT)
+    {
+        printf("\n");  //print new line to reset prompt
+        rl_on_new_line(); //move to new line
+        rl_replace_line("", 0); //replace the current line with nothing
+        rl_redisplay(); //redisplay the prompt
+    }
+    else if (signal == SIGQUIT)
+    {
+        return ;
+    }
+}
+
 //NEEDS WORK!!!!
 void init_signals(void)
 {
-    signal(SIGINT, signal_handler);
-    signal(SIGQUIT, signal_handler);
+    signal(SIGINT, signal_handler); //ctrl + c
+    signal(SIGQUIT, signal_handler); //ctrl + /
 }
