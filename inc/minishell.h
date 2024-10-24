@@ -54,7 +54,6 @@ typedef enum e_token_type
     T_BACKGROUND,
 	T_OPAR,
 	T_CPAR,
-    T_SEMICOLON,
 	T_IDENTIFIER
 }	t_token_type;
 
@@ -75,8 +74,6 @@ typedef enum e_ast_type
     N_DGREAT,
     N_OR,
     N_AND,
-    N_BACKGROUND,
-    N_SEMICOLON
 } t_ast_type;
 
 typedef struct s_ast
@@ -104,9 +101,13 @@ int	quote_state_and_escape(const char *str, int *in_single_quote, int *in_double
 //user_input.c
 char *get_input(t_data *data);
 //build_ast.c
-t_ast *parse_operators(t_token **current, t_ast *ast);
+t_ast *parse_redirection(t_token **current, t_ast *ast);
+t_ast *parse_logical(t_token **current, t_ast *ast);
+t_ast *parse_pipe(t_token **current, t_ast *ast);
 t_ast *parse_command(t_token **current);
 t_ast *build_ast(t_token *tokens);
+//signal.c
+void init_signals(void);
 //execute_commands.c
 int execute_commands(t_ast *ast, t_data *data);
 int execute_builtin(char **cmd_args, t_data *data);
