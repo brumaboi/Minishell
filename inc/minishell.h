@@ -112,9 +112,10 @@ int execute_commands(t_ast *ast, t_data *data);
 int execute_builtin(char **cmd_args, t_data *data);
 int is_builtin(char **cmd_args);
 //find_path.c
-char *get_enviroment_val(t_var *env, const char *name);
-char *join_path(const char *dir, const char *cmd);
-char *find_command_path(char *cmd_name, t_var *env);
+char    *get_enviroment_val(t_var *env, const char *name);
+char    *join_path(const char *dir, const char *cmd);
+char    *check_command_path(char **path, char cmd_name);
+char    *find_command_path(char *cmd_name, t_var *env);
 
 
 #endif
