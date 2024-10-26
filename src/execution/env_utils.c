@@ -6,7 +6,7 @@
 /*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:13:59 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/24 17:34:46 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/10/26 15:47:42 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,32 @@ char	*create_env_entry(t_var *env)
 			return (NULL);
 	}
 	return (entry);
+}
+
+char **env_to_array(t_var *env)
+{
+	char **envp;
+	char *env_entry;
+	int count;
+	int i;
+
+	i = 0;
+	envp = (char **)malloc(sizeof(char *) * (count_env_variables(env) + 1));
+	if(!envp)
+		 return (NULL);
+	while(env)
+	{
+		env_entry = create_env_entry(env);
+		if(!env_entry)
+		{
+			while(i > 0)
+				free(envp[--i]);
+			free(envp);
+			return (NULL);			
+		}
+		envp[i++] = env_entry;
+		env = env->next;
+	}
+	envp[i] = NULL;
+	return (envp);
 }
