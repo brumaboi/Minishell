@@ -54,7 +54,9 @@ PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
 				  $(SRC_DIR)$(PARS_DIR)build_ast/op_redirection.c \
 				  $(SRC_DIR)$(PARS_DIR)user_input.c
 
-SIG_FILES		= $(SRC_DIR)$(SIG_DIR)signal.c
+BUILTIN_FILES   = $(SRC_DIR)$(BUILTIN_DIR)builtin.c \
+
+SIG_FILES		= $(SRC_DIR)$(SIG_DIR)signal.c \
 
 
 SRC	= $(PARS_FILES) $(EXEC_FILES) $(SIG_FILES) $(SRC_DIR)main.c

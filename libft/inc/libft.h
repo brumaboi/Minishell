@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:37:09 by sbruma            #+#    #+#             */
-/*   Updated: 2024/10/22 16:35:52 by marvin           ###   ########.fr       */
+/*   Updated: 2024/10/28 17:51:17 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ size_t	ft_strnlen(const char *s, size_t maxlen);
 char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strcat(char *dest, const char *src);
 char	*ft_strndup(const char *s, size_t n);
+int		ft_strcmp(char *s1, char *s2);
 
 //ft_to
 int		ft_toupper(int c);

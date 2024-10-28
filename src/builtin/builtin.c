@@ -12,20 +12,20 @@
 
 #include "../../inc/minishell.h"
 
-int built_in_echo(char **args)
+int built_in_echo(char **args, t_data *data)
 {
     int i;
 
     i = 1;
     while (args[i])
     {
-        ft_putstr_fd(args[i], 1);
-        if (args[i + 1])
-            ft_putstr_fd(" ", 1);
+        if (i > 1)
+            write(1, " ", 1);
+        write(1, args[i], ft_strlen(args[i]));
         i++;
     }
-    ft_putstr_fd("\n", 1);
-    return (0);
+    if (args[1] == '\n')
+        write(1, "\n", 1);
 }
 
 int built_in_cd(char **args)

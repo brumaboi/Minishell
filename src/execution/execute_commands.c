@@ -6,7 +6,7 @@
 /*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:59:31 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/28 17:13:17 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/10/28 17:44:59 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ int execute_builtin(char **args, t_data *data)
 	if(!args || !args[0])
 		return 0;
 	else if(ft_strcmp(args[0], "echo") == 0)
-		return built_in_echo(args[0], data);
+		return built_in_echo(&args[0], data);
 	else if(ft_strcmp(args[0], "cd") == 0)
-		return built_in_cd(args[0], data);
+		return built_in_cd(&args[0], data);
 	else if(ft_strcmp(args[0], "pwd") == 0)
-		return built_in_pwd(args[0], data);
+		return built_in_pwd(&args[0], data);
 	else if(ft_strcmp(args[0], "env") == 0)
-		return built_in_env(args[0], data);
+		return built_in_env(&args[0], data);
 	else if(ft_strcmp(args[0], "export") == 0)
 		return built_in_export(args, data);
 	else if(ft_strcmp(args[0], "unset") == 0)
@@ -91,17 +91,20 @@ int	execute_commands(t_ast *ast, t_data *data)
 	status = 0;
 	if (is_builtin(ast->cmd_args))
 		return (execute_builtin(ast->cmd_args, data));
-	pid = fork();
-	if (pid < 0) // child process
-	{
-		perror("fork");
-		return (-1);
+	else
+	{	
+		pid = fork();
+		if (pid < 0) // child process
+		{
+			perror("fork");
+			return (-1);
+		}
+		else if (pid == 0)
+		{
+			execute_child_command(ast, data);
+		}
+		else // Parent process, waitpid() system call suspends execution of the calling process until a child specified by pid argument has changed state.
+			waitpid(pid, &status, 0);
+		return (status);
 	}
-	else if (pid == 0)
-	{
-		execute_child_command(ast, data);
-	}
-	else // Parent process, waitpid() system call suspends execution of the calling process until a child specified by pid argument has changed state.
-		waitpid(pid, &status, 0);
-	return (status);
 }

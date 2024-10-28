@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 12:12:14 by sbruma            #+#    #+#              #
-#    Updated: 2024/10/22 16:36:36 by marvin           ###   ########.fr        #
+#    Updated: 2024/10/28 17:48:39 by ezeper           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,7 +94,6 @@ FTSTR_DIR		=	$(SRC_DIR)ft_str/ft_split.c \
 					$(SRC_DIR)ft_str/ft_strlcpy.c \
 					$(SRC_DIR)ft_str/ft_strlen.c \
 					$(SRC_DIR)ft_str/ft_strmapi.c \
-					$(SRC_DIR)ft_str/ft_strncmp.c \
 					$(SRC_DIR)ft_str/ft_strncpy.c \
 					$(SRC_DIR)ft_str/ft_strndup.c \
 					$(SRC_DIR)ft_str/ft_strnlen.c \
