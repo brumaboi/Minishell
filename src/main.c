@@ -12,19 +12,20 @@
 
 #include "../inc/minishell.h"
 
-void execute_ast(t_ast *node, t_data *data)
-{
-    if (!node)
-        return;
-    if (node->type == N_COMMAND)
-        execute_commands(node, data); // Basic command execution (fork and execve)
-    else if (node->type == N_PIPE)
-        execute_pipe(node->left, node->right, data); // Handle pipes between left and right nodes
-    else if (node->type == N_GREAT || node->type == N_LESS || node->type == N_DGREAT || node->type == N_DLESS)
-        execute_redirection(node, data); // Handle redirection
-    else if (node->type == N_AND || node->type == N_OR)
-        execute_logical(node, data);  // Handle logical operators (&&, ||)
-}
+// void execute_ast(t_ast *node, t_data *data)
+// {
+//     if (!node)
+//         return;
+//     if (node->type == N_COMMAND)
+//         execute_commands(node, data); // Basic command execution (fork and execve)
+//     else if (node->type == N_PIPE)
+//         // TODO: execute_pipe(node->left, node->right, data); // Handle pipes between left and right nodes
+//         return;
+//     else if (node->type == N_GREAT || node->type == N_LESS || node->type == N_DGREAT || node->type == N_DLESS)
+//         execute_redirections(node, data); // Handle redirection
+//     else if (node->type == N_AND || node->type == N_OR)
+//         execute_logical(node, data);  // Handle logical operators (&&, ||)
+// }
 
 void process_input(t_data *data)
 {
@@ -39,7 +40,7 @@ void process_input(t_data *data)
         return ;
     split_input(input, NULL, &tokens); //split the input into tokens
     ast = build_ast(tokens); //build the ast
-    execute_ast(ast, data); //execute the ast
+    execute_asts(ast, data); //execute the ast
     free(input);
 }
 

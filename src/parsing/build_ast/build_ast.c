@@ -17,6 +17,7 @@ t_ast  *parse_grouping(t_token **current)
     t_token *token;
     t_ast *group;
 
+    group = NULL;
     token = *current;
     if(token && token->type == T_OPAR)
     {

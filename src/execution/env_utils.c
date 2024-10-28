@@ -6,11 +6,24 @@
 /*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:13:59 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/26 15:47:42 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/10/28 16:16:38 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void free_array(char **ary)
+{
+	int i;
+	
+	i = 0;
+	if(!ary)
+		return;
+	while(ary[i])
+		free(ary[i++]);
+		i++;
+	free(ary);
+}
 
 int	count_env_variables(t_var *env)
 {
@@ -53,7 +66,6 @@ char **env_to_array(t_var *env)
 {
 	char **envp;
 	char *env_entry;
-	int count;
 	int i;
 
 	i = 0;

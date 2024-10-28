@@ -115,13 +115,17 @@ int is_builtin(char **cmd_args);
 //find_path.c
 char    *get_enviroment_val(t_var *env, const char *name);
 char    *join_path(const char *dir, const char *cmd);
-char    *check_command_path(char **path, char cmd_name);
+char    *check_command_path(char **path, char *cmd_name);
 char    *find_command_path(char *cmd_name, t_var *env);
 //env utils
 int     count_env_variables(t_var *env);
+void    free_array(char **ary);
 char    *create_env_entry(t_var *env);
 char    **env_to_array(t_var *env);
-
-
+// redirections
+int     get_redirection_type(t_ast *node);
+int     open_redirection_file(t_ast *node);
+int     determine_redirection(t_ast *node);
+void    execute_asts(t_ast *node, t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:59:07 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/24 16:42:00 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/10/28 16:47:43 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ char	*join_path(const char *dir, const char *cmd)
 	return (path);
 }
 
-char	*check_command_path(char **path, char cmd_name)
+char	*check_command_path(char **path, char *cmd_name)
 {
-	char	f_path;
+	char	*f_path;
 	int		i;
 
 	i = 0;
@@ -60,7 +60,7 @@ char	*check_command_path(char **path, char cmd_name)
 	return (NULL);
 }
 
-char	find_command_path(t_var *env, char *cmd_name)
+char	*find_command_path(char *cmd_name, t_var *env)
 {
 	char	*path_env;
 	char	**path;

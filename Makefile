@@ -37,8 +37,9 @@ SIG_DIR			= signal/
 OBJ_DIR			= obj/
 
 EXEC_FILES		= $(SRC_DIR)$(EXEC_DIR)execute_commands.c \
-				  $(SRC_DIR)$(EXEC_DIR)find_path.c
-# 				  $(SRC_DIR)$(EXEC_DIR) #name of file
+				  $(SRC_DIR)$(EXEC_DIR)find_path.c \
+				  $(SRC_DIR)$(EXEC_DIR)env_utils.c \
+				  $(SRC_DIR)$(EXEC_DIR)redirections.c \
 
 PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
 			 	  $(SRC_DIR)$(PARS_DIR)init_data_2.c \
