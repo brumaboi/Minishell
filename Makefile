@@ -32,6 +32,7 @@ LIBFT			= libft.a
 INC				= inc/
 SRC_DIR			= src/
 EXEC_DIR		= execution/
+BUILTIN_DIR		= builtin/
 PARS_DIR		= parsing/
 SIG_DIR			= signal/
 OBJ_DIR			= obj/
@@ -54,12 +55,12 @@ PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
 				  $(SRC_DIR)$(PARS_DIR)build_ast/op_redirection.c \
 				  $(SRC_DIR)$(PARS_DIR)user_input.c
 
-BUILTIN_FILES   = $(SRC_DIR)$(BUILTIN_DIR)builtin.c \
+BUILTIN_FILES   = $(SRC_DIR)$(BUILTIN_DIR)echo.c \
 
 SIG_FILES		= $(SRC_DIR)$(SIG_DIR)signal.c \
 
 
-SRC	= $(PARS_FILES) $(EXEC_FILES) $(SIG_FILES) $(SRC_DIR)main.c
+SRC	= $(PARS_FILES) $(EXEC_FILES) $(BUILTIN_FILES) $(SIG_FILES) $(SRC_DIR)main.c
 OBJ = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))
 
 all : $(NAME)

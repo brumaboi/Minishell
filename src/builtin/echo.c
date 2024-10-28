@@ -12,38 +12,26 @@
 
 #include "../../inc/minishell.h"
 
-int built_in_echo(char **args, t_data *data)
+int built_in_echo(char **args)
 {
     int i;
+    int nl_flag;
 
     i = 1;
-    while (args[i])
+    i = 1;
+    if(args[i] && ft_strcmp(args[i], "-n") == 0)
     {
-        if (i > 1)
-            write(1, " ", 1);
-        write(1, args[i], ft_strlen(args[i]));
+        nl_flag = 0;
         i++;
     }
-    if (args[1] == '\n')
-        write(1, "\n", 1);
-}
-
-int built_in_cd(char **args)
-{
-
-}
-
-int built_in_pwd(char **args)
-{
-
-}
-
-int built_in_env(char **args)
-{
-
-}
-
-int built_in_export(char **args)
-{
-
+    while (args[i])
+    {
+        printf("%s", args[i]);
+        if (args[i + 1])
+        printf(" ");
+        i++;
+    }
+    if (nl_flag)
+        printf("\n");
+    return 0;
 }

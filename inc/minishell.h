@@ -110,7 +110,7 @@ t_ast *build_ast(t_token *tokens);
 void init_signals(void);
 //execute_commands.c
 int execute_commands(t_ast *ast, t_data *data);
-int execute_builtin(char **cmd_args, t_data *data);
+int execute_builtin(char **cmd_args);
 int is_builtin(char **cmd_args);
 //find_path.c
 char    *get_enviroment_val(t_var *env, const char *name);
@@ -128,12 +128,12 @@ int     open_redirection_file(t_ast *node);
 int     determine_redirection(t_ast *node);
 void    execute_asts(t_ast *node, t_data *data);
 // builtins
-int     built_in_echo(char **args, t_data *data);
-int     built_in_cd(char **args, t_data *data);
-int     built_in_pwd(char **args, t_data *data);
-int     built_in_env(char **args, t_data *data);
-int     built_in_export(char **args, t_data *data);
-int     built_in_unset(char **args, t_data *data);
-int     built_in_exit(char **args, t_data *data);
+int     exe_built_in_echo(char **args);
+// int     exe_built_in_cd(char **args, t_data *data);
+// int     exe_built_in_pwd(char **args, t_data *data);
+// int     exe_built_in_env(char **args, t_data *data);
+// int     exe_built_in_export(char **args, t_data *data);
+// int     exe_built_in_unset(char **args, t_data *data);
+// int     exe_built_in_exit(char **args, t_data *data);
 
 #endif
