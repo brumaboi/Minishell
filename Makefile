@@ -32,7 +32,7 @@ LIBFT			= libft.a
 INC				= inc/
 SRC_DIR			= src/
 EXEC_DIR		= execution/
-BUILTIN_DIR		= builtin/
+BUILTIN_DIR		= builtins/
 PARS_DIR		= parsing/
 SIG_DIR			= signal/
 OBJ_DIR			= obj/
@@ -56,6 +56,7 @@ PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
 				  $(SRC_DIR)$(PARS_DIR)user_input.c
 
 BUILTIN_FILES   = $(SRC_DIR)$(BUILTIN_DIR)echo.c \
+				  $(SRC_DIR)$(BUILTIN_DIR)pwd.c \
 
 SIG_FILES		= $(SRC_DIR)$(SIG_DIR)signal.c \
 

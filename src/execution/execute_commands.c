@@ -6,7 +6,7 @@
 /*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:59:31 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/28 18:19:21 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/10/29 18:09:29 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,24 +65,30 @@ int execute_builtin(char **args)
 	if(!args || !args[0])
 		return 0;
 	else if(ft_strcmp(args[0], "echo") == 0)
-		return exe_built_in_echo(&args[0]);
+		return execute_builtin_echo(&args[0]);
 	// else if(ft_strcmp(args[0], "cd") == 0)
-	// 	return exe_built_in_cd(&args[0], data);
-	// else if(ft_strcmp(args[0], "pwd") == 0)
-	// 	return exe_built_in_pwd(&args[0], data);
+		// return exe_built_in_cd(&args[0]);
+	else if(ft_strcmp(args[0], "pwd") == 0)
+		return execute_builtin_pwd();
 	// else if(ft_strcmp(args[0], "env") == 0)
-	// 	return exe_built_in_env(&args[0], data);
+	// 	return exe_built_in_env(&args[0]);
 	// else if(ft_strcmp(args[0], "export") == 0)
-	// 	return exe_built_in_export(args, data);
+	// 	return exe_built_in_export(args);
 	// else if(ft_strcmp(args[0], "unset") == 0)
-	// 	return exe_built_in_unset(args, data);
+	// 	return exe_built_in_unset(args);
 	// else if(ft_strcmp(args[0], "exit") == 0)
-	// 	return exe_built_in_exit(args, data);
+	// 	return exe_built_in_exit(args);
 	else
 		return 0;
 }
 
-// this one deciedes whether to execute built-in command or fork a external command
+/**
+ * execute_commands - Executes a command node.
+ * @node: AST node representing the command.
+ * @data: Pointer to shell data structure.
+ * 
+ * Return: Exit status of the command.
+ */
 int	execute_commands(t_ast *ast, t_data *data)
 { 
 	int		status;

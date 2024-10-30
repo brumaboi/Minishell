@@ -128,12 +128,19 @@ int     open_redirection_file(t_ast *node);
 int     determine_redirection(t_ast *node);
 void    execute_asts(t_ast *node, t_data *data);
 // builtins
-int     exe_built_in_echo(char **args);
-// int     exe_built_in_cd(char **args, t_data *data);
-// int     exe_built_in_pwd(char **args, t_data *data);
-// int     exe_built_in_env(char **args, t_data *data);
-// int     exe_built_in_export(char **args, t_data *data);
-// int     exe_built_in_unset(char **args, t_data *data);
-// int     exe_built_in_exit(char **args, t_data *data);
+int     execute_builtin_echo(char **args);
+int     exe_built_in_cd(char **args, t_data *data);
+int     get_target_dir(t_data *data, char **args);
+int     change_dir(t_data *data, char *target_dir);
+int     execute_builtin_pwd(void);
+// int     exe_builtin_env(char **args, t_data *data);
+// int     exe_builtin_export(char **args, t_data *data);
+// int     exe_builtin_unset(char **args, t_data *data);
+// int     exe_builtin_exit(char **args, t_data *data);
+//cd builtins
+int     update_env_var(t_var *env_lst, char *name, char *value);
+t_var   *find_variable(t_var *env, const char *name);
+int     set_variable(t_var *var, char *value);
+int     add_variable(t_var *env, const char *value, const char name);
 
 #endif
