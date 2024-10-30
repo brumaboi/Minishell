@@ -6,7 +6,7 @@
 /*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:59:31 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/29 18:09:29 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/10/30 19:39:57 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int	is_builtin(char **cmd_args) // checks if its built in cmmnd;
 }
 
 int	execute_child_command(t_ast *ast, t_data *data)
-		// execution of external commands
+// execution of external commands
 {
 	char *path;
-	char **envpm;//env variablea array
+	char **envpm; // env variablea array
 
 	path = find_command_path(ast->cmd_args[0], data->env);
 	if (!path)
@@ -43,7 +43,8 @@ int	execute_child_command(t_ast *ast, t_data *data)
 		printf("minishell: %s: command not found(exe_cmd)\n", ast->cmd_args[0]);
 		exit(126);
 	}
-	envpm = env_to_array(data->env); // turns env variables linked list to array af string to be able to use variable in execve
+	envpm = env_to_array(data->env);
+	// turns env variables linked list to array af string to be able to use variable in execve
 	if (!envpm)
 	{
 		perror("env_to_array");
@@ -51,46 +52,47 @@ int	execute_child_command(t_ast *ast, t_data *data)
 		exit(1);
 	}
 	execve(path, ast->cmd_args, envpm);
-	perror("execve"); // Execute the command with the given arguments and environment variables
+	perror("execve");
+	// Execute the command with the given arguments and environment variables
 	free(path);
 	free_array(envpm);
 	exit(126);
 }
 
-int execute_builtin(char **args)
+int	execute_builtin(char **args)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(!args || !args[0])
-		return 0;
-	else if(ft_strcmp(args[0], "echo") == 0)
-		return execute_builtin_echo(&args[0]);
+	if (!args || !args[0])
+		return (0);
+	else if (ft_strcmp(args[0], "echo") == 0)
+		return (execute_builtin_echo(&args[0]));
 	// else if(ft_strcmp(args[0], "cd") == 0)
-		// return exe_built_in_cd(&args[0]);
-	else if(ft_strcmp(args[0], "pwd") == 0)
-		return execute_builtin_pwd();
+	// return (exe_built_in_cd(&args[0]));
+	else if (ft_strcmp(args[0], "pwd") == 0)
+		return (execute_builtin_pwd());
 	// else if(ft_strcmp(args[0], "env") == 0)
-	// 	return exe_built_in_env(&args[0]);
+	// 	return (exe_built_in_env(&args[0]));
 	// else if(ft_strcmp(args[0], "export") == 0)
-	// 	return exe_built_in_export(args);
+	// 	return (exe_built_in_export(args));
 	// else if(ft_strcmp(args[0], "unset") == 0)
-	// 	return exe_built_in_unset(args);
+	// 	return (exe_built_in_unset(args));
 	// else if(ft_strcmp(args[0], "exit") == 0)
-	// 	return exe_built_in_exit(args);
+	// 	return (exe_built_in_exit(args));
 	else
-		return 0;
+		return (0);
 }
 
 /**
  * execute_commands - Executes a command node.
  * @node: AST node representing the command.
  * @data: Pointer to shell data structure.
- * 
+ *
  * Return: Exit status of the command.
  */
 int	execute_commands(t_ast *ast, t_data *data)
-{ 
+{
 	int		status;
 	pid_t	pid;
 
@@ -98,7 +100,7 @@ int	execute_commands(t_ast *ast, t_data *data)
 	if (is_builtin(ast->cmd_args))
 		return (execute_builtin(ast->cmd_args));
 	else
-	{	
+	{
 		pid = fork();
 		if (pid < 0) // child process
 		{
@@ -109,7 +111,7 @@ int	execute_commands(t_ast *ast, t_data *data)
 		{
 			execute_child_command(ast, data);
 		}
-		else // Parent process, waitpid() system call suspends execution of the calling process until a child specified by pid argument has changed state.
+		else // Parent process,
 			waitpid(pid, &status, 0);
 		return (status);
 	}

@@ -90,6 +90,7 @@ void init_data(t_data *data, char **env);
 void env_to_list(t_var **lst, char **env);
 void add_oldpwd_exp(t_var **exp);
 void sort_exp(t_var **export);
+void p_lstadd_back(t_var **lst, t_var *new);
 //split_input.c
 int token_add(char *inpu, int i, t_token **lst);
 char	*copy_token(const char *start, const char *end);
@@ -130,17 +131,17 @@ void    execute_asts(t_ast *node, t_data *data);
 // builtins
 int     execute_builtin_echo(char **args);
 int     exe_built_in_cd(char **args, t_data *data);
-int     get_target_dir(t_data *data, char **args);
-int     change_dir(t_data *data, char *target_dir);
+char    *get_target_dir(t_data *data, char **args);
+int     change_dir(char *target_dir);
 int     execute_builtin_pwd(void);
 // int     exe_builtin_env(char **args, t_data *data);
 // int     exe_builtin_export(char **args, t_data *data);
 // int     exe_builtin_unset(char **args, t_data *data);
 // int     exe_builtin_exit(char **args, t_data *data);
-//cd builtins
-int     update_env_var(t_var *env_lst, char *name, char *value);
-t_var   *find_variable(t_var *env, const char *name);
+//cd utils
+int     update_variable(t_var **env, const char *value, char *name);
+t_var   *find_variable(t_var *env, char *name);
 int     set_variable(t_var *var, char *value);
-int     add_variable(t_var *env, const char *value, const char name);
+int     add_variable(t_var *env, const char *value, char *name);
 
 #endif

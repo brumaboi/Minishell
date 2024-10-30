@@ -57,6 +57,8 @@ PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
 
 BUILTIN_FILES   = $(SRC_DIR)$(BUILTIN_DIR)echo.c \
 				  $(SRC_DIR)$(BUILTIN_DIR)pwd.c \
+				  $(SRC_DIR)$(BUILTIN_DIR)cd.c \
+				  
 
 SIG_FILES		= $(SRC_DIR)$(SIG_DIR)signal.c \
 

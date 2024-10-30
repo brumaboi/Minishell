@@ -6,22 +6,22 @@
 /*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:13:59 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/28 16:16:38 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/10/30 19:37:57 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void free_array(char **ary)
+void	free_array(char **ary)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
-	if(!ary)
-		return;
-	while(ary[i])
+	if (!ary)
+		return ;
+	while (ary[i])
 		free(ary[i++]);
-		i++;
+	i++;
 	free(ary);
 }
 
@@ -62,7 +62,7 @@ char	*create_env_entry(t_var *env)
 	return (entry);
 }
 
-char **env_to_array(t_var *env)
+char	**env_to_array(t_var *env)
 {
 	char **envp;
 	char *env_entry;
@@ -70,17 +70,17 @@ char **env_to_array(t_var *env)
 
 	i = 0;
 	envp = (char **)malloc(sizeof(char *) * (count_env_variables(env) + 1));
-	if(!envp)
-		 return (NULL);
-	while(env)
+	if (!envp)
+		return (NULL);
+	while (env)
 	{
 		env_entry = create_env_entry(env);
-		if(!env_entry)
+		if (!env_entry)
 		{
-			while(i > 0)
+			while (i > 0)
 				free(envp[--i]);
 			free(envp);
-			return (NULL);			
+			return (NULL);
 		}
 		envp[i++] = env_entry;
 		env = env->next;

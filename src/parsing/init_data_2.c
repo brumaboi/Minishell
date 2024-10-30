@@ -25,7 +25,7 @@ static t_var *p_lstnew(char *name, char *value)
     return (new);
 }
 
-static void p_lstadd_back(t_var **lst, t_var *new)
+void p_lstadd_back(t_var **lst, t_var *new)
 {
     t_var *now;
 
