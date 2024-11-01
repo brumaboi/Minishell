@@ -28,12 +28,18 @@ static t_token	*new_token(char *value, t_token_type type)
 }
 
 // Add a token to the end of the list
-static int	add_token_to_list(t_token **lst, t_token_type type, int *i)
+static int	add_token_to_list(t_token **lst, t_token_type type, int *i, char *value)
 {
 	t_token	*new;
 	t_token	*last;
 
-	new = new_token(NULL, type);
+	// If the type is T_IDENTIFIER, ensure we pass the value
+    if (type == T_IDENTIFIER && value == NULL)
+    {
+        fprintf(stderr, "Error: T_IDENTIFIER token must have a non-null value\n");
+        return (1);
+    }
+	new = new_token(value, type);
 	if (!new)
 		return (1);
 	if (*lst == NULL)
@@ -54,24 +60,31 @@ static int	add_token_to_list(t_token **lst, t_token_type type, int *i)
 
 int token_add(char *input, int i, t_token **lst)
 {
+	char *value;
+
     if (input[i] == '>' && input[i + 1] == '>')
-		return (add_token_to_list(lst, T_DGREAT, &i));
+		return (add_token_to_list(lst, T_DGREAT, &i, NULL));
 	else if (input[i] == '>')
-		return (add_token_to_list(lst, T_GREAT, &i));
+		return (add_token_to_list(lst, T_GREAT, &i, NULL));
 	else if (input[i] == '<' && input[i + 1] == '<')
-		return (add_token_to_list(lst, T_DLESS, &i));
+		return (add_token_to_list(lst, T_DLESS, &i, NULL));
 	else if (input[i] == '<')
-		return (add_token_to_list(lst, T_LESS, &i));
+		return (add_token_to_list(lst, T_LESS, &i, NULL));
 	else if (input[i] == '|' && input[i + 1] == '|')
-		return (add_token_to_list(lst, T_OR, &i));
+		return (add_token_to_list(lst, T_OR, &i, NULL));
 	else if (input[i] == '|')
-		return (add_token_to_list(lst, T_PIPE, &i));
+		return (add_token_to_list(lst, T_PIPE, &i, NULL));
 	else if (input[i] == '&' && input[i + 1] == '&')
-		return (add_token_to_list(lst, T_AND, &i));
+		return (add_token_to_list(lst, T_AND, &i, NULL));
 	else if (input[i] == '(')
-		return (add_token_to_list(lst, T_OPAR, &i));
+		return (add_token_to_list(lst, T_OPAR, &i, NULL));
 	else if (input[i] == ')')
-		return (add_token_to_list(lst, T_CPAR, &i));
+		return (add_token_to_list(lst, T_CPAR, &i, NULL));
 	else
-		return (add_token_to_list(lst, T_IDENTIFIER, &i));
+	{
+		value = ft_strdup(&input[i]);
+		if (!value)
+			return (1);
+		return (add_token_to_list(lst, T_IDENTIFIER, &i, value));
+	}
 }

@@ -39,22 +39,39 @@ t_ast *build_ast(t_token *tokens)
     t_token *current;
 
     current = tokens;
-    ast = parse_command(&current); //function to parse input until the next operator
+    ast = parse_command(&current);
     if (!ast)
-        return (NULL); // need to see how to handle this error
-    while(current)
+        return (NULL);
+    while (current)
     {
         if (current->type == T_PIPE)
+        {
+            if (!ast)
+                return (NULL);
             ast = parse_pipe(&current, ast);
+            if (!ast)
+                return (NULL);
+        }
         else if (current->type == T_AND || current->type == T_OR)
+        {
             ast = parse_logical(&current, ast);
+            if (!ast)
+                return (NULL);
+        }
         else if (current->type == T_GREAT || current->type == T_DGREAT || current->type == T_LESS || current->type == T_DLESS)
+        {
             ast = parse_redirection(&current, ast);
+            if (!ast)
+                return (NULL);
+        }
         else if (current->type == T_OPAR)
+        {
             ast = parse_grouping(&current);
-        if (!ast)
-            return (NULL); // need to see how to handle this error
+            if (!ast)
+                return (NULL);
+        }
+        else
+            return (NULL);
     }
     return (ast);
 }
-

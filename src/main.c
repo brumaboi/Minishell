@@ -49,7 +49,7 @@ void process_input(t_data *data)
     ast = build_ast(tokens);
     if (!ast)
     {
-        fprintf(stderr, "Error: Failed to build AST\n");
+        fprintf(stderr, "Error: Failed to build AST\n"); //will remove this after I fix the build
         free(input);
         return ;
     }
