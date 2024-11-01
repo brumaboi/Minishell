@@ -32,15 +32,28 @@ void process_input(t_data *data)
     t_token *tokens;
     char *input;
     t_ast *ast;
+    int  count;
 
-    ast = NULL;
     tokens = NULL;
-    input = get_input(data); //get user input !!!!not done properly
+    input = NULL;
+    ast = NULL;
+    count = 0;
+    input = get_input(data);
     if (!input)
         return ;
-    split_input(input, NULL, &tokens); //split the input into tokens
-    ast = build_ast(tokens); //build the ast
-    execute_asts(ast, data); //execute the ast
+    if (!split_input(input, &count, &tokens))
+    {
+        free(input);
+        return;
+    }
+    ast = build_ast(tokens);
+    if (!ast)
+    {
+        fprintf(stderr, "Error: Failed to build AST\n");
+        free(input);
+        return ;
+    }
+    execute_asts(ast, data);
     free(input);
 }
 

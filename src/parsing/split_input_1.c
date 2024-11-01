@@ -75,34 +75,48 @@ static const char	*find_token_end(const char *start)
 	return (start);
 }
 
-char **split_input(const char *str, int *count, t_token **lst)
+char **split_input(const char *str, int *count, t_token **lst) 
 {
     int spaces;
     char **result;
     int idx;
     const char *end;
 
-    idx = 0;
+	idx = 0;
+    if (!str || *str == '\0') 
+    {
+        *count = 0;
+        return (NULL);
+    }
     spaces = count_delimiters(str);
     result = malloc((spaces + 2) * sizeof(char *));
-    if (!result)
-        return (NULL); /// should make a function to handle errors
-    while (*str)
+    if (!result) 
+        return (NULL);
+    while (*str) 
     {
-        while (ft_isspace(*str))
+        while (ft_isspace(*str)) 
             str++;
-        if (is_special_char(str))
+        if (*str == '\0') 
+            break ;
+        if (is_special_char(str)) 
         {
-            result[idx++] = process_special_char(str);
+            result[idx] = process_special_char(str);
+            if (!result[idx]) 
+                return (free(result), NULL);
+            idx++;
             str += special_char_len(str);
-        }
-        else if (*str)
+        } 
+        else if (*str) 
         {
             end = find_token_end(str);
-            if(!end)
-                return (NULL); /// should make a function to handle errors
-            result[idx++] = copy_token(str, end);
-            token_add((char *)str, idx, lst);
+            if (!end) 
+                return (free(result), NULL);
+            result[idx] = copy_token(str, end);
+            if (!result[idx]) 
+                return (free(result), NULL);
+            if (token_add((char *)str, idx, lst)) 
+                return (free(result), NULL);
+            idx++;
             str = end;
         }
     }
