@@ -85,6 +85,11 @@ typedef struct s_ast
     char **cmd_args;
 } t_ast;
 
+//free.c
+void free_split(char **split_array);
+void free_ast(t_ast *ast);
+void free_cmd_args(char **cmd_args);
+void free_tokens(t_token *tokens);
 //init_data.c
 void init_data(t_data *data, char **env);
 void env_to_list(t_var **lst, char **env);

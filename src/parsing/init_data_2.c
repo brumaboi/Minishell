@@ -18,7 +18,11 @@ static t_var *p_lstnew(char *name, char *value)
 
     new = (t_var *)malloc(sizeof(*new));
     if (!new)
+    {   
+        free(name);
+        free(value);
         return (NULL);
+    }
     new->name = name;
     new->value = value;
     new->next = NULL;

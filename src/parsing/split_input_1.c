@@ -75,50 +75,41 @@ static const char	*find_token_end(const char *start)
 	return (start);
 }
 
-char **split_input(const char *str, int *count, t_token **lst) 
+char **split_input(const char *str, int *count, t_token **lst)
 {
     int spaces;
     char **result;
     int idx;
     const char *end;
+    int  i;
 
-	idx = 0;
-    if (!str || *str == '\0') 
+    idx = 0;
+    i = 0;
+    if (!str || *str == '\0')
     {
         *count = 0;
         return (NULL);
     }
     spaces = count_delimiters(str);
     result = malloc((spaces + 2) * sizeof(char *));
-    if (!result) 
+    if (!result)
         return (NULL);
-    while (*str) 
+    while (str[i])
     {
-        while (ft_isspace(*str)) 
-            str++;
-        if (*str == '\0') 
-            break ;
-        if (is_special_char(str)) 
-        {
-            result[idx] = process_special_char(str);
-            if (!result[idx]) 
-                return (free(result), NULL);
-            idx++;
-            str += special_char_len(str);
-        } 
-        else if (*str) 
-        {
-            end = find_token_end(str);
-            if (!end) 
-                return (free(result), NULL);
-            result[idx] = copy_token(str, end);
-            if (!result[idx]) 
-                return (free(result), NULL);
-            if (token_add((char *)str, idx, lst)) 
-                return (free(result), NULL);
-            idx++;
-            str = end;
-        }
+        while (ft_isspace(str[i]))
+            i++;
+        if (str[i] == '\0')
+            break;
+        end = find_token_end(&str[i]);
+        if (!end)
+            return (free_split(result), NULL);
+        result[idx] = copy_token(&str[i], end);
+        if (!result[idx])
+            return (free_split(result), NULL);
+        if (token_add((char *)str, i, lst))
+            return (free_split(result), free_tokens(*lst), NULL);
+        idx++;
+        i = end - str;
     }
     result[idx] = NULL;
     *count = idx;

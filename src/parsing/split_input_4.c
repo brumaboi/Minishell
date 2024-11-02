@@ -60,31 +60,61 @@ static int	add_token_to_list(t_token **lst, t_token_type type, int *i, char *val
 
 int token_add(char *input, int i, t_token **lst)
 {
-	char *value;
+    char *value;
+    int start = i;
 
     if (input[i] == '>' && input[i + 1] == '>')
-		return (add_token_to_list(lst, T_DGREAT, &i, NULL));
-	else if (input[i] == '>')
-		return (add_token_to_list(lst, T_GREAT, &i, NULL));
-	else if (input[i] == '<' && input[i + 1] == '<')
-		return (add_token_to_list(lst, T_DLESS, &i, NULL));
-	else if (input[i] == '<')
-		return (add_token_to_list(lst, T_LESS, &i, NULL));
-	else if (input[i] == '|' && input[i + 1] == '|')
-		return (add_token_to_list(lst, T_OR, &i, NULL));
-	else if (input[i] == '|')
-		return (add_token_to_list(lst, T_PIPE, &i, NULL));
-	else if (input[i] == '&' && input[i + 1] == '&')
-		return (add_token_to_list(lst, T_AND, &i, NULL));
-	else if (input[i] == '(')
-		return (add_token_to_list(lst, T_OPAR, &i, NULL));
-	else if (input[i] == ')')
-		return (add_token_to_list(lst, T_CPAR, &i, NULL));
-	else
-	{
-		value = ft_strdup(&input[i]);
-		if (!value)
-			return (1);
-		return (add_token_to_list(lst, T_IDENTIFIER, &i, value));
-	}
+    {
+        i += 2;
+        return (add_token_to_list(lst, T_DGREAT, &i, NULL));
+    }
+    else if (input[i] == '>')
+    {
+        i++;
+        return (add_token_to_list(lst, T_GREAT, &i, NULL));
+    }
+    else if (input[i] == '<' && input[i + 1] == '<')
+    {
+        i += 2;
+        return (add_token_to_list(lst, T_DLESS, &i, NULL));
+    }
+    else if (input[i] == '<')
+    {
+        i++;
+        return (add_token_to_list(lst, T_LESS, &i, NULL));
+    }
+    else if (input[i] == '|' && input[i + 1] == '|')
+    {
+        i += 2;
+        return (add_token_to_list(lst, T_OR, &i, NULL));
+    }
+    else if (input[i] == '|')
+    {
+        i++;
+        return (add_token_to_list(lst, T_PIPE, &i, NULL));
+    }
+    else if (input[i] == '&' && input[i + 1] == '&')
+    {
+        i += 2;
+        return (add_token_to_list(lst, T_AND, &i, NULL));
+    }
+    else if (input[i] == '(')
+    {
+        i++;
+        return (add_token_to_list(lst, T_OPAR, &i, NULL));
+    }
+    else if (input[i] == ')')
+    {
+        i++;
+        return (add_token_to_list(lst, T_CPAR, &i, NULL));
+    }
+    else
+    {
+        while (input[i] && !ft_isspace(input[i]) && !is_special_char(&input[i]))
+            i++;
+        value = ft_substr(input, start, i - start);
+        if (!value)
+            return (1);
+        return (add_token_to_list(lst, T_IDENTIFIER, &i, value));
+    }
 }
