@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:59:07 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/28 16:47:43 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/11/02 11:39:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ char	*find_command_path(char *cmd_name, t_var *env)
 	if (!path)
 		return (NULL);
 	res = check_command_path(path, cmd_name);
-	free(path);
+	free_array(path);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 11:22:42 by sbruma            #+#    #+#             */
-/*   Updated: 2024/09/13 12:39:05 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/02 11:35:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ int count_words(const char *s, char c)
     int i = 0;
     int count = 0;
     int in_word = 0;
+
+    if (!s)
+        return 0;  // Handle NULL input
 
     while (s[i])
     {
@@ -71,7 +74,7 @@ char **fill_result(const char *s, char c, char **result)
             result[j] = allocate_word(&s[i], word_len);
             if (!result[j])
             {
-                free_all(result, j);
+                free_all(result, j);  // Free previously allocated memory on failure
                 return NULL;
             }
             j++;
@@ -86,6 +89,9 @@ char **fill_result(const char *s, char c, char **result)
 
 char **ft_split(const char *s, char c)
 {
+    if (!s)
+        return NULL;  // Handle NULL input
+
     int num_words = count_words(s, c);
     char **result = malloc((num_words + 1) * sizeof(char *));
     
