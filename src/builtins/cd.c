@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 18:20:26 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/30 19:33:44 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/11/01 15:15:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	update_env_values(t_data *data)
 	old_wd = get_enviroment_val(data->env, "PWD");
 	if (old_wd)
 	{
-		if (update_variable(&data->env, old_wd, "OLDPWD"))
+		// if (update_variable(&data->env, old_wd, "OLDPWD"))
 			return (1);
 	}
 	else
 	{
-		if (add_variable(data->env, current_wd, "OLDPWD"))
+		// if (add_variable(data->env, current_wd, "OLDPWD"))
 			return (1);
 	}
 	if (update_variable(&data->env, current_wd, "PWD"))

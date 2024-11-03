@@ -3,40 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:47:14 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/30 19:37:39 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/11/03 18:37:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	execute_builtin_pwd(void)
+int execute_builtin_pwd(void)
 {
-	char	*current_wd;
-	size_t	size;
+    char *current_wd;
 
-	size = 1;
-	current_wd = malloc(sizeof(char) * size);
-	if (!current_wd)
-	{
-		perror("exe_pwd");
-		return (1);
-	}
-	while (getcwd(current_wd, PATH_MAX) == NULL)
-	{
-		size++;
-		free(current_wd);
-		current_wd = malloc(sizeof(char) * size);
-		if (!current_wd)
-		{
-			perror("exe_pwd");
-			return (1);
-		}
-	}
-	ft_putstr_fd(current_wd, 1);
-	free(current_wd);
-	ft_putchar_fd('\n', 1);
-	return (0);
+    current_wd = malloc(sizeof(char) * PATH_MAX);
+    if (!current_wd)
+    {
+        perror("exe_pwd");
+        return (1);
+    }
+    if (getcwd(current_wd, PATH_MAX) == NULL)
+    {
+        perror("exe_pwd");
+        free(current_wd);
+        return (1);
+    }
+    ft_putstr_fd(current_wd, 1);
+    ft_putchar_fd('\n', 1);
+    free(current_wd);
+    return (0);
 }
