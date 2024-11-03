@@ -57,22 +57,27 @@ static int	count_delimiters(const char *str)
 	return (spaces);
 }
 
-static const char	*find_token_end(const char *start)
+static const char *find_token_end(const char *start)
 {
-	int	in_single_quote;
-	int	in_double_quote;
+    int in_single_quote = 0;
+    int in_double_quote = 0;
 
-	in_single_quote = 0;
-	in_double_quote = 0;
-	while (*start && (in_single_quote || in_double_quote || (!ft_isspace(*start) && !is_special_char(start))))
-	{
-		if (quote_state_and_escape(start, &in_single_quote, &in_double_quote))
-			start++;
-		start++;
-	}
-	if (validate_quotes(in_single_quote, in_double_quote)) 
-		return (NULL);
-	return (start);
+    while (*start)
+    {
+        if (quote_state_and_escape(start, &in_single_quote, &in_double_quote))
+        {
+            start++;
+            continue ;
+        }
+        if (!in_single_quote && !in_double_quote && is_special_char(start))
+            break ;
+        if (ft_isspace(*start) && !in_single_quote && !in_double_quote)
+            break ;  // Stop at whitespace outside quotes
+        start++;
+    }
+    if (validate_quotes(in_single_quote, in_double_quote))
+        return NULL;
+    return start;
 }
 
 char **split_input(const char *str, int *count, t_token **lst)
@@ -81,7 +86,7 @@ char **split_input(const char *str, int *count, t_token **lst)
     char **result;
     int idx;
     const char *end;
-    int  i;
+    int i;
 
     idx = 0;
     i = 0;
@@ -100,18 +105,31 @@ char **split_input(const char *str, int *count, t_token **lst)
             i++;
         if (str[i] == '\0')
             break;
+        if (is_special_char(&str[i]))
+        {
+            if (token_add((char *)str, i, lst))
+                return (free_split(result), free_tokens(*lst), NULL);
+            result[idx] = malloc(2 * sizeof(char));
+            if (!result[idx])
+                return (free_split(result), NULL);
+            result[idx][0] = str[i];
+            result[idx][1] = '\0';
+            idx++;
+            i++;
+            continue ;
+        }
         end = find_token_end(&str[i]);
-        if (!end)
-            return (free_split(result), NULL);
+        if (!end || end <= &str[i])  // Safeguard to prevent infinite loop
+            break;
         result[idx] = copy_token(&str[i], end);
         if (!result[idx])
             return (free_split(result), NULL);
+        idx++;  // Increment `idx` to count the newly added token
         if (token_add((char *)str, i, lst))
             return (free_split(result), free_tokens(*lst), NULL);
-        idx++;
         i = end - str;
     }
     result[idx] = NULL;
-    *count = idx;
+    *count = idx;  // Update the total token count
     return (result);
 }

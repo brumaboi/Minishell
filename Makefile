@@ -53,7 +53,8 @@ PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
 				  $(SRC_DIR)$(PARS_DIR)build_ast/op_and_or.c \
 				  $(SRC_DIR)$(PARS_DIR)build_ast/op_pipe.c \
 				  $(SRC_DIR)$(PARS_DIR)build_ast/op_redirection.c \
-				  $(SRC_DIR)$(PARS_DIR)user_input.c
+				  $(SRC_DIR)$(PARS_DIR)user_input.c \
+				  $(SRC_DIR)$(PARS_DIR)free.c \
 
 BUILTIN_FILES   = $(SRC_DIR)$(BUILTIN_DIR)echo.c \
 				  $(SRC_DIR)$(BUILTIN_DIR)pwd.c \

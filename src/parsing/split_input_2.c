@@ -32,7 +32,7 @@ char *process_special_char(const char *str)
     len = special_char_len(str);
     result = malloc((len + 1) * sizeof(char));
     if (!result)
-        return (NULL); /// should make a function to handle errors
+        return (NULL);
     ft_strncpy(result, str, len);
     result[1] = '\0';
     return (result);

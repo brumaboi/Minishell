@@ -36,7 +36,6 @@ static int	add_token_to_list(t_token **lst, t_token_type type, int *i, char *val
 	// If the type is T_IDENTIFIER, ensure we pass the value
     if (type == T_IDENTIFIER && value == NULL)
     {
-        fprintf(stderr, "Error: T_IDENTIFIER token must have a non-null value\n");
         return (1);
     }
 	new = new_token(value, type);
