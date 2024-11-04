@@ -39,7 +39,10 @@ void execute_pipe(t_ast *node, t_data *data)
                 exit(EXIT_FAILURE);
             close(fd[0]);
             close(fd[1]);
-            execute_child_command(node->left, data);
+            if (is_builtin(node->left->cmd_args))
+                execute_builtin(node->left->cmd_args);
+            else
+                execute_child_command(node->left, data);
             exit(EXIT_SUCCESS);
         }
         else // Parent process
@@ -64,7 +67,10 @@ void execute_pipe(t_ast *node, t_data *data)
                     exit(EXIT_FAILURE);
                 close(prev_fd);
             }
-            execute_child_command(node, data);
+            if (is_builtin(node->cmd_args))
+                execute_builtin(node->cmd_args);
+            else
+                execute_child_command(node, data);
             exit(EXIT_SUCCESS);
         }
         if (prev_fd != STDIN_FILENO)
