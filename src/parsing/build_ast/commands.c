@@ -40,15 +40,15 @@ t_ast *parse_command(t_token **current)
     {
         cmd_args = ft_realloc(cmd_args, sizeof(char *) * (args_count + 1), sizeof(char *) * (args_count + 2)); 
         if (!cmd_args)
-            return (NULL);
+            return (free_cmd_args(cmd_args), NULL);
         if (token->value) // Ensure token->value is not null
         {
             cmd_args[args_count] = ft_strdup(token->value); 
             if (!cmd_args[args_count])
-                return (NULL); // Handle memory allocation error
+                return (free_cmd_args(cmd_args), NULL); // Handle memory allocation error
         }
         else
-            return (NULL); // Handle null token value
+            return (free_cmd_args(cmd_args), NULL); // Handle null token value
         args_count++;
         token = token->next;
     }
