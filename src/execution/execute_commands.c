@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:59:31 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/30 19:39:57 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/11/04 23:18:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,6 @@ int	execute_child_command(t_ast *ast, t_data *data)
 
 int	execute_builtin(char **args)
 {
-	int	i;
-
-	i = 0;
 	if (!args || !args[0])
 		return (0);
 	else if (ft_strcmp(args[0], "echo") == 0)
