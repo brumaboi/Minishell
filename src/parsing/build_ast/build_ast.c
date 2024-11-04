@@ -33,11 +33,36 @@ t_ast  *parse_grouping(t_token **current)
     return (group);
 }
 
+int check_syntax(t_token *tokens)
+{
+    t_token *current;
+
+    current = tokens;
+    if (current && (current->type == T_PIPE || current->type == T_AND || current->type == T_OR))
+        return (1);
+    while (current)
+    {
+        if(current->type == T_PIPE && (!current->next || current->next->type == T_PIPE))
+            return (1);
+        if(current->type == T_AND && (!current->next || current->next->type == T_AND))
+            return (1);
+        if(current->type == T_OR && (!current->next || current->next->type == T_OR))
+            return (1);
+        current = current->next;
+    }
+    return (0);
+}
+
 t_ast *build_ast(t_token *tokens)
 {
     t_ast *ast;
     t_token *current;
 
+    if (check_syntax(tokens) == 1)
+    {
+        ft_putstr_fd("syntax error\n", 2);
+        return (NULL);
+    }
     current = tokens;
     ast = parse_command(&current);
     if (!ast)
