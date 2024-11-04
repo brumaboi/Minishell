@@ -42,21 +42,33 @@ void free_cmd_args(char **cmd_args)
     free(cmd_args);
 }
 
+// Enhanced free_ast function with debug checks
 void free_ast(t_ast *ast)
 {
     if (!ast)
-        return;
-
+        return ;
     if (ast->left)
+    {
         free_ast(ast->left);
+        ast->left = NULL;
+    }
     if (ast->right)
+    {
         free_ast(ast->right);
+        ast->right = NULL;
+    }
     if (ast->file)
+    {
         free(ast->file);
+        ast->file = NULL;
+    }
     if (ast->cmd_args)
+    {
         free_cmd_args(ast->cmd_args);
-
+        ast->cmd_args = NULL;
+    }
     free(ast);
+    ast = NULL;
 }
 
 void free_split(char **split_array)

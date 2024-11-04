@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:13:59 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/30 19:37:57 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/11/04 16:48:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	free_array(char **ary)
 		return ;
 	while (ary[i])
 		free(ary[i++]);
-	i++;
 	free(ary);
 }
 
@@ -82,7 +81,8 @@ char	**env_to_array(t_var *env)
 			free(envp);
 			return (NULL);
 		}
-		envp[i++] = env_entry;
+		envp[i] = env_entry;
+		i++;
 		env = env->next;
 	}
 	envp[i] = NULL;
