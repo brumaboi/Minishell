@@ -40,6 +40,9 @@ typedef struct s_data
 {
     t_var *env; //linked list of env variables
     t_var *exp; //linked list of exp variables
+    int in_fd; //input file descriptor
+    int out_fd; //output file descriptor
+    int pipefd[2]; //pipe file descriptor
 } t_data;
 
 typedef enum e_token_type
@@ -118,6 +121,7 @@ void init_signals(void);
 int execute_commands(t_ast *ast, t_data *data);
 int execute_builtin(char **cmd_args);
 int is_builtin(char **cmd_args);
+int	execute_child_command(t_ast *ast, t_data *data);
 //find_path.c
 char    *get_enviroment_val(t_var *env, const char *name);
 char    *join_path(const char *dir, const char *cmd);
