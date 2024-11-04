@@ -123,6 +123,8 @@ int execute_commands(t_ast *ast, t_data *data);
 int execute_builtin(char **cmd_args);
 int is_builtin(char **cmd_args);
 int	execute_child_command(t_ast *ast, t_data *data);
+//execute_pipe.c
+void execute_pipe(t_ast *node, t_data *data);
 //find_path.c
 char    *get_enviroment_val(t_var *env, const char *name);
 char    *join_path(const char *dir, const char *cmd);
