@@ -18,13 +18,15 @@ t_ast *create_logical_node(t_token_type type, t_ast *ast, t_ast *right)
 
     node = malloc(sizeof(t_ast));
     if (!node)
-        return (NULL); // need to see how to handle this error
+        return (NULL);
     if (type == T_AND)
         node->type = N_AND;
     else if (type == T_OR)
         node->type = N_OR;
     node->left = ast;
     node->right = right;
+    node->file = NULL;
+    node->cmd_args = NULL;  
     return (node);
 }
 
@@ -41,7 +43,7 @@ t_ast *parse_logical(t_token **current, t_ast *ast)
         token = token->next;
         right = parse_command(&token);
         if (!right)
-            return (NULL); // need to see how to handle this error
+            return (NULL);
         return(create_logical_node(type, ast, right));
     }
     return (ast);

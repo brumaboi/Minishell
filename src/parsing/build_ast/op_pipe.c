@@ -14,20 +14,20 @@
 
 t_ast *create_pipe_node(t_ast *ast, t_ast *right)
 {
-    t_ast *node;
-
-    node = malloc(sizeof(t_ast));
+    t_ast *node = malloc(sizeof(t_ast));
     if (!node)
     {
-        if(ast)
+        if (ast)
             free_ast(ast);
-        if(right)
+        if (right)
             free_ast(right);
-        return (NULL); // need to see how to handle this error
+        return (NULL);
     }
     node->type = N_PIPE;
     node->left = ast;
     node->right = right;
+    node->file = NULL;
+    node->cmd_args = NULL; 
     return (node);
 }
 
@@ -40,10 +40,13 @@ t_ast *parse_pipe(t_token **current, t_ast *ast)
     if (token && token->type == T_PIPE)
     {
         token = token->next;
-        right = parse_command(&token);
+        if (!token)
+            return (free_ast(ast), NULL);
+        right = parse_command(&token);  // Parse the right side of the pipe
         if (!right)
-            return (free_ast(ast), NULL); // need to see how to handle this error
-        return(create_pipe_node(ast, right));
+            return (free_ast(ast), NULL);
+        *current = token;  // Update the current token pointer
+        return create_pipe_node(ast, right);
     }
     return (ast);
 }
