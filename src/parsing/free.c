@@ -12,6 +12,18 @@
 
 #include "../../inc/minishell.h"
 
+void free_env_vars(t_var *env)
+{
+    t_var *tmp;
+    while (env) {
+        tmp = env;
+        env = env->next;
+        free(tmp->name);
+        free(tmp->value);
+        free(tmp);
+    }
+}
+
 void free_tokens(t_token *tokens)
 {
     t_token *current;

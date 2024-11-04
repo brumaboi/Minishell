@@ -93,6 +93,7 @@ void free_split(char **split_array);
 void free_ast(t_ast *ast);
 void free_cmd_args(char **cmd_args);
 void free_tokens(t_token *tokens);
+void free_env_vars(t_var *env);
 //init_data.c
 void init_data(t_data *data, char **env);
 void env_to_list(t_var **lst, char **env);

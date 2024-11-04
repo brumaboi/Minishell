@@ -105,18 +105,6 @@ void process_input(t_data *data)
     free(input);
 }
 
-void free_env_vars(t_var *env)
-{
-    t_var *tmp;
-    while (env) {
-        tmp = env;
-        env = env->next;
-        free(tmp->name);
-        free(tmp->value);
-        free(tmp);
-    }
-}
-
 int main(int argc, char **argv, char **env)
 {
     t_data data;
