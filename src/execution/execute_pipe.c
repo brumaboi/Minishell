@@ -52,13 +52,18 @@ static void handle_child(int prev_fd, int fd[2], t_ast *node, t_data *data)
         exit(EXIT_FAILURE);
     close(fd[0]);
     close(fd[1]);
-    if (is_builtin(node->left->cmd_args))
+    if (!node->cmd_args || !node->cmd_args[0])
     {
-        execute_builtin(node->left->cmd_args);
+        fprintf(stderr, "Error: cmd_args is NULL or empty in pipe execution\n");
+        exit(EXIT_FAILURE);
+    }
+    if (is_builtin(node->cmd_args))
+    {
+        execute_builtin(node->cmd_args);
         exit(EXIT_SUCCESS);
     }
     else
-        execute_child_command(node->left, data);
+        execute_child_command(node, data);
 }
 
 static void handle_parent(int *prev_fd, int fd[2])
@@ -85,7 +90,10 @@ void execute_pipe(t_ast *node, t_data *data)
         if (pid < 0)
             exit(EXIT_FAILURE);
         if (pid == 0) // Child process
-            handle_child(prev_fd, fd, node, data);
+        {
+            handle_child(prev_fd, fd, node->left, data);
+            exit(EXIT_SUCCESS);
+        }
         else // Parent process
             handle_parent(&prev_fd, fd);
         node = node->right;

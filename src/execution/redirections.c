@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:33:57 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/04 23:28:05 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/05 22:57:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,27 @@ int	determine_redirection(t_ast *node)
 	return (0);
 }
 
+void execute_logical(t_ast *node, t_data *data)
+{
+	int status;
+
+	status = 0;
+	if (!node || !data)
+		return ;
+	if (node->type == N_AND)
+	{
+		execute_asts(node->left, data);
+		if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
+			execute_asts(node->right, data);
+	}
+	else if (node->type == N_OR)
+	{
+		execute_asts(node->left, data);
+		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+			execute_asts(node->right, data);
+	}
+}
+
 void	execute_asts(t_ast *node, t_data *data)
 {
 	if (!node)
@@ -85,8 +106,5 @@ void	execute_asts(t_ast *node, t_data *data)
 		execute_asts(node->left, data);
 	}
 	else if (node->type == N_AND || node->type == N_OR)
-	{
-		return ;
-		// execute_logical(node, data);// TODO;
-	}
+		execute_logical(node, data);
 }
