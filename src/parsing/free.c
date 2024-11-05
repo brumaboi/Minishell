@@ -29,8 +29,6 @@ void free_tokens(t_token *tokens)
     t_token *current;
     t_token *next;
 
-    if (!tokens)
-        return ;
     current = tokens;
     while (current)
     {
@@ -40,14 +38,9 @@ void free_tokens(t_token *tokens)
             free(current->value);
             current->value = NULL;
         }
-        if (current)
-        {
-            free(current);
-            current = NULL;
-        }
+        free(current);
         current = next;
     }
-    tokens = NULL;
 }
 
 void free_cmd_args(char **cmd_args)

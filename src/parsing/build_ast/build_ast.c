@@ -58,6 +58,7 @@ t_ast *build_ast(t_token *tokens)
     t_ast *ast;
     t_token *current;
 
+    ast = NULL;
     if (check_syntax(tokens) == 1)
     {
         ft_putstr_fd("syntax error\n", 2);
@@ -94,7 +95,7 @@ t_ast *build_ast(t_token *tokens)
                 return (NULL);
         }
         else
-            return (free_ast(ast), NULL);
+            break ;
     }
     return (ast);
 }

@@ -37,14 +37,17 @@ t_ast *parse_logical(t_token **current, t_ast *ast)
     t_token_type type;
 
     token = *current;
-    if(token && (token->type == T_AND || token->type == T_OR))
+    if (token && (token->type == T_AND || token->type == T_OR))
     {
         type = token->type;
         token = token->next;
+        if (!token || token->type == T_AND || token->type == T_OR || token->type == T_PIPE)
+            return (NULL);
         right = parse_command(&token);
         if (!right)
             return (NULL);
-        return(create_logical_node(type, ast, right));
+        *current = token;
+        return (create_logical_node(type, ast, right));
     }
     return (ast);
 }

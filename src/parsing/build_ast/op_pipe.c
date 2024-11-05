@@ -42,10 +42,10 @@ t_ast *parse_pipe(t_token **current, t_ast *ast)
         token = token->next;
         if (!token)
             return (free_ast(ast), NULL);
-        right = parse_command(&token);  // Parse the right side of the pipe
+        right = parse_command(&token);
         if (!right)
             return (free_ast(ast), NULL);
-        *current = token;  // Update the current token pointer
+        *current = token;
         return (create_pipe_node(ast, right));
     }
     return (ast);

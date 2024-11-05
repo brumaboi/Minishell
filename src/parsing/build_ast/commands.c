@@ -18,7 +18,7 @@ static t_ast *create_cmd_node(char **cmd_args)
 
     node = malloc(sizeof(t_ast));
     if (!node)
-        return (NULL); // need to see how to handle this error
+        return (NULL);
     node->type = N_COMMAND;
     node->cmd_args = cmd_args;
     node->file = NULL;
@@ -38,17 +38,17 @@ t_ast *parse_command(t_token **current)
     args_count = 0;
     while (token && token->type == T_IDENTIFIER)
     {
+        if (!token->value || token->value[0] == '\0')
+        {
+            token = token->next;
+            continue ;
+        }
         cmd_args = ft_realloc(cmd_args, sizeof(char *) * (args_count + 1), sizeof(char *) * (args_count + 2)); 
         if (!cmd_args)
             return (free_cmd_args(cmd_args), NULL);
-        if (token->value) // Ensure token->value is not null
-        {
-            cmd_args[args_count] = ft_strdup(token->value); 
-            if (!cmd_args[args_count])
-                return (free_cmd_args(cmd_args), NULL); // Handle memory allocation error
-        }
-        else
-            return (free_cmd_args(cmd_args), NULL); // Handle null token value
+        cmd_args[args_count] = ft_strdup(token->value);
+        if (!cmd_args[args_count])
+            return (free_cmd_args(cmd_args), NULL);
         args_count++;
         token = token->next;
     }

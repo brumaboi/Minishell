@@ -14,6 +14,7 @@
 //token_list_management
 
 // Create a new token and add it to the list
+// Create a new token and add it to the list
 static t_token *new_token(char *value, t_token_type type)
 {
     t_token *token;
@@ -21,7 +22,14 @@ static t_token *new_token(char *value, t_token_type type)
     token = malloc(sizeof(t_token));
     if (!token)
         return (NULL);
-    token->value = value;
+    if (type == T_IDENTIFIER)
+    {
+        if (!value)
+            return (free(token), NULL);
+        token->value = value;
+    }
+    else
+        token->value = NULL;
     token->type = type;
     token->next = NULL;
     return (token);
@@ -88,7 +96,7 @@ int token_add(char *input, int i, t_token **lst)
     else if (input[i] == '|')
     {
         i++;
-        return (add_token_to_list(lst, T_PIPE, &i, ft_strdup("|"))); // Fix: Assign a valid value
+        return (add_token_to_list(lst, T_PIPE, &i, NULL)); // Fix: Assign a valid value
     }
     else if (input[i] == '&' && input[i + 1] == '&')
     {
@@ -98,12 +106,12 @@ int token_add(char *input, int i, t_token **lst)
     else if (input[i] == '(')
     {
         i++;
-        return (add_token_to_list(lst, T_OPAR, &i, ft_strdup("("))); // Fix: Assign a valid value
+        return (add_token_to_list(lst, T_OPAR, &i, NULL)); // Fix: Assign a valid value
     }
     else if (input[i] == ')')
     {
         i++;
-        return (add_token_to_list(lst, T_CPAR, &i, ft_strdup(")"))); // Fix: Assign a valid value
+        return (add_token_to_list(lst, T_CPAR, &i, NULL)); // Fix: Assign a valid value
     }
     else
     {
