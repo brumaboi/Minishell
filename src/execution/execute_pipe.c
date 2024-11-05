@@ -59,7 +59,6 @@ static void handle_child(int prev_fd, int fd[2], t_ast *node, t_data *data)
     }
     else
         execute_child_command(node->left, data);
-    exit(EXIT_SUCCESS);
 }
 
 static void handle_parent(int *prev_fd, int fd[2])
@@ -89,7 +88,7 @@ void execute_pipe(t_ast *node, t_data *data)
             handle_child(prev_fd, fd, node, data);
         else // Parent process
             handle_parent(&prev_fd, fd);
-        node = node->right; // Move to the next command
+        node = node->right;
     }
     if (node)
         execute_last_command(prev_fd, node, data);

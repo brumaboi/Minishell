@@ -46,7 +46,7 @@ t_ast *parse_pipe(t_token **current, t_ast *ast)
         if (!right)
             return (free_ast(ast), NULL);
         *current = token;  // Update the current token pointer
-        return create_pipe_node(ast, right);
+        return (create_pipe_node(ast, right));
     }
     return (ast);
 }

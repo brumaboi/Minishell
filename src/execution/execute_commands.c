@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:59:31 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/04 23:18:37 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/05 21:17:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	is_builtin(char **cmd_args) // checks if its built in cmmnd;
 {
+	if (!cmd_args || !cmd_args[0])
+		return (0);
 	if (strcmp(cmd_args[0], "echo") == 0)
 		return (1);
 	else if (strcmp(cmd_args[0], "cd") == 0)

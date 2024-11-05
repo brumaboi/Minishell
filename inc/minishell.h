@@ -156,4 +156,6 @@ t_var   *find_variable(t_var *env, char *name);
 int     set_variable(t_var *var, char *value);
 int     add_variable(t_var *env, const char *value, char *name);
 
+// void print_ast(t_ast *node);
+
 #endif
