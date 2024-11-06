@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 18:20:26 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/01 15:15:23 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/05 11:11:32 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	check_variables_cd(char **args, t_data *data)
 	return (0);
 }
 
-int	exe_cd(t_data *data, char **args)
+int	exe_builtin_cd(char **args, t_data *data)
 {
 	char	*target_dir;
 	char	*pwd;

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:47:14 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/03 18:37:22 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/05 11:12:02 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int execute_builtin_pwd(void)
+int exe_builtin_pwd(void)
 {
     char *current_wd;
 
