@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:59:31 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/05 21:17:50 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/06 17:00:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	execute_child_command(t_ast *ast, t_data *data)
 	}
 	execve(path, ast->cmd_args, envpm);
 	perror("execve");
-	// Execute the command with the given arguments and environment variables
 	free(path);
 	free_array(envpm);
 	exit(126);
@@ -98,20 +97,20 @@ int	execute_commands(t_ast *ast, t_data *data)
 	status = 0;
 	if (is_builtin(ast->cmd_args))
 		return (execute_builtin(ast->cmd_args));
-	else
+	set_signal_ignore(); // Ignore SIGINT in the parent process
+	pid = fork();
+	if (pid < 0) // child process
+		return (-1);
+	else if (pid == 0)
 	{
-		pid = fork();
-		if (pid < 0) // child process
-		{
-			perror("fork");
-			return (-1);
-		}
-		else if (pid == 0)
-		{
-			execute_child_command(ast, data);
-		}
-		else // Parent process,
-			waitpid(pid, &status, 0);
-		return (status);
+		set_signal_default(); // Restore default SIGINT handling in the child
+		execute_child_command(ast, data);
 	}
+	else // Parent process,
+	{
+		waitpid(pid, &status, 0);
+		printf("\n");
+		restore_custom_signal_handler(); // Re-enable the custom SIGINT handler in the parent
+	}
+	return (status);
 }

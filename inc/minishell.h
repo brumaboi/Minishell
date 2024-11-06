@@ -117,6 +117,9 @@ t_ast *parse_pipe(t_token **current, t_ast *ast);
 t_ast *parse_command(t_token **current);
 t_ast *build_ast(t_token *tokens);
 //signal.c
+void set_signal_ignore();
+void set_signal_default();
+void restore_custom_signal_handler();
 void init_signals(void);
 //execute_commands.c
 int execute_commands(t_ast *ast, t_data *data);
