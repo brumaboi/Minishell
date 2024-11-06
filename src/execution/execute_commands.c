@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:59:31 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/06 17:00:06 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/06 17:21:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,10 @@ int	execute_commands(t_ast *ast, t_data *data)
 	else // Parent process,
 	{
 		waitpid(pid, &status, 0);
-		printf("\n");
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+        {
+            printf("\n"); // Print a newline if the child was interrupted by SIGINT
+        }
 		restore_custom_signal_handler(); // Re-enable the custom SIGINT handler in the parent
 	}
 	return (status);

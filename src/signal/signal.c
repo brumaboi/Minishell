@@ -14,43 +14,43 @@
 
 void signal_handler(int signal)
 {
-    if(signal == SIGINT)
+    if (signal == SIGINT)
     {
-        printf("\n");  //print new line to reset prompt
-        rl_on_new_line(); //move to new line
-        rl_replace_line("", 0); //replace the current line with nothing
-        rl_redisplay(); //redisplay the prompt
+        printf("\n");
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
     }
 }
 
-// set signal handling to ignore SIGINT
+//ignore SIGINT in the parent process
 void set_signal_ignore()
 {
-    struct sigaction sa_ignore;
-    sa_ignore.sa_handler = SIG_IGN;
-    sigemptyset(&sa_ignore.sa_mask);
-    sa_ignore.sa_flags = 0;
-    sigaction(SIGINT, &sa_ignore, NULL);
+    struct sigaction sa;
+    sa.sa_handler = SIG_IGN;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sigaction(SIGINT, &sa, NULL);
 }
 
-// restore default signal handling for SIGINT
+//restore default SIGINT handling in the child process
 void set_signal_default()
 {
-    struct sigaction sa_default;
-    sa_default.sa_handler = SIG_DFL;
-    sigemptyset(&sa_default.sa_mask);
-    sa_default.sa_flags = 0;
-    sigaction(SIGINT, &sa_default, NULL);
+    struct sigaction sa;
+    sa.sa_handler = SIG_DFL;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sigaction(SIGINT, &sa, NULL);
 }
 
-// restore the custom signal handler for SIGINT
+//restore the custom SIGINT handler for the shell
 void restore_custom_signal_handler()
 {
-    struct sigaction sa_custom;
-    sa_custom.sa_handler = signal_handler; // Your custom signal handler
-    sigemptyset(&sa_custom.sa_mask);
-    sa_custom.sa_flags = 0;
-    sigaction(SIGINT, &sa_custom, NULL);
+    struct sigaction sa;
+    sa.sa_handler = signal_handler;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sigaction(SIGINT, &sa, NULL);
 }
 
 void init_signals(void)
