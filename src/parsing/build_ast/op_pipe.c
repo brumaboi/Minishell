@@ -27,7 +27,7 @@ t_ast *create_pipe_node(t_ast *ast, t_ast *right)
     node->left = ast;
     node->right = right;
     node->file = NULL;
-    node->cmd_args = NULL; 
+    node->cmd_args = NULL;
     return (node);
 }
 
@@ -45,6 +45,8 @@ t_ast *parse_pipe(t_token **current, t_ast *ast)
         right = parse_command(&token);
         if (!right)
             return (free_ast(ast), NULL);
+        if (!ast || (ast->type != N_COMMAND && ast->type != N_PIPE))
+            return (free_ast(ast), free_ast(right), NULL);
         *current = token;
         return (create_pipe_node(ast, right));
     }

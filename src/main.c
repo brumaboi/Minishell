@@ -61,19 +61,6 @@
 //     fclose(file);
 // }
 
-// void print_ast(t_ast *node)
-// {
-//     if (!node) return;
-//     printf("Node type: %d\n", node->type);
-//     if (node->cmd_args)
-//     {
-//         for (int i = 0; node->cmd_args[i] != NULL; i++)
-//             printf("Arg[%d]: %s\n", i, node->cmd_args[i]);
-//     }
-//     print_ast(node->left);
-//     print_ast(node->right);
-// }
-
 void process_input(t_data *data)
 {
     t_token *tokens;
