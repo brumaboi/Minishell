@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:22:48 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/05 16:05:21 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/11/07 20:01:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
 //lets validate the variables first
-static int is_valid_var(char *var_name)
+int is_valid_var(char *var_name)
 {
     int i;
 
     i = 1;
-    if(!var_name || ((!ft_isalpha(var_name[0]) &&  var_name[0]) != "_"))
+    if(!var_name || ((!ft_isalpha(var_name[0]) &&  var_name[0] != '_')))
     {
         return 0;
     }
@@ -33,27 +33,26 @@ static int is_valid_var(char *var_name)
     return 1;
 }
 
-//now func for printing the variables
-static void print_var_export(t_var *var)
-{
-    t_var *export_val;
+// //now func for printing the variables
+// static void print_var_export(t_var *var)
+// {
+//     t_var *export_val;
 
-    export_val = var;    
-    while(export_val)
-    {
-        ft_putstr_fd("declare -x", 1);
-        ft_putstr_fd(export_val->name, 1);
-        if(export_val->value)
-        {
-            ft_putstr_fd("=\"", 1);
-            ft_putstr_fd(export_val->value, 1);
-            ft_putstr_fd("\"", 1);
-        }
-        ft_putstr_fd("\n", 1);
-        export_val = export_val->next;
-    }
-}
-
+//     export_val = var;    
+//     while(export_val)
+//     {
+//         ft_putstr_fd("declare -x", 1);
+//         ft_putstr_fd(export_val->name, 1);
+//         if(export_val->value)
+//         {
+//             ft_putstr_fd("=\"", 1);
+//             ft_putstr_fd(export_val->value, 1);
+//             ft_putstr_fd("\"", 1);
+//         }
+//         ft_putstr_fd("\n", 1);
+//         export_val = export_val->next;
+//     }
+// }
 
 static void process_arg(char *arg, t_data *s_data)
 {

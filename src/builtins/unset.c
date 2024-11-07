@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 17:56:49 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/06 18:26:37 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/11/07 20:02:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void unset_var(t_var **list, const char *name)
     
     while(current)
     {
-        if(ft_strcmp(current->name, name) == 0)
+        if(strcmp(current->name, name) == 0)
         {
          if(prev)
                 prev = prev->next; 
@@ -36,7 +36,7 @@ static void unset_var(t_var **list, const char *name)
     }
 }
 
-int exe_builtin_unset(t_data *data, char **args)
+int exe_builtin_unset(char **args, t_data *data)
 {
     int i;
 

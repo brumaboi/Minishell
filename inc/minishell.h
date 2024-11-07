@@ -153,10 +153,11 @@ int     exe_builtin_env(char **args, t_data *data);
 int     exe_builtin_export(char **args, t_data *data);
 int     exe_builtin_unset(char **args, t_data *data);
 int     exe_builtin_exit(char **args, t_data *data);
+int is_valid_var(char *var_name);
 //cd utils
 int     update_variable(t_var **env, const char *value, char *name);
 t_var   *find_variable(t_var *env, char *name);
-int     set_variable(t_var *var, char *value);
+int set_variable(t_var *var, const char *value);
 int     add_variable(t_var *env, const char *value, char *name);
 
 // void print_ast(t_ast *node);

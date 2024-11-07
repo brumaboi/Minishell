@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:59:31 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/07 19:46:50 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/07 20:09:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ int	execute_builtin(char **args, t_data *data)
 	else if(ft_strcmp(args[0], "unset") == 0)
 		return (exe_builtin_unset(args, data));
 	else if(ft_strcmp(args[0], "exit") == 0)
-		return (exe_builtin_exit(args, data));
+		// return (exe_builtin_exit(args, data));
+		return (0);
 	else
 		return (0);
 }

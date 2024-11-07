@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:06:15 by ezeper            #+#    #+#             */
-/*   Updated: 2024/10/30 19:36:52 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/11/07 20:08:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_var	*find_variable(t_var *env, char *name)
 }
 
 // Updates the value of existing variable
-int	set_variable(t_var *var, char *value)
+int	set_variable(t_var *var, const char *value)
 {
     char *new_val;
 
@@ -44,6 +44,8 @@ int	add_variable(t_var *env, const char *value, char *name)
 {
 	t_var	*new_var;
 
+	(void)value;
+	(void)name;
 	new_var = malloc(sizeof(t_var));
 	if (!new_var)
 		return (1);
@@ -60,5 +62,5 @@ int	update_variable(t_var **env, const char *value, char *name)
 	if (var)
 		return (set_variable(var, value));
 	else
-		return (add_variable(env, value, name));
+		return (add_variable(*env, value, name));
 }
