@@ -123,7 +123,7 @@ void restore_custom_signal_handler();
 void init_signals(void);
 //execute_commands.c
 int execute_commands(t_ast *ast, t_data *data);
-int execute_builtin(char **cmd_args);
+int	execute_builtin(char **args, t_data *data);
 int is_builtin(char **cmd_args);
 int	execute_child_command(t_ast *ast, t_data *data);
 //execute_pipe.c
@@ -145,14 +145,14 @@ int     determine_redirection(t_ast *node);
 void    execute_asts(t_ast *node, t_data *data);
 // builtins
 int     execute_builtin_echo(char **args);
-int     exe_built_in_cd(char **args, t_data *data);
+int     exe_builtin_cd(char **args, t_data *data);
 char    *get_target_dir(t_data *data, char **args);
 int     change_dir(char *target_dir);
-int     execute_builtin_pwd(void);
-// int     exe_builtin_env(char **args, t_data *data);
-// int     exe_builtin_export(char **args, t_data *data);
-// int     exe_builtin_unset(char **args, t_data *data);
-// int     exe_builtin_exit(char **args, t_data *data);
+int     exe_builtin_pwd(void);
+int     exe_builtin_env(char **args, t_data *data);
+int     exe_builtin_export(char **args, t_data *data);
+int     exe_builtin_unset(char **args, t_data *data);
+int     exe_builtin_exit(char **args, t_data *data);
 //cd utils
 int     update_variable(t_var **env, const char *value, char *name);
 t_var   *find_variable(t_var *env, char *name);
