@@ -127,6 +127,12 @@ int	execute_builtin(char **args, t_data *data);
 int is_builtin(char **cmd_args);
 int	execute_child_command(t_ast *ast, t_data *data);
 //execute_pipe.c
+void create_pipe(int fd[2]);
+void fork_process(pid_t *pid);
+void child_redirect_output(int fd[2]);
+void child_redirect_input(int prev_fd);
+void wait_for_children(void);
+void pipe_fork(int fd[2], pid_t *pid);
 void execute_pipe(t_ast *node, t_data *data);
 //find_path.c
 char    *get_enviroment_val(t_var *env, const char *name);
