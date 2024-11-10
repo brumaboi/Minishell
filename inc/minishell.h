@@ -134,6 +134,8 @@ void child_redirect_input(int prev_fd);
 void wait_for_children(void);
 void pipe_fork(int fd[2], pid_t *pid);
 void execute_pipe(t_ast *node, t_data *data);
+//execute_logical.c
+void execute_logical(t_ast *node, t_data *data);
 //find_path.c
 char    *get_enviroment_val(t_var *env, const char *name);
 char    *join_path(const char *dir, const char *cmd);

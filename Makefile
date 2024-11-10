@@ -43,6 +43,7 @@ EXEC_FILES		= $(SRC_DIR)$(EXEC_DIR)execute_commands.c \
 				  $(SRC_DIR)$(EXEC_DIR)redirections.c \
 				  $(SRC_DIR)$(EXEC_DIR)execute_pipe_1.c \
 				  $(SRC_DIR)$(EXEC_DIR)execute_pipe_2.c \
+				  $(SRC_DIR)$(EXEC_DIR)execute_logical.c \
 
 PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
 			 	  $(SRC_DIR)$(PARS_DIR)init_data_2.c \
