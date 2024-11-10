@@ -123,7 +123,7 @@ void restore_custom_signal_handler();
 void init_signals(void);
 //execute_commands.c
 int execute_commands(t_ast *ast, t_data *data);
-int	execute_builtin(char **args, t_data *data);
+int execute_builtin(t_ast *ast, t_data *data);
 int is_builtin(char **cmd_args);
 int	execute_child_command(t_ast *ast, t_data *data);
 //execute_pipe.c
@@ -150,7 +150,7 @@ int     open_redirection_file(t_ast *node);
 int     determine_redirection(t_ast *node);
 void    execute_asts(t_ast *node, t_data *data);
 // builtins
-int     execute_builtin_echo(char **args);
+int     execute_builtin_echo(t_ast *ast);
 int     exe_builtin_cd(char **args, t_data *data);
 char    *get_target_dir(t_data *data, char **args);
 int     change_dir(char *target_dir);

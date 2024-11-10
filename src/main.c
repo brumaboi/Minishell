@@ -121,3 +121,10 @@ int main(int argc, char **argv, char **env)
     free_env_vars(data.exp);
     return (0);
 }
+
+
+// current issues:
+// 1. echo command not working properly
+// 2. signals not working properly
+// 3. cd command needs a little fixing
+// there are a lot of other issues as well, but these are the main ones right now

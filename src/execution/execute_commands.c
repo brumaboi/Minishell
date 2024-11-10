@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:59:31 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/07 20:09:29 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/09 00:33:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,23 @@ int	execute_child_command(t_ast *ast, t_data *data)
 	exit(126);
 }
 
-int	execute_builtin(char **args, t_data *data)
+int	execute_builtin(t_ast *ast, t_data *data)
 {
-	if (!args || !args[0])
+	if (!ast || !ast->cmd_args || !ast->cmd_args[0])
 		return (0);
-	else if (ft_strcmp(args[0], "echo") == 0)
-		return (execute_builtin_echo(&args[0]));
-	else if(ft_strcmp(args[0], "cd") == 0)
-		return (exe_builtin_cd(&args[0], data));
-	else if (ft_strcmp(args[0], "pwd") == 0)
+	else if (ft_strcmp(ast->cmd_args[0], "echo") == 0)
+		return (execute_builtin_echo(ast));
+	else if(ft_strcmp(ast->cmd_args[0], "cd") == 0)
+		return (exe_builtin_cd(ast->cmd_args, data));
+	else if (ft_strcmp(ast->cmd_args[0], "pwd") == 0)
 		return (exe_builtin_pwd());
-	else if(ft_strcmp(args[0], "env") == 0)
-		return (exe_builtin_env(&args[0], data));
-	else if(ft_strcmp(args[0], "export") == 0)
-		return (exe_builtin_export(args, data));
-	else if(ft_strcmp(args[0], "unset") == 0)
-		return (exe_builtin_unset(args, data));
-	else if(ft_strcmp(args[0], "exit") == 0)
+	else if(ft_strcmp(ast->cmd_args[0], "env") == 0)
+		return (exe_builtin_env(ast->cmd_args, data));
+	else if(ft_strcmp(ast->cmd_args[0], "export") == 0)
+		return (exe_builtin_export(ast->cmd_args, data));
+	else if(ft_strcmp(ast->cmd_args[0], "unset") == 0)
+		return (exe_builtin_unset(ast->cmd_args, data));
+	else if(ft_strcmp(ast->cmd_args[0], "exit") == 0)
 		// return (exe_builtin_exit(args, data));
 		return (0);
 	else
@@ -97,7 +97,7 @@ int	execute_commands(t_ast *ast, t_data *data)
 
 	status = 0;
 	if (is_builtin(ast->cmd_args))
-		return (execute_builtin(ast->cmd_args, data));
+		return (execute_builtin(ast, data));
 	set_signal_ignore(); // Ignore SIGINT in the parent process
 	pid = fork();
 	if (pid < 0) // child process

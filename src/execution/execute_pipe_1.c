@@ -19,11 +19,12 @@ void execute_last_command(t_ast *node, t_data *data, int prev_fd)
     fork_process(&pid);
     if (pid == 0)
     {
+        signal(SIGPIPE, SIG_DFL);
         set_signal_default();
         child_redirect_input(prev_fd);
         if (is_builtin(node->cmd_args))
         {
-            execute_builtin(node->cmd_args, data);
+            execute_builtin(node, data);
             exit(EXIT_SUCCESS);
         }
         else
@@ -47,7 +48,7 @@ void execute_node(t_ast *node, t_data *data)
         {
             if (is_builtin(node->left->cmd_args))
             {
-                execute_builtin(node->left->cmd_args, data);
+                execute_builtin(node->left, data);
                 exit(EXIT_SUCCESS);
             }
             else
@@ -75,6 +76,7 @@ static void parent(int *prev_fd, int fd[2])
 
 static void handle_child(int prev_fd, int fd[2], t_ast *node, t_data *data)
 {
+    signal(SIGPIPE, SIG_DFL);
     set_signal_default();
     child_redirect_input(prev_fd);
     child_redirect_output(fd);
@@ -88,6 +90,7 @@ void execute_pipe(t_ast *node, t_data *data)
     int prev_fd;
 
     prev_fd = -1;
+    signal(SIGPIPE, SIG_IGN);
     set_signal_ignore();
     while (node && node->type == N_PIPE)
     {

@@ -16,32 +16,34 @@
 #include "../../inc/minishell.h"
 
 
-/**
- * exe_built_in_echo - Executes the echo built-in command.
- * @args: Array of arguments passed to echo.
- *
- * Return: 0 on success.
- */
-int	execute_builtin_echo(char **args)
+int execute_builtin_echo(t_ast *ast)
 {
-	int i;
-	int nl_flag;
+    int i;
+    int flag;
+    int j;
 
-	i = 1;
-	nl_flag = 1;
-	if (args[i] && ft_strcmp(args[i], "-n") == 0)
-	{
-		nl_flag = 0;
-		i++;
-	}
-	while (args[i])
-	{
-		printf("%s", args[i]);
-		if (args[i + 1])
-			printf(" ");
-		i++;
-	}
-	if (nl_flag)
-		printf("\n");
-	return (0);
+    i = 1;
+    flag = 0;
+    while (ast->cmd_args[i] && ast->cmd_args[i][0] == '-')
+    {
+        j = 1;
+        while (ast->cmd_args[i][j] == 'n')
+            j++;
+        if (ast->cmd_args[i][j] == '\0' && ast->cmd_args[i][j - 1] == 'n')
+            flag++;
+        else
+            break ;
+        i++;
+    }
+    while (ast->cmd_args[i])
+    {
+        if (!(ast->cmd_args[i][0] == '$' && ast->cmd_args[i][1]))
+            printf("%s", ast->cmd_args[i]);
+        if (ast->cmd_args[i + 1])
+            printf(" ");
+        i++;
+    }
+    if (flag == 0)
+        printf("\n");
+    return 0;
 }
