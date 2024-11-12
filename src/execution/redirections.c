@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:33:57 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/10 20:54:26 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/11 18:29:45 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	get_redirection_type(t_ast *node)
 	if (node->type == N_LESS) // input redirection
 		return (O_RDONLY);
 	else if (node->type == N_GREAT) // output redirection
-		return (O_WRONLY | O_CREAT | O_CREAT);
+		return (O_WRONLY | O_CREAT | O_TRUNC);
 	else if (node->type == N_DGREAT) // append output redirection
 		return (O_WRONLY | O_APPEND | O_CREAT);
 	else if (node->type == N_DLESS) // here document
@@ -51,7 +51,7 @@ int	determine_redirection(t_ast *node)
 		return (-1);
 	if (node->type == N_LESS) // input redirection
 	{
-		if (dup2(fd, STDOUT_FILENO) == -1)
+		if (dup2(fd, STDIN_FILENO) == -1)
 		{
 			perror("dup2");
 			return (-1);

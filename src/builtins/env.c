@@ -3,17 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 10:47:16 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/07 20:04:37 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/12 17:19:40 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	exe_builtin_env(char **args, t_data *data)
+int	exe_builtin_env(t_ast *ast, t_data *data)
 {
+	char **args;
+
+	args = ast->cmd_args;
 	if (args[1])
 	{
 		printf("env: %s: no such file or directpry\n", args[1]);

@@ -66,7 +66,7 @@ BUILTIN_FILES   = $(SRC_DIR)$(BUILTIN_DIR)echo.c \
 				  $(SRC_DIR)$(BUILTIN_DIR)export.c \
 				  $(SRC_DIR)$(BUILTIN_DIR)unset.c \
 				  $(SRC_DIR)$(BUILTIN_DIR)env.c \
-				  
+				  $(SRC_DIR)$(BUILTIN_DIR)exit.c \
 
 SIG_FILES		= $(SRC_DIR)$(SIG_DIR)signal.c \
 

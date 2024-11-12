@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 12:59:31 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/09 00:33:29 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/11 18:10:35 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ int	execute_builtin(t_ast *ast, t_data *data)
 	else if(ft_strcmp(ast->cmd_args[0], "unset") == 0)
 		return (exe_builtin_unset(ast->cmd_args, data));
 	else if(ft_strcmp(ast->cmd_args[0], "exit") == 0)
-		// return (exe_builtin_exit(args, data));
-		return (0);
+		return (exe_builtin_exit(ast));
 	else
 		return (0);
 }

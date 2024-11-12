@@ -6,7 +6,7 @@
 /*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 18:20:26 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/05 11:11:32 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/11/12 17:04:29 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,13 @@ int	check_variables_cd(char **args, t_data *data)
 	return (0);
 }
 
-int	exe_builtin_cd(char **args, t_data *data)
+int	exe_builtin_cd(t_ast *ast, t_data *data)
 {
 	char	*target_dir;
 	char	*pwd;
+	char **args;
 
+	args = ast->cmd_args;
 	if (check_variables_cd(args, data) != 0)
 		return (1);
 	target_dir = get_target_dir(data, args);

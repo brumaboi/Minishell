@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:06:15 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/07 20:08:44 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/11 12:02:17 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	update_variable(t_var **env, const char *value, char *name)
 {
 	t_var	*var;
 
+	var = NULL;
 	if (!env || !name)
 		var = find_variable(*env, name);
 	if (var)

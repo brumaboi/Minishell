@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:22:48 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/07 20:01:54 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/12 17:53:02 by ezeper           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,13 @@ static void process_arg(char *arg, t_data *s_data)
         free(value);
 }
 
-int exe_builtin_export(char **args, t_data *data)
+int exe_builtin_export(t_ast *ast, t_data *data)
 {
     int i;
+    char **args;
     
     i = 1;
+    args = ast->cmd_args;
     if(!args[1])
     {
         printf("export: not enougn argument provided\n");

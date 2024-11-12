@@ -40,7 +40,7 @@ typedef struct s_data
 {
     t_var *env; //linked list of env variables
     t_var *exp; //linked list of exp variables
-    int in_fd; //input file descriptor
+    int ein_fd; //input file descriptor
     int out_fd; //output file descriptor
     int pipefd[2]; //pipe file descriptor
 } t_data;
@@ -153,14 +153,14 @@ int     determine_redirection(t_ast *node);
 void    execute_asts(t_ast *node, t_data *data);
 // builtins
 int     execute_builtin_echo(t_ast *ast);
-int     exe_builtin_cd(char **args, t_data *data);
+int     exe_builtin_cd(t_ast *ast, t_data *data);
 char    *get_target_dir(t_data *data, char **args);
 int     change_dir(char *target_dir);
 int     exe_builtin_pwd(void);
-int     exe_builtin_env(char **args, t_data *data);
-int     exe_builtin_export(char **args, t_data *data);
-int     exe_builtin_unset(char **args, t_data *data);
-int     exe_builtin_exit(char **args, t_data *data);
+int     exe_builtin_env(t_ast *ast, t_data *data);
+int     exe_builtin_export(t_ast *ast, t_data *data);
+int     exe_builtin_unset(t_ast *ast, t_data *data);
+int     exe_builtin_exit(t_ast *ast);
 int is_valid_var(char *var_name);
 //cd utils
 int     update_variable(t_var **env, const char *value, char *name);

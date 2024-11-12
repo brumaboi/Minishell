@@ -24,20 +24,19 @@ int execute_builtin_echo(t_ast *ast)
 
     i = 1;
     flag = 0;
-    while (ast->cmd_args[i] && ast->cmd_args[i][0] == '-')
+    while (ast->cmd_args[i] && ft_strncmp(ast->cmd_args[i], "-n", 2) == 0)
     {
         j = 1;
         while (ast->cmd_args[i][j] == 'n')
             j++;
         if (ast->cmd_args[i][j] == '\0' && ast->cmd_args[i][j - 1] == 'n')
-            flag++;
-        else
-            break ;
+            break;
+        flag = 1;
         i++;
     }
     while (ast->cmd_args[i])
     {
-        if (!(ast->cmd_args[i][0] == '$' && ast->cmd_args[i][1]))
+        if (ast->cmd_args[i][0])
             printf("%s", ast->cmd_args[i]);
         if (ast->cmd_args[i + 1])
             printf(" ");
