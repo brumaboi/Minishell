@@ -40,7 +40,7 @@ typedef struct s_data
 {
     t_var *env; //linked list of env variables
     t_var *exp; //linked list of exp variables
-    int ein_fd; //input file descriptor
+    int in_fd; //input file descriptor
     int out_fd; //output file descriptor
     int pipefd[2]; //pipe file descriptor
 } t_data;

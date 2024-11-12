@@ -67,15 +67,15 @@ int	execute_builtin(t_ast *ast, t_data *data)
 	else if (ft_strcmp(ast->cmd_args[0], "echo") == 0)
 		return (execute_builtin_echo(ast));
 	else if(ft_strcmp(ast->cmd_args[0], "cd") == 0)
-		return (exe_builtin_cd(ast->cmd_args, data));
+		return (exe_builtin_cd(ast, data));
 	else if (ft_strcmp(ast->cmd_args[0], "pwd") == 0)
 		return (exe_builtin_pwd());
 	else if(ft_strcmp(ast->cmd_args[0], "env") == 0)
-		return (exe_builtin_env(ast->cmd_args, data));
+		return (exe_builtin_env(ast, data));
 	else if(ft_strcmp(ast->cmd_args[0], "export") == 0)
-		return (exe_builtin_export(ast->cmd_args, data));
+		return (exe_builtin_export(ast, data));
 	else if(ft_strcmp(ast->cmd_args[0], "unset") == 0)
-		return (exe_builtin_unset(ast->cmd_args, data));
+		return (exe_builtin_unset(ast, data));
 	else if(ft_strcmp(ast->cmd_args[0], "exit") == 0)
 		return (exe_builtin_exit(ast));
 	else

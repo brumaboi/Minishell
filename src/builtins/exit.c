@@ -14,24 +14,22 @@
 
 int exe_builtin_exit(t_ast *ast)
 {
-    int exit_status;
     int value;
-
     
-    value = ft_atoi(ast->cmd_args[1]);
-    if(ast->cmd_args[1] && ast->cmd_args[2])
+    if (ast->cmd_args == NULL)
+        return (1);
+    if (ast->cmd_args[1] && ast->cmd_args[2])
     {
         printf("exit: too many arguments\n");
         free_cmd_args(ast->cmd_args);
         exit(1);
     }
-    else if(ast->cmd_args[1])
+    else if (ast->cmd_args[1])
     {
-        if(ft_isdigit(value))
+        value = ft_atoi(ast->cmd_args[1]);
+        if (ft_isdigit(value))
         {
-            exit_status = ft_atoi(ast->cmd_args[1]);
-            free_cmd_args(ast->cmd_args);
-            exit(exit_status);
+            exit(value);
         }
         else
         {
