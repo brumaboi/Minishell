@@ -13,8 +13,6 @@
 #include "../../inc/minishell.h"
 //token_list_management
 
-// Create a new token and add it to the list
-// Create a new token and add it to the list
 static t_token *new_token(char *value, t_token_type type)
 {
     t_token *token;
@@ -35,13 +33,11 @@ static t_token *new_token(char *value, t_token_type type)
     return (token);
 }
 
-// Add a token to the end of the list
 static int add_token_to_list(t_token **lst, t_token_type type, int *i, char *value)
 {
     t_token *new;
     t_token *last;
 
-    // If the type is T_IDENTIFIER, ensure we pass the value
     if (type == T_IDENTIFIER && value == NULL)
         return (1);
     new = new_token(value, type);
@@ -115,9 +111,29 @@ int token_add(char *input, int i, t_token **lst)
     }
     else
     {
-        while (input[i] && !ft_isspace(input[i]) && !is_special_char(&input[i]))
-            i++;
-        value = ft_substr(input, start, i - start);
+        // Check for quoted strings
+        if (input[i] == '"' || input[i] == '\'')
+        {
+            char quote_char = input[i];
+            i++; // Skip the opening quote
+            start = i; // Mark the start of the quoted content
+            while (input[i] && input[i] != quote_char)
+                i++;
+
+            if (input[i] == quote_char)
+                i++;
+        }
+        else
+        {
+            while (input[i] && !ft_isspace(input[i]) && !is_special_char(&input[i]))
+                i++;
+        }
+        int length = i - start;
+        if (input[i - 1] == '"' || input[i - 1] == '\'')
+        {
+            length -= 1; // Exclude the closing quote from the token value
+        }
+        value = ft_substr(input, start, length);
         if (!value)
             return (1);
         return (add_token_to_list(lst, T_IDENTIFIER, &i, value));

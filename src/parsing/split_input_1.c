@@ -12,27 +12,16 @@
 
 #include "../../inc/minishell.h"
 
-// Function to validate unmatched quotes
-static int	validate_quotes(int in_single_quote, int in_double_quote)
+// Function to toggle quote states and handle escape sequences
+int quote_state_and_escape(const char *str, int *in_single_quote, int *in_double_quote)
 {
-	if (in_single_quote || in_double_quote)
-	{
-		write(2, "syntax error: unmatched quote\n", 30);
-		return (1);
-	}
-	return (0);
-}
-
-// Handles quote toggling and escape sequences
-int	quote_state_and_escape(const char *str, int *in_single_quote, int *in_double_quote)
-{
-	if (*str == '\\' && *(str + 1) && !*in_single_quote)
-		return (1);
-	if (*str == '"' && !*in_single_quote)
-		*in_double_quote = !*in_double_quote;
-	else if (*str == '\'' && !*in_double_quote)
-		*in_single_quote = !*in_single_quote;
-	return (0);
+    if (*str == '\\' && *(str + 1) && !*in_single_quote)
+        return (1);
+    if (*str == '"' && !*in_single_quote)
+        *in_double_quote = !*in_double_quote;
+    else if (*str == '\'' && !*in_double_quote)
+        *in_single_quote = !*in_single_quote;
+    return (0);
 }
 
 static int	count_delimiters(const char *str)
@@ -64,19 +53,24 @@ static const char *find_token_end(const char *start)
 
     while (*start)
     {
-        if (quote_state_and_escape(start, &in_single_quote, &in_double_quote))
+        if (*start == '\\' && *(start + 1) && !in_single_quote)
         {
-            start++;
-            continue ;
+            start += 2;
+            continue;
         }
-        if (!in_single_quote && !in_double_quote && is_special_char(start))
-            break ;
-        if (ft_isspace(*start) && !in_single_quote && !in_double_quote)
-            break ;  // Stop at whitespace outside quotes
+        if (*start == '\'' && !in_double_quote)
+            in_single_quote = !in_single_quote;
+        else if (*start == '"' && !in_single_quote)
+            in_double_quote = !in_double_quote;
+        if (!in_single_quote && !in_double_quote && (is_special_char(start) || ft_isspace(*start)))
+            break;
         start++;
     }
-    if (validate_quotes(in_single_quote, in_double_quote))
+    if (in_single_quote || in_double_quote)
+    {
+        write(2, "syntax error: unmatched quote\n", 30);
         return NULL;
+    }
     return start;
 }
 
@@ -124,12 +118,12 @@ char **split_input(const char *str, int *count, t_token **lst)
         result[idx] = copy_token(&str[i], end);
         if (!result[idx])
             return (free_split(result), NULL);
-        idx++;  // Increment `idx` to count the newly added token
         if (token_add((char *)str, i, lst))
             return (free_split(result), free_tokens(*lst), NULL);
+        idx++;
         i = end - str;
     }
     result[idx] = NULL;
-    *count = idx;  // Update the total token count
+    *count = idx;
     return (result);
 }
