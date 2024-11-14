@@ -59,11 +59,40 @@ static int add_token_to_list(t_token **lst, t_token_type type, int *i, char *val
     return (0);
 }
 
-int token_add(char *input, int i, t_token **lst)
+int add_identifier(char *input, int *i, t_token **lst)
 {
     char *value;
-    int start = i;
+    int start;
+    char quote_char;
+    int length;
 
+    start = *i;
+    if (input[*i] == '"' || input[*i] == '\'')
+    {
+        quote_char = input[*i];
+        (*i)++;
+        start = *i;
+        while (input[*i] && input[*i] != quote_char)
+            (*i)++;
+        if (input[*i] == quote_char)
+            (*i)++;
+    }
+    else
+    {
+        while (input[*i] && !ft_isspace(input[*i]) && !is_special_char(&input[*i]))
+            (*i)++;
+    }
+    length = *i - start;
+    if (input[*i - 1] == '"' || input[*i - 1] == '\'')
+        length -= 1;
+    value = ft_substr(input, start, length);
+    if (!value)
+        return (1);
+    return (add_token_to_list(lst, T_IDENTIFIER, i, value));
+}
+
+int token_add(char *input, int i, t_token **lst)
+{
     if (input[i] == '>' && input[i + 1] == '>')
     {
         i += 2;
@@ -110,32 +139,5 @@ int token_add(char *input, int i, t_token **lst)
         return (add_token_to_list(lst, T_CPAR, &i, NULL)); // Fix: Assign a valid value
     }
     else
-    {
-        // Check for quoted strings
-        if (input[i] == '"' || input[i] == '\'')
-        {
-            char quote_char = input[i];
-            i++; // Skip the opening quote
-            start = i; // Mark the start of the quoted content
-            while (input[i] && input[i] != quote_char)
-                i++;
-
-            if (input[i] == quote_char)
-                i++;
-        }
-        else
-        {
-            while (input[i] && !ft_isspace(input[i]) && !is_special_char(&input[i]))
-                i++;
-        }
-        int length = i - start;
-        if (input[i - 1] == '"' || input[i - 1] == '\'')
-        {
-            length -= 1; // Exclude the closing quote from the token value
-        }
-        value = ft_substr(input, start, length);
-        if (!value)
-            return (1);
-        return (add_token_to_list(lst, T_IDENTIFIER, &i, value));
-    }
+        return (add_identifier(input, &i, lst));
 }
