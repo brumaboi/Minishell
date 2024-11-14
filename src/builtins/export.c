@@ -18,19 +18,15 @@ int is_valid_var(char *var_name)
     int i;
 
     i = 1;
-    if(!var_name || ((!ft_isalpha(var_name[0]) &&  var_name[0] != '_')))
+    if (!var_name || ((!ft_isalpha(var_name[0]) && var_name[0] != '_')))
+        return (0);
+    while (var_name[i] && var_name[i] != '=')
     {
-        return 0;
-    }
-    while(var_name[i] && var_name[i] != '=')
-    {
-        if(!ft_isalnum(var_name[i]) && var_name[i] != '_')
-        {
-            return 0;
-        }
+        if (!ft_isalnum(var_name[i]) && var_name[i] != '_')
+            return (0);
         i++;
     }
-    return 1;
+    return (1);
 }
 
 // //now func for printing the variables
@@ -83,10 +79,9 @@ static void process_arg(char *arg, t_data *s_data)
     {
         update_variable(&s_data->exp, value, name);
         update_variable(&s_data->env, value, name);
-                
     }
     free(name);
-    if(value)
+    if (value)
         free(value);
 }
 
@@ -104,10 +99,6 @@ int exe_builtin_export(t_ast *ast, t_data *data)
     }
     while(args[i])
     {
-        if(args[i])
-        {
-            ft_putstr_fd("export: no", 2);
-        }
         process_arg(args[i], data);
         i++;
     }

@@ -23,6 +23,11 @@ static t_var *p_lstnew(char *name, char *value)
         free(value);
         return (NULL);
     }
+    if (!name || !value)
+    {
+        free(new);
+        return (NULL);
+    }
     new->name = name;
     new->value = value;
     new->next = NULL;
@@ -55,10 +60,15 @@ void env_to_list(t_var **lst, char **env)
     {
         if (ft_strchr(env[i], '='))
         {
-            //here we take what's before the = (name) and what's after the = (value)
-            //and we add the paired name and value to the linked list
             name = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i]);
+            if (!name)
+                return ;
             value = ft_strdup(ft_strchr(env[i], '=') + 1);
+            if (!value)
+            {
+                free(name);
+                return ;
+            }
             p_lstadd_back(lst, p_lstnew(name, value));
         }
         i++;
@@ -90,7 +100,7 @@ void sort_exp(t_var **export)
     t_var *last_sorted;
     t_var *ptr;
     char *tmp_name;
-	char *tmp_value;
+    char *tmp_value;
 
     last_sorted = NULL;
     if (*export == NULL)
@@ -100,9 +110,10 @@ void sort_exp(t_var **export)
     {
         swapped = 0;
         ptr = *export;
-        while(ptr->next != last_sorted)
+        while (ptr->next != last_sorted)
         {
-            if (ft_strncmp(ptr->name, ptr->next->name, ft_strlen(ptr->name)) > 0)
+            if (ptr->name && ptr->next->name
+                && ft_strncmp(ptr->name, ptr->next->name, ft_strlen(ptr->name)) > 0)
             {
                 tmp_name = ptr->name;
                 ptr->name = ptr->next->name;

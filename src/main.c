@@ -12,55 +12,6 @@
 
 #include "../inc/minishell.h"
 
-// void generate_dot(t_ast *node, FILE *file, int *node_count) {
-//     if (node == NULL) return;
-
-//     int current_id = (*node_count)++;
-//     fprintf(file, "  node%d [label=\"", current_id);
-
-//     // Print the current node type
-//     switch (node->type) {
-//         case N_COMMAND: fprintf(file, "COMMAND: %s", node->cmd_args ? node->cmd_args[0] : "NULL"); break;
-//         case N_PIPE: fprintf(file, "PIPE"); break;
-//         case N_AND: fprintf(file, "AND"); break;
-//         case N_OR: fprintf(file, "OR"); break;
-//         case N_GREAT: fprintf(file, "REDIRECT OUT: %s", node->file); break;
-//         case N_DGREAT: fprintf(file, "APPEND: %s", node->file); break;
-//         case N_LESS: fprintf(file, "REDIRECT IN: %s", node->file); break;
-//         case N_DLESS: fprintf(file, "HEREDOC: %s", node->file); break;
-//         default: fprintf(file, "UNKNOWN NODE"); break;
-//     }
-
-//     fprintf(file, "\"];\n");
-
-//     if (node->left) {
-//         int left_id = *node_count;
-//         generate_dot(node->left, file, node_count);
-//         fprintf(file, "  node%d -> node%d;\n", current_id, left_id);
-//     }
-
-//     if (node->right) {
-//         int right_id = *node_count;
-//         generate_dot(node->right, file, node_count);
-//         fprintf(file, "  node%d -> node%d;\n", current_id, right_id);
-//     }
-// }
-
-// void write_ast_to_dot(t_ast *ast, const char *filename) {
-//     FILE *file = fopen(filename, "w");
-//     if (!file) {
-//         perror("Failed to open file");
-//         return;
-//     }
-
-//     fprintf(file, "digraph AST {\n");
-//     int node_count = 0;
-//     generate_dot(ast, file, &node_count);
-//     fprintf(file, "}\n");
-
-//     fclose(file);
-// }
-
 void process_input(t_data *data)
 {
     t_token *tokens;
@@ -91,13 +42,6 @@ void process_input(t_data *data)
         free(input);
         return ;
     }
-    // if (ast)
-    // {
-    //     write_ast_to_dot(ast, "ast.dot");
-    //     printf("AST written to ast.dot. Use Graphviz to visualize.\n");
-    // } else {
-    //     printf("Failed to build AST\n");
-    // }
     execute_asts(ast, data);
     free_ast(ast);
     free_tokens(tokens);
@@ -122,9 +66,6 @@ int main(int argc, char **argv, char **env)
     return (0);
 }
 
-
 // current issues:
 // 1. echo command not working properly
-// 2. signals not working properly
-// 3. cd command needs a little fixing
-// there are a lot of other issues as well, but these are the main ones right now
+// 2. exit status not being set properly
