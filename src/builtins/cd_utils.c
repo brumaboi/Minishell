@@ -71,9 +71,9 @@ int	update_variable(t_var **env, const char *value, char *name)
 {
 	t_var	*var;
 
-	var = NULL;
 	if (!env || !name)
-		var = find_variable(*env, name);
+		return (1);
+	var = find_variable(*env, name);
 	if (var)
 		return (set_variable(var, value));
 	else

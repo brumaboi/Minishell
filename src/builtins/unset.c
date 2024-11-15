@@ -17,20 +17,20 @@ static void unset_var(t_var **list, const char *name)
     t_var *current;
     t_var *prev;
     
-    current = NULL;
+    current = *list;
+    prev = NULL;
     while(current)
     {
         if(strcmp(current->name, name) == 0)
         {
          if(prev)
                 prev = prev->next; 
-        else
-        {
-            *list = current->next;
-        }
-        free(current->name);
-        free(current->value);
-        free(current);    
+            else
+                *list = current->next;
+            free(current->name);
+            free(current->value);
+            free(current);
+            return ;    
         }
         prev = current;
         current = current->next;

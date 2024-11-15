@@ -67,6 +67,7 @@ static void process_arg(char *arg, t_data *s_data)
     else
     {
         name = ft_strdup(arg);
+        value = NULL;
     }
     if(!is_valid_var(name))
     {
