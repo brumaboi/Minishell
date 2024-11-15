@@ -44,10 +44,15 @@ t_ast *parse_logical(t_token **current, t_ast *ast)
         if (!token || token->type == T_AND || token->type == T_OR || token->type == T_PIPE)
             return (NULL);
         right = parse_command(&token);
-        if (!right)
-            return (NULL);
+        while (token && token->type == T_PIPE)
+        {
+            right = parse_pipe(&token, right);
+            if (!right)
+                return (NULL);
+        }
         *current = token;
         return (create_logical_node(type, ast, right));
     }
     return (ast);
 }
+
