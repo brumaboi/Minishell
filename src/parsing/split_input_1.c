@@ -74,7 +74,7 @@ static const char *find_token_end(const char *start)
     return start;
 }
 
-char **split_input(const char *str, int *count, t_token **lst)
+char **split_input(const char *str, int *count, t_token **lst, t_data *data)
 {
     int spaces;
     char **result;
@@ -115,7 +115,7 @@ char **split_input(const char *str, int *count, t_token **lst)
         end = find_token_end(&str[i]);
         if (!end || end <= &str[i])  // Safeguard to prevent infinite loop
             break;
-        result[idx] = copy_token(&str[i], end);
+        result[idx] = copy_token(&str[i], end, data);
         if (!result[idx])
             return (free_split(result), NULL);
         if (token_add((char *)str, i, lst))

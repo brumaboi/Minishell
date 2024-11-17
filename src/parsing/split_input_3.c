@@ -13,12 +13,16 @@
 #include "../../inc/minishell.h"
 //expand 
 
-static char *expand_env_var(const char *input)
+static char *expand_env_var(const char *input, t_data *data)
 {
     char *var_name;
 	char *env_value;
 	int var_len;
 
+    if (*input != '?')
+    {
+        return (ft_itoa(data->exit_status));
+    }
 	var_len = 0;
 	while (input[var_len] && (ft_isalnum(input[var_len]) || input[var_len] == '_'))
 		var_len++;
@@ -34,7 +38,7 @@ static char *expand_env_var(const char *input)
 	return (ft_strdup(env_value));
 }
 
-static char *expand_token(const char *token)
+static char *expand_token(const char *token, t_data *data)
 {
     char *expanded;
     char *result;
@@ -58,7 +62,7 @@ static char *expand_token(const char *token)
         if (*ptr == '$' && !in_single_quote) // Expand in double quotes or unquoted
         {
             ptr++;
-            env_value = expand_env_var(ptr); // Expand environment variable
+            env_value = expand_env_var(ptr, data); // Expand environment variable
             if (!env_value)
                 continue;
             ft_strcpy(result, env_value);
@@ -79,7 +83,7 @@ static char *expand_token(const char *token)
 }
 
 // Simplified function to handle copying tokens and respecting quotes
-char *copy_token(const char *start, const char *end)
+char *copy_token(const char *start, const char *end, t_data *data)
 {
     char *result;
     int in_single_quote = 0;
@@ -101,7 +105,7 @@ char *copy_token(const char *start, const char *end)
         result[i++] = *ptr++;
     }
     result[i] = '\0'; // Null-terminate the string
-    char *expanded_result = expand_token(result);
+    char *expanded_result = expand_token(result, data);
     free(result);
     return (expanded_result);
 }

@@ -43,6 +43,7 @@ typedef struct s_data
     int in_fd; //input file descriptor
     int out_fd; //output file descriptor
     int pipefd[2]; //pipe file descriptor
+    int exit_status; //exit status of the last command
 } t_data;
 
 typedef enum e_token_type
@@ -102,11 +103,11 @@ void sort_exp(t_var **export);
 void p_lstadd_back(t_var **lst, t_var *new);
 //split_input.c
 int token_add(char *inpu, int i, t_token **lst);
-char	*copy_token(const char *start, const char *end);
+char *copy_token(const char *start, const char *end, t_data *data);
 int is_special_char(const char *str);
 char *process_special_char(const char *str);
 int	special_char_len(const char *str);
-char **split_input(const char *str, int *count, t_token **lst);
+char **split_input(const char *str, int *count, t_token **lst, t_data *data);
 int	quote_state_and_escape(const char *str, int *in_single_quote, int *in_double_quote);
 //user_input.c
 char *get_input(t_data *data);

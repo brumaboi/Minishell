@@ -28,7 +28,7 @@ void process_input(t_data *data)
     input = get_input(data);
     if (!input)
         return ;
-    split_result = split_input(input, &count, &tokens);
+    split_result = split_input(input, &count, &tokens, data);
     if (!split_result || !tokens)
     {
         free(input);

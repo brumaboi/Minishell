@@ -32,6 +32,7 @@ static void init_struct_var(t_data *data)
     data->out_fd = dup(STDOUT_FILENO);
     data->pipefd[0] = 0;
     data->pipefd[1] = 0;
+    data->exit_status = 0;
 }
 
 void init_data(t_data *data, char **env)
