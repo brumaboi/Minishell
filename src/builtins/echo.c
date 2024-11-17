@@ -15,8 +15,7 @@
 
 #include "../../inc/minishell.h"
 
-
-int execute_builtin_echo(t_ast *ast)
+int execute_builtin_echo(t_ast *ast, t_data *data)
 {
     int i;
     int flag;
@@ -36,9 +35,11 @@ int execute_builtin_echo(t_ast *ast)
     }
     while (ast->cmd_args[i])
     {
-        if (ast->cmd_args[i][0])
+        if (strcmp(ast->cmd_args[i], "$?") == 0)
+            printf("%d", data->exit_status);
+        else if (ast->cmd_args[i][0])
             printf("%s", ast->cmd_args[i]);
-        if (ast->cmd_args[i + 1])
+        else if (ast->cmd_args[i + 1])
             printf(" ");
         i++;
     }
