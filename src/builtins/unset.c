@@ -23,15 +23,15 @@ static void unset_var(t_var **list, const char *name)
     {
         if(strcmp(current->name, name) == 0)
         {
-         if(prev)
-                prev = prev->next; 
+            if(prev)
+                prev->next = current->next; 
             else
                 *list = current->next;
             free(current->name);
             free(current->value);
             free(current);
-            return ;    
-        }
+            return ;
+        }   
         prev = current;
         current = current->next;
     }

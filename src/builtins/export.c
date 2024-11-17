@@ -74,7 +74,10 @@ static void process_arg(char *arg, t_data *s_data)
         ft_putstr_fd("export: ", 2);
         ft_putstr_fd(arg, 2);
         ft_putstr_fd(": not a valid identifier\n", 2);
-        return;
+        free(name);
+        if (value)
+            free(value);
+        return ;
     }
     else
     {
