@@ -109,6 +109,7 @@ char *process_special_char(const char *str);
 int	special_char_len(const char *str);
 char **split_input(const char *str, int *count, t_token **lst, t_data *data);
 int	quote_state_and_escape(const char *str, int *in_single_quote, int *in_double_quote);
+char *expand_token(const char *token, t_data *data);
 //user_input.c
 char *get_input(t_data *data);
 //build_ast.c

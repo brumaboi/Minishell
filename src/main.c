@@ -67,5 +67,5 @@ int main(int argc, char **argv, char **env)
 }
 
 // current issues:
-// 1. echo command not working properly
-// 2. exit status not being set properly
+// 1. environment variables are not being expanded
+// 2. redirections

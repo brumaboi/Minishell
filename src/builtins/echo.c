@@ -17,29 +17,40 @@
 
 int execute_builtin_echo(t_ast *ast, t_data *data)
 {
-    int i;
-    int flag;
+    int i = 1;
+    int flag = 0;
     int j;
 
-    i = 1;
-    flag = 0;
     while (ast->cmd_args[i] && ft_strncmp(ast->cmd_args[i], "-n", 2) == 0)
     {
         j = 1;
         while (ast->cmd_args[i][j] == 'n')
             j++;
-        if (ast->cmd_args[i][j] == '\0' && ast->cmd_args[i][j - 1] == 'n')
-            break;
-        flag = 1;
-        i++;
+        if (ast->cmd_args[i][j] == '\0')
+        {
+            flag = 1;
+            i++;
+        }
+        else
+            break ;
     }
     while (ast->cmd_args[i])
     {
+        char *expanded_arg = NULL;
         if (strcmp(ast->cmd_args[i], "$?") == 0)
             printf("%d", data->exit_status);
-        else if (ast->cmd_args[i][0])
-            printf("%s", ast->cmd_args[i]);
-        else if (ast->cmd_args[i + 1])
+        else
+        {
+            expanded_arg = expand_token(ast->cmd_args[i], data);  // Use `expand_token` to expand variables
+            if (expanded_arg)
+            {
+                printf("%s", expanded_arg);
+                free(expanded_arg);  // Free the expanded argument after printing
+            }
+            else
+                printf("%s", ast->cmd_args[i]);  // Print the argument as-is if no expansion is needed
+        }
+        if (ast->cmd_args[i + 1])
             printf(" ");
         i++;
     }
