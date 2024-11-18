@@ -16,29 +16,30 @@
 static char *expand_env_var(const char *input, t_data *data)
 {
     char *var_name;
-	char *env_value;
-	int var_len;
+    char *env_value;
+    int var_len;
 
-    if (*input != '?')
+    // Special case: if input is "?", return the exit status
+    if (*input == '?' && *(input + 1) == '\0')
     {
-        return (ft_itoa(data->exit_status));
+        return ft_itoa(data->exit_status);
     }
-	var_len = 0;
-	while (input[var_len] && (ft_isalnum(input[var_len]) || input[var_len] == '_'))
-		var_len++;
-	if (var_len == 0)
-		return (NULL);
-	var_name = ft_strndup(input, var_len);
-	if (!var_name)
-		return (NULL);
-	env_value = getenv(var_name);
-	free(var_name);
-	if (!env_value)
-		return (ft_strdup("")); 
-	return (ft_strdup(env_value));
+    var_len = 0;
+    while (input[var_len] && (ft_isalnum(input[var_len]) || input[var_len] == '_'))
+        var_len++;
+    if (var_len == 0)
+        return NULL;
+    var_name = ft_strndup(input, var_len);
+    if (!var_name)
+        return NULL;
+    env_value = getenv(var_name);
+    free(var_name);
+    if (!env_value)
+        return ft_strdup(""); // Return an empty string if the variable is not found
+    return (ft_strdup(env_value));
 }
 
-static char *expand_token(const char *token, t_data *data)
+char *expand_token(const char *token, t_data *data)
 {
     char *expanded;
     char *result;
@@ -46,40 +47,81 @@ static char *expand_token(const char *token, t_data *data)
     char *env_value;
     int in_single_quote = 0;
     int in_double_quote = 0;
+    size_t total_length = 0;
 
-    expanded = malloc(ft_strlen(token) + 1);
-    result = expanded;
+    // First pass: Calculate required buffer size
     ptr = token;
-    if (!expanded)
-        return (NULL);
     while (*ptr)
     {
         if (quote_state_and_escape(ptr, &in_single_quote, &in_double_quote))
         {
             ptr++;
-            continue ;
+            continue;
         }
-        if (*ptr == '$' && !in_single_quote) // Expand in double quotes or unquoted
+        if (*ptr == '$' && !in_single_quote)
         {
             ptr++;
-            env_value = expand_env_var(ptr, data); // Expand environment variable
-            if (!env_value)
+            if (ft_strcmp(token, "$") == 0)
+            {
+                total_length += 1; // Length of "$"
                 continue;
-            ft_strcpy(result, env_value);
-            result += ft_strlen(env_value);
-            free(env_value);
-            while (*ptr && (ft_isalnum(*ptr) || *ptr == '_')) // Skip the variable name
+            }
+            env_value = expand_env_var(ptr, data);
+            if (env_value)
+            {
+                total_length += ft_strlen(env_value);
+                free(env_value);
+            }
+            while (*ptr && (ft_isalnum(*ptr) || *ptr == '_'))
                 ptr++;
         }
         else
         {
-            *result = *ptr;
-            result++;
+            total_length++;
             ptr++;
         }
     }
+
+    // Allocate enough space for the expanded string
+    expanded = malloc(total_length + 1);
+    if (!expanded)
+        return NULL;
+
+    // Second pass: Construct the expanded string
+    result = expanded;
+    ptr = token;
+    while (*ptr)
+    {
+        if (quote_state_and_escape(ptr, &in_single_quote, &in_double_quote))
+        {
+            *result++ = *ptr++;
+            continue;
+        }
+        if (*ptr == '$' && !in_single_quote)
+        {
+            ptr++;
+            if (strcmp(token, "$") == 0)
+            {
+                *result++ = '$'; // Copy "$" as is
+                continue;
+            }
+            env_value = expand_env_var(ptr, data);
+            if (env_value)
+            {
+                ft_strcpy(result, env_value); // Safe copy
+                result += strlen(env_value);
+                free(env_value);
+            }
+            while (*ptr && (ft_isalnum(*ptr) || *ptr == '_'))
+                ptr++;
+        }
+        else
+        {
+            *result++ = *ptr++;
+        }
+    }
     *result = '\0'; // Null-terminate the expanded string
-    return (expanded);
+    return expanded;
 }
 
 // Simplified function to handle copying tokens and respecting quotes
@@ -94,7 +136,6 @@ char *copy_token(const char *start, const char *end, t_data *data)
     result = malloc((end - start + 1) * sizeof(char));
     if (!result)
         return (NULL);
-
     while (ptr < end)
     {
         if (quote_state_and_escape(ptr, &in_single_quote, &in_double_quote))
@@ -104,8 +145,12 @@ char *copy_token(const char *start, const char *end, t_data *data)
         }
         result[i++] = *ptr++;
     }
-    result[i] = '\0'; // Null-terminate the string
-    char *expanded_result = expand_token(result, data);
-    free(result);
-    return (expanded_result);
+    result[i] = '\0';
+    if (!in_single_quote)
+    {
+        char *expanded_result = expand_token(result, data);
+        free(result);
+        return (expanded_result);
+    }
+    return (result);
 }
