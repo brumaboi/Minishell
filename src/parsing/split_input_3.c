@@ -56,15 +56,15 @@ char *expand_token(const char *token, t_data *data)
         if (quote_state_and_escape(ptr, &in_single_quote, &in_double_quote))
         {
             ptr++;
-            continue;
+            continue ;
         }
         if (*ptr == '$' && !in_single_quote)
         {
             ptr++;
-            if (ft_strcmp(token, "$") == 0)
+            if (strcmp(token, "$") == 0)
             {
                 total_length += 1; // Length of "$"
-                continue;
+                continue ;
             }
             env_value = expand_env_var(ptr, data);
             if (env_value)
@@ -85,7 +85,7 @@ char *expand_token(const char *token, t_data *data)
     // Allocate enough space for the expanded string
     expanded = malloc(total_length + 1);
     if (!expanded)
-        return NULL;
+        return (NULL);
 
     // Second pass: Construct the expanded string
     result = expanded;
@@ -95,7 +95,7 @@ char *expand_token(const char *token, t_data *data)
         if (quote_state_and_escape(ptr, &in_single_quote, &in_double_quote))
         {
             *result++ = *ptr++;
-            continue;
+            continue ;
         }
         if (*ptr == '$' && !in_single_quote)
         {
@@ -103,13 +103,13 @@ char *expand_token(const char *token, t_data *data)
             if (strcmp(token, "$") == 0)
             {
                 *result++ = '$'; // Copy "$" as is
-                continue;
+                continue ;
             }
             env_value = expand_env_var(ptr, data);
             if (env_value)
             {
                 ft_strcpy(result, env_value); // Safe copy
-                result += strlen(env_value);
+                result += ft_strlen(env_value);
                 free(env_value);
             }
             while (*ptr && (ft_isalnum(*ptr) || *ptr == '_'))
@@ -121,7 +121,7 @@ char *expand_token(const char *token, t_data *data)
         }
     }
     *result = '\0'; // Null-terminate the expanded string
-    return expanded;
+    return (expanded);
 }
 
 // Simplified function to handle copying tokens and respecting quotes

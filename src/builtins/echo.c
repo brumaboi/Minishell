@@ -17,10 +17,13 @@
 
 int execute_builtin_echo(t_ast *ast, t_data *data)
 {
-    int i = 1;
-    int flag = 0;
+    int i;
+    int flag;
     int j;
+    char *expanded_arg;
 
+    i = 1;
+    flag = 0;
     while (ast->cmd_args[i] && ft_strncmp(ast->cmd_args[i], "-n", 2) == 0)
     {
         j = 1;
@@ -36,7 +39,7 @@ int execute_builtin_echo(t_ast *ast, t_data *data)
     }
     while (ast->cmd_args[i])
     {
-        char *expanded_arg = NULL;
+        expanded_arg = NULL;
         if (strcmp(ast->cmd_args[i], "$?") == 0)
             printf("%d", data->exit_status);
         else
@@ -56,5 +59,5 @@ int execute_builtin_echo(t_ast *ast, t_data *data)
     }
     if (flag == 0)
         printf("\n");
-    return 0;
+    return (0);
 }

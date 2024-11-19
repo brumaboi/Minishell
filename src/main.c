@@ -67,5 +67,4 @@ int main(int argc, char **argv, char **env)
 }
 
 // current issues:
-// 1. environment variables are not being expanded
 // 2. redirections
