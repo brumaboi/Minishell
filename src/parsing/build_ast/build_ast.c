@@ -61,7 +61,7 @@ t_ast *build_ast(t_token *tokens)
     ast = NULL;
     if (check_syntax(tokens) == 1)
     {
-        ft_putstr_fd("syntax error\n", 2);
+        fprintf(stderr, "syntax error\n");
         return (NULL);
     }
     current = tokens;
@@ -71,31 +71,17 @@ t_ast *build_ast(t_token *tokens)
     while (current)
     {
         if (current->type == T_PIPE)
-        {
             ast = parse_pipe(&current, ast);
-            if (!ast)
-                return (NULL);
-        }
         else if (current->type == T_AND || current->type == T_OR)
-        {
             ast = parse_logical(&current, ast);
-            if (!ast)
-                return (NULL);
-        }
         else if (current->type == T_GREAT || current->type == T_DGREAT || current->type == T_LESS || current->type == T_DLESS)
-        {
             ast = parse_redirection(&current, ast);
-            if (!ast)
-                return (NULL);
-        }
         else if (current->type == T_OPAR)
-        {
             ast = parse_grouping(&current);
-            if (!ast)
-                return (NULL);
-        }
         else
             break ;
+        if (!ast)
+            return NULL;
     }
     return (ast);
 }
