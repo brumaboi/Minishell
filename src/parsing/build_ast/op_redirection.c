@@ -27,9 +27,12 @@ t_ast *create_redirection_node(t_token_type type, char *file)
         node->type = N_LESS; // redirect_in
     else if (type == T_DLESS)
         node->type = N_DLESS; // here_doc
-    node->file = file;
+    node->file = ft_strdup(file);
+    if (!node->file)
+        return (free(node), NULL);
     node->left = NULL;
     node->right = NULL;
+    node->cmd_args = NULL;
     return (node);
 }
 

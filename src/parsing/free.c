@@ -52,12 +52,14 @@ void free_cmd_args(char **cmd_args)
     while (cmd_args[i])
     {
         free(cmd_args[i]);
+        cmd_args[i] = NULL; // Prevent dangling pointers
         i++;
     }
     free(cmd_args);
+    cmd_args = NULL; // Prevent double-free
 }
 
-// Enhanced free_ast function with debug checks
+
 void free_ast(t_ast *ast)
 {
     if (!ast)
@@ -80,10 +82,10 @@ void free_ast(t_ast *ast)
     if (ast->cmd_args)
     {
         free_cmd_args(ast->cmd_args);
-        ast->cmd_args = NULL;
+        ast->cmd_args = NULL; // Prevent double-free
     }
     free(ast);
-    ast = NULL;
+    ast = NULL; // Prevent dangling pointer
 }
 
 void free_split(char **split_array)

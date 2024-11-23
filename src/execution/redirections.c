@@ -30,6 +30,8 @@ int	open_redirection_file(t_ast *node)
 	int	fd;
 	int	flag;
 
+    if (!node || !node->file)
+        return (-1);
 	flag = get_redirection_type(node);
 	if (flag == -1)
 		return (-1);
@@ -46,6 +48,8 @@ int	determine_redirection(t_ast *node)
 {
 	int	fd;
 
+	if (!node) 
+        return (-1);
 	fd = open_redirection_file(node);
 	if (fd == -1)
 		return (-1);
@@ -54,6 +58,7 @@ int	determine_redirection(t_ast *node)
 		if (dup2(fd, STDIN_FILENO) == -1)
 		{
 			perror("dup2");
+			close(fd);
 			return (-1);
 		}
 	}
