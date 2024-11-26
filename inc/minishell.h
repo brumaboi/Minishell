@@ -28,6 +28,7 @@
 # include <dirent.h>
 # include <sys/stat.h>
 # include "../libft/inc/libft.h"
+# include "../libft/inc/get_next_line.h"
 
 typedef struct s_var
 {
