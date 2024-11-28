@@ -91,53 +91,49 @@ int add_identifier(char *input, int *i, t_token **lst)
     return (add_token_to_list(lst, T_IDENTIFIER, i, value));
 }
 
-int token_add(char *input, int i, t_token **lst)
+int token_add(char *input, int *i, t_token **lst)
 {
-    if (input[i] == '>' && input[i + 1] == '>')
+    int len;
+
+    len = is_special_char(&input[*i]);
+    if (len == 2) // Handle compound tokens (e.g., <<, >>)
     {
-        i += 2;
-        return (add_token_to_list(lst, T_DGREAT, &i, NULL));
+        t_token_type type;
+
+        if (input[*i] == '<' && input[*i + 1] == '<')
+            type = T_DLESS;
+        else if (input[*i] == '>' && input[*i + 1] == '>')
+            type = T_DGREAT;
+        else if (input[*i] == '&' && input[*i + 1] == '&')
+            type = T_AND;
+        else if (input[*i] == '|' && input[*i + 1] == '|')
+            type = T_OR;
+        else
+            return (1); // Invalid token type
+        *i += 2; // Advance index for compound token
+        return (add_token_to_list(lst, type, i, NULL));
     }
-    else if (input[i] == '>')
+    else if (len == 1) // Handle single-character tokens
     {
-        i++;
-        return (add_token_to_list(lst, T_GREAT, &i, NULL));
+        t_token_type type;
+
+        if (input[*i] == '<')
+            type = T_LESS;
+        else if (input[*i] == '>')
+            type = T_GREAT;
+        else if (input[*i] == '|')
+            type = T_PIPE;
+        else if (input[*i] == '(')
+            type = T_OPAR;
+        else if (input[*i] == ')')
+            type = T_CPAR;
+        else
+            return (1); // Invalid token type
+        (*i)++; // Advance index for single token
+        return (add_token_to_list(lst, type, i, NULL));
     }
-    else if (input[i] == '<' && input[i + 1] == '<')
+    else // Handle identifiers or literals
     {
-        i += 2;
-        return (add_token_to_list(lst, T_DLESS, &i, NULL));
+        return (add_identifier(input, i, lst));
     }
-    else if (input[i] == '<')
-    {
-        i++;
-        return (add_token_to_list(lst, T_LESS, &i, NULL));
-    }
-    else if (input[i] == '|' && input[i + 1] == '|')
-    {
-        i += 2;
-        return (add_token_to_list(lst, T_OR, &i, NULL));
-    }
-    else if (input[i] == '|')
-    {
-        i++;
-        return (add_token_to_list(lst, T_PIPE, &i, NULL)); // Fix: Assign a valid value
-    }
-    else if (input[i] == '&' && input[i + 1] == '&')
-    {
-        i += 2;
-        return (add_token_to_list(lst, T_AND, &i, NULL));
-    }
-    else if (input[i] == '(')
-    {
-        i++;
-        return (add_token_to_list(lst, T_OPAR, &i, NULL)); // Fix: Assign a valid value
-    }
-    else if (input[i] == ')')
-    {
-        i++;
-        return (add_token_to_list(lst, T_CPAR, &i, NULL)); // Fix: Assign a valid value
-    }
-    else
-        return (add_identifier(input, &i, lst));
 }
