@@ -103,7 +103,7 @@ void add_oldpwd_exp(t_var **exp);
 void sort_exp(t_var **export);
 void p_lstadd_back(t_var **lst, t_var *new);
 //split_input.c
-int token_add(char *inpu, int i, t_token **lst);
+int token_add(char *input, int *i, t_token **lst);
 char *copy_token(const char *start, const char *end, t_data *data);
 int is_special_char(const char *str);
 char *process_special_char(const char *str);
@@ -152,7 +152,7 @@ char    **env_to_array(t_var *env);
 // redirections
 int     get_redirection_type(t_ast *node);
 int     open_redirection_file(t_ast *node);
-int     determine_redirection(t_ast *node);
+int     determine_redirection(t_ast *node, t_data *data);
 void    execute_asts(t_ast *node, t_data *data);
 // builtins
 int     execute_builtin_echo(t_ast *ast, t_data *data);
