@@ -95,28 +95,30 @@ int token_add(char *input, int *i, t_token **lst)
 {
     int len;
 
-    len = is_special_char(&input[*i]);
-    if (len == 2) // Handle compound tokens (e.g., <<, >>)
+    len = is_special_char(&input[*i]); // Check for special character length
+    if (len == 2) // Compound tokens like <<, >>
     {
         t_token_type type;
-
-        if (input[*i] == '<' && input[*i + 1] == '<')
+        char *value;
+        if (strncmp(&input[*i], "<<", 2) == 0)
             type = T_DLESS;
-        else if (input[*i] == '>' && input[*i + 1] == '>')
+        else if (strncmp(&input[*i], ">>", 2) == 0)
             type = T_DGREAT;
-        else if (input[*i] == '&' && input[*i + 1] == '&')
+        else if (strncmp(&input[*i], "&&", 2) == 0)
             type = T_AND;
-        else if (input[*i] == '|' && input[*i + 1] == '|')
+        else if (strncmp(&input[*i], "||", 2) == 0)
             type = T_OR;
         else
-            return (1); // Invalid token type
-        *i += 2; // Advance index for compound token
-        return (add_token_to_list(lst, type, i, NULL));
+            return (1);
+        value = strndup(&input[*i], len); // Extract the token value (e.g., "<<")
+        if (!value)
+            return (1);
+        return (add_token_to_list(lst, type, i, value));
     }
-    else if (len == 1) // Handle single-character tokens
+    else if (len == 1) // Single-character tokens
     {
         t_token_type type;
-
+        char *value;
         if (input[*i] == '<')
             type = T_LESS;
         else if (input[*i] == '>')
@@ -128,12 +130,12 @@ int token_add(char *input, int *i, t_token **lst)
         else if (input[*i] == ')')
             type = T_CPAR;
         else
-            return (1); // Invalid token type
-        (*i)++; // Advance index for single token
-        return (add_token_to_list(lst, type, i, NULL));
+            return (1);
+        value = strndup(&input[*i], 1); // Extract the token value (e.g., "<")
+        if (!value)
+            return (1);
+        return (add_token_to_list(lst, type, i, value));
     }
     else // Handle identifiers or literals
-    {
         return (add_identifier(input, i, lst));
-    }
 }

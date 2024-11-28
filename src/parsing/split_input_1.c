@@ -95,33 +95,31 @@ char **split_input(const char *str, int *count, t_token **lst, t_data *data)
         return (NULL);
     while (str[i])
     {
-        while (ft_isspace(str[i]))
+        while (ft_isspace(str[i])) // Skip leading whitespace
             i++;
         if (str[i] == '\0')
             break;
-        if (is_special_char(&str[i]))
+        int len = is_special_char(&str[i]);
+        if (len > 0) // Handle special characters
         {
-            if (token_add((char *)str, &i, lst))
+            if (token_add((char *)str, &i, lst)) // Add special token to list
                 return (free_split(result), free_tokens(*lst), NULL);
-            result[idx] = malloc(2 * sizeof(char));
+            result[idx] = strndup(&str[i - len], len); // Copy the special character token
             if (!result[idx])
                 return (free_split(result), NULL);
-            result[idx][0] = str[i];
-            result[idx][1] = '\0';
             idx++;
-            i++;
-            continue ;
+            continue ; // Skip further processing for this token
         }
         end = find_token_end(&str[i]);
         if (!end || end <= &str[i])  // Safeguard to prevent infinite loop
-            break;
-        result[idx] = copy_token(&str[i], end, data);
+            break ;
+        result[idx] = copy_token(&str[i], end, data); // Copy non-special token
         if (!result[idx])
             return (free_split(result), NULL);
-        if (token_add((char *)str, &i, lst))
+        if (token_add((char *)str, &i, lst)) // Add the identifier token to the list
             return (free_split(result), free_tokens(*lst), NULL);
         idx++;
-        i = end - str;
+        i = end - str; // Update index to the end of the processed token
     }
     result[idx] = NULL;
     *count = idx;

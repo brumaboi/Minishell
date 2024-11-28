@@ -40,10 +40,15 @@ char *process_special_char(const char *str)
 
 int is_special_char(const char *str)
 {
-    if (*str == '|' || *str == '<' || *str == '>' || *str == ';' || *str == '&' || *str == '(' || *str == ')') 
-        return (1);
-    if (ft_strncmp(str, ">>", 2) == 0 || ft_strncmp(str, "<<", 2) == 0
-        || ft_strncmp(str, "&&", 2) == 0 || ft_strncmp(str, "||", 2) == 0)
-        return (2);
-    return (0);
+    if (strncmp(str, "<<", 2) == 0 || strncmp(str, ">>", 2) == 0 ||
+        strncmp(str, "&&", 2) == 0 || strncmp(str, "||", 2) == 0)
+    {
+        return (2); // Compound token length
+    }
+    if (*str == '|' || *str == '<' || *str == '>' || *str == '&' ||
+        *str == '(' || *str == ')' || *str == ';')
+    {
+        return (1); // Single token length
+    }
+    return (0); // Not a special character
 }
