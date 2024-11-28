@@ -101,7 +101,7 @@ char **split_input(const char *str, int *count, t_token **lst, t_data *data)
             break;
         if (is_special_char(&str[i]))
         {
-            if (token_add((char *)str, i, lst))
+            if (token_add((char *)str, &i, lst))
                 return (free_split(result), free_tokens(*lst), NULL);
             result[idx] = malloc(2 * sizeof(char));
             if (!result[idx])
@@ -118,7 +118,7 @@ char **split_input(const char *str, int *count, t_token **lst, t_data *data)
         result[idx] = copy_token(&str[i], end, data);
         if (!result[idx])
             return (free_split(result), NULL);
-        if (token_add((char *)str, i, lst))
+        if (token_add((char *)str, &i, lst))
             return (free_split(result), free_tokens(*lst), NULL);
         idx++;
         i = end - str;

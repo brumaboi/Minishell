@@ -44,6 +44,6 @@ int is_special_char(const char *str)
         return (1);
     if (ft_strncmp(str, ">>", 2) == 0 || ft_strncmp(str, "<<", 2) == 0
         || ft_strncmp(str, "&&", 2) == 0 || ft_strncmp(str, "||", 2) == 0)
-        return (1);
+        return (2);
     return (0);
 }
