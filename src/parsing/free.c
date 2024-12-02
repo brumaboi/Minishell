@@ -15,7 +15,8 @@
 void free_env_vars(t_var *env)
 {
     t_var *tmp;
-    while (env) {
+    while (env)
+    {
         tmp = env;
         env = env->next;
         free(tmp->name);

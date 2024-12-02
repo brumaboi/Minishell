@@ -110,10 +110,15 @@ int token_add(char *input, int *i, t_token **lst)
             type = T_OR;
         else
             return (1);
-        value = strndup(&input[*i], len); // Extract the token value (e.g., "<<")
+        value = ft_strndup(&input[*i], len); // Extract the token value (e.g., "<<")
         if (!value)
             return (1);
-        return (add_token_to_list(lst, type, i, value));
+        if (add_token_to_list(lst, type, i, value)) // If adding fails
+        {
+            free(value); // Free the allocated memory
+            return (1);
+        }
+        return (0);
     }
     else if (len == 1) // Single-character tokens
     {
@@ -131,11 +136,17 @@ int token_add(char *input, int *i, t_token **lst)
             type = T_CPAR;
         else
             return (1);
-        value = strndup(&input[*i], 1); // Extract the token value (e.g., "<")
+        value = ft_strndup(&input[*i], 1); // Extract the token value (e.g., "<")
         if (!value)
             return (1);
-        return (add_token_to_list(lst, type, i, value));
+        if (add_token_to_list(lst, type, i, value)) // If adding fails
+        {
+            free(value); // Free the allocated memory
+            return (1);
+        }
+        return (0);
     }
     else // Handle identifiers or literals
         return (add_identifier(input, i, lst));
 }
+ 

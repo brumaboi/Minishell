@@ -31,6 +31,15 @@ t_ast *create_pipe_node(t_ast *ast, t_ast *right)
     return (node);
 }
 
+int pipe_syntax(t_token *token, t_ast *ast)
+{
+    if (!token)
+        return (0);
+    if (!ast || (ast->type != N_COMMAND && ast->type != N_PIPE))
+        return (0);
+    return (1);
+}
+
 t_ast *parse_pipe(t_token **current, t_ast *ast)
 {
     t_token *token;
@@ -40,7 +49,7 @@ t_ast *parse_pipe(t_token **current, t_ast *ast)
     if (token && token->type == T_PIPE)
     {
         token = token->next;
-        if (!token)
+        if (!pipe_syntax(token, ast))
             return (free_ast(ast), NULL);
         right = parse_command(&token);
         if (!right)
