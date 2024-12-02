@@ -79,6 +79,8 @@ void env_to_list(t_var **lst, char **env)
 void add_oldpwd_exp(t_var **exp)
 {
     t_var *ptr;
+    t_var *tmp;
+    char *oldpwd;
 
     if (*exp)
     {
@@ -89,7 +91,21 @@ void add_oldpwd_exp(t_var **exp)
                 return ;
             ptr = ptr->next;
         }
-        p_lstadd_back(exp, p_lstnew(ft_strdup("OLDPWD"), NULL));
+        oldpwd = ft_strdup("OLDPWD");
+        if (!oldpwd)
+        {
+            free_env_vars(*exp);
+            *exp= NULL;
+            return ;
+        }
+        tmp = p_lstnew(oldpwd, NULL);
+        if (!tmp)
+        {
+            free_env_vars(*exp);
+            *exp = NULL;
+            return ;
+        }
+        p_lstadd_back(exp, tmp);
     }
 }
 

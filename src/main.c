@@ -12,6 +12,13 @@
 
 #include "../inc/minishell.h"
 
+void cleanup_readline(void)
+{
+    rl_clear_history();             // Clear Readline history
+    rl_free_line_state();           // Free input line state
+    rl_cleanup_after_signal();      // Cleanup after signal
+}
+
 void process_input(t_data *data)
 {
     t_token *tokens;
@@ -32,6 +39,8 @@ void process_input(t_data *data)
     if (!split_result || !tokens)
     {
         free(input);
+        free_split(split_result);
+        free_tokens(tokens);
         return;
     }
     ast = build_ast(tokens);
@@ -63,8 +72,6 @@ int main(int argc, char **argv, char **env)
     }
     free_env_vars(data.env);
     free_env_vars(data.exp);
+    cleanup_readline();
     return (0);
 }
-
-// current issues:
-// 2. redirections

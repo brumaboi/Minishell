@@ -13,7 +13,7 @@
 NAME			=	minishell
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror
-LDFLAGS			=	-lreadline -lncurses #-fsanitize=address -g
+LDFLAGS			=	-lreadline -lncurses -fsanitize=address -g
 RM				=	rm -f
 AR				=	ar rcs
 
