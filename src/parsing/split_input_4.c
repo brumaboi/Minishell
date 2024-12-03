@@ -91,6 +91,60 @@ int add_identifier(char *input, int *i, t_token **lst)
     return (add_token_to_list(lst, T_IDENTIFIER, i, value));
 }
 
+int double_special(char *input, int *i, t_token **lst, int len)
+{
+    t_token_type type;
+    char *value;
+
+    if (strncmp(&input[*i], "<<", 2) == 0)
+        type = T_DLESS;
+    else if (strncmp(&input[*i], ">>", 2) == 0)
+        type = T_DGREAT;
+    else if (strncmp(&input[*i], "&&", 2) == 0)
+        type = T_AND;
+    else if (strncmp(&input[*i], "||", 2) == 0)
+        type = T_OR;
+    else
+        return (1);
+    value = ft_strndup(&input[*i], len); // Extract the token value (e.g., "<<")
+    if (!value)
+        return (1);
+    if (add_token_to_list(lst, type, i, value)) // If adding fails
+    {
+        free(value); // Free the allocated memory
+        return (1);
+    }
+    return (0);
+}
+
+int single_special(char *input, int *i, t_token **lst, int len)
+{
+    t_token_type type;
+    char *value;
+
+    if (input[*i] == '<')
+        type = T_LESS;
+    else if (input[*i] == '>')
+        type = T_GREAT;
+    else if (input[*i] == '|')
+        type = T_PIPE;
+    else if (input[*i] == '(')
+        type = T_OPAR;
+    else if (input[*i] == ')')
+        type = T_CPAR;
+    else
+        return (1);
+    value = ft_strndup(&input[*i], len); // Extract the token value (e.g., "<")
+    if (!value)
+        return (1);
+    if (add_token_to_list(lst, type, i, value)) // If adding fails
+    {
+        free(value); // Free the allocated memory
+        return (1);
+    }
+    return (0);
+}
+
 int token_add(char *input, int *i, t_token **lst)
 {
     int len;
@@ -98,53 +152,15 @@ int token_add(char *input, int *i, t_token **lst)
     len = is_special_char(&input[*i]); // Check for special character length
     if (len == 2) // Compound tokens like <<, >>
     {
-        t_token_type type;
-        char *value;
-        if (strncmp(&input[*i], "<<", 2) == 0)
-            type = T_DLESS;
-        else if (strncmp(&input[*i], ">>", 2) == 0)
-            type = T_DGREAT;
-        else if (strncmp(&input[*i], "&&", 2) == 0)
-            type = T_AND;
-        else if (strncmp(&input[*i], "||", 2) == 0)
-            type = T_OR;
-        else
+        if (double_special(input, i, lst, len) == 1)
             return (1);
-        value = ft_strndup(&input[*i], len); // Extract the token value (e.g., "<<")
-        if (!value)
-            return (1);
-        if (add_token_to_list(lst, type, i, value)) // If adding fails
-        {
-            free(value); // Free the allocated memory
-            return (1);
-        }
-        return (0);
+        return(0);
     }
     else if (len == 1) // Single-character tokens
     {
-        t_token_type type;
-        char *value;
-        if (input[*i] == '<')
-            type = T_LESS;
-        else if (input[*i] == '>')
-            type = T_GREAT;
-        else if (input[*i] == '|')
-            type = T_PIPE;
-        else if (input[*i] == '(')
-            type = T_OPAR;
-        else if (input[*i] == ')')
-            type = T_CPAR;
-        else
+        if (single_special(input, i, lst, len) == 1)
             return (1);
-        value = ft_strndup(&input[*i], 1); // Extract the token value (e.g., "<")
-        if (!value)
-            return (1);
-        if (add_token_to_list(lst, type, i, value)) // If adding fails
-        {
-            free(value); // Free the allocated memory
-            return (1);
-        }
-        return (0);
+        return(0);
     }
     else // Handle identifiers or literals
         return (add_identifier(input, i, lst));
