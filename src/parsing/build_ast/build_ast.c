@@ -24,7 +24,7 @@ t_ast  *parse_grouping(t_token **current)
         *current = token->next;
         group = build_ast(*current);
         if (!group)
-            return (NULL); // need to see how to handle this error
+            return (NULL); //???
         while (*current && (*current)->type != T_CPAR)
             *current = (*current)->next;
         if (*current && (*current)->type == T_CPAR)
@@ -53,17 +53,23 @@ int check_syntax(t_token *tokens)
     return (0);
 }
 
+int validate_syntax(t_token *tokens)
+{
+    if (!tokens || check_syntax(tokens))
+    {
+        fprintf(stderr, "syntax error\n");
+        return (1);
+    }
+    return (0);
+}
+
 t_ast *build_ast(t_token *tokens)
 {
     t_ast *ast;
     t_token *current;
 
-    ast = NULL;
-    if (check_syntax(tokens) == 1)
-    {
-        fprintf(stderr, "syntax error\n");
+    if (validate_syntax(tokens) == 1)
         return (NULL);
-    }
     current = tokens;
     ast = parse_command(&current);
     if (!ast)
