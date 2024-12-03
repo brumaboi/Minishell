@@ -29,54 +29,44 @@ int is_valid_var(char *var_name)
     return (1);
 }
 
-// //now func for printing the variables
-// static void print_var_export(t_var *var)
-// {
-//     t_var *export_val;
+static void handle_invalid_var(char *arg, char *name, char *value)
+{
+    ft_putstr_fd("export: ", 2);
+    ft_putstr_fd(arg, 2);
+    ft_putstr_fd(": not a valid identifier\n", 2);
+    free(name);
+    if (value)
+        free(value);
+}
 
-//     export_val = var;    
-//     while(export_val)
-//     {
-//         ft_putstr_fd("declare -x", 1);
-//         ft_putstr_fd(export_val->name, 1);
-//         if(export_val->value)
-//         {
-//             ft_putstr_fd("=\"", 1);
-//             ft_putstr_fd(export_val->value, 1);
-//             ft_putstr_fd("\"", 1);
-//         }
-//         ft_putstr_fd("\n", 1);
-//         export_val = export_val->next;
-//     }
-// }
+static void get_name_value(char *arg, char **name, char **value)
+{
+    char *equal_sgn;
+
+    equal_sgn = ft_strchr(arg, '=');
+    if (equal_sgn)
+    {
+        *name = ft_substr(arg, 0, equal_sgn - arg);
+        *value = ft_strdup(equal_sgn + 1);
+    }
+    else
+    {
+        *name = ft_strdup(arg);
+        *value = NULL;
+    }
+}
 
 static void process_arg(char *arg, t_data *s_data)
 {
-    char *equal_sgn;
     char *name;
     char *value;
 
     name = NULL;
     value = NULL;
-    equal_sgn = ft_strchr(arg, '=');
-    if(equal_sgn)
-    {
-        name = ft_substr(arg, 0, equal_sgn - arg);
-        value = ft_strdup(equal_sgn + 1);
-    }
-    else
-    {
-        name = ft_strdup(arg);
-        value = NULL;
-    }
+    get_name_value(arg, &name, &value);
     if(!is_valid_var(name))
     {
-        ft_putstr_fd("export: ", 2);
-        ft_putstr_fd(arg, 2);
-        ft_putstr_fd(": not a valid identifier\n", 2);
-        free(name);
-        if (value)
-            free(value);
+        handle_invalid_var(arg, name, value);
         return ;
     }
     else
