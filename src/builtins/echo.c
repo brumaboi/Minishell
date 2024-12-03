@@ -15,15 +15,12 @@
 
 #include "../../inc/minishell.h"
 
-int execute_builtin_echo(t_ast *ast, t_data *data)
+int get_index(t_ast *ast, int *flag)
 {
     int i;
-    int flag;
     int j;
-    char *expanded_arg;
 
     i = 1;
-    flag = 0;
     while (ast->cmd_args[i] && ft_strncmp(ast->cmd_args[i], "-n", 2) == 0)
     {
         j = 1;
@@ -31,28 +28,45 @@ int execute_builtin_echo(t_ast *ast, t_data *data)
             j++;
         if (ast->cmd_args[i][j] == '\0')
         {
-            flag = 1;
+            *flag = 1;
             i++;
         }
         else
             break ;
     }
+    return (i);
+}
+
+void print_echo(char *arg, t_data *data)
+{
+    char *expanded_arg;
+
+    expanded_arg = NULL;
+    if (strcmp(arg, "$?") == 0)
+        printf("%d", data->exit_status);
+    else
+    {
+        expanded_arg = expand_token(arg, data);
+        if (expanded_arg)
+        {
+            printf("%s", expanded_arg);
+            free(expanded_arg);
+        }
+        else
+            printf("%s", arg);
+    }
+}
+
+int execute_builtin_echo(t_ast *ast, t_data *data)
+{
+    int i;
+    int flag;
+
+    flag = 0;
+    i = get_index(ast, &flag);
     while (ast->cmd_args[i])
     {
-        expanded_arg = NULL;
-        if (strcmp(ast->cmd_args[i], "$?") == 0)
-            printf("%d", data->exit_status);
-        else
-        {
-            expanded_arg = expand_token(ast->cmd_args[i], data);  // Use `expand_token` to expand variables
-            if (expanded_arg)
-            {
-                printf("%s", expanded_arg);
-                free(expanded_arg);  // Free the expanded argument after printing
-            }
-            else
-                printf("%s", ast->cmd_args[i]);  // Print the argument as-is if no expansion is needed
-        }
+        print_echo(ast->cmd_args[i], data);
         if (ast->cmd_args[i + 1])
             printf(" ");
         i++;
