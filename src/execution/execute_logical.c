@@ -35,5 +35,4 @@ void execute_logical(t_ast *node, t_data *data)
 				execute_asts(node->right, data);
 		}
 	}
-
 }

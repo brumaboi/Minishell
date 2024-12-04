@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-int	is_builtin(char **cmd_args) // checks if its built in cmmnd;
+int	is_builtin(char **cmd_args)
 {
 	if (!cmd_args || !cmd_args[0])
 		return (0);
@@ -34,10 +34,9 @@ int	is_builtin(char **cmd_args) // checks if its built in cmmnd;
 }
 
 int	execute_child_command(t_ast *ast, t_data *data)
-// execution of external commands
 {
 	char *path;
-	char **envpm; // env variablea array
+	char **envpm;
 
 	path = find_command_path(ast->cmd_args[0], data->env);
 	if (!path)
@@ -46,7 +45,6 @@ int	execute_child_command(t_ast *ast, t_data *data)
 		exit(126);
 	}
 	envpm = env_to_array(data->env);
-	// turns env variables linked list to array af string to be able to use variable in execve
 	if (!envpm)
 	{
 		perror("env_to_array");
@@ -82,17 +80,43 @@ int	execute_builtin(t_ast *ast, t_data *data)
 		return (0);
 }
 
-/**
- * execute_commands - Executes a command node.
- * @node: AST node representing the command.
- * @data: Pointer to shell data structure.
- *
- * Return: Exit status of the command.
- */
+int fork_and_execute(t_ast *ast, t_data *data)
+{
+	int status;
+	pid_t pid;
+
+	pid = fork();
+    if (pid < 0) // Error in forking
+    {
+        perror("fork");
+        return (-1);
+    }
+    else if (pid == 0)
+    {
+        set_signal_default(); // Restore default SIGINT handling in the child
+        execute_child_command(ast, data);
+        exit(126); // This line should never be reached if execve is successful
+    }
+	waitpid(pid, &status, 0);
+	return(status);
+}
+
+void handle_exit_status(int status, t_data *data)
+{
+	if (WIFEXITED(status))
+		data->exit_status = WEXITSTATUS(status); // Update exit status from child exit code
+	else if (WIFSIGNALED(status))
+	{
+		data->exit_status = 128 + WTERMSIG(status); // Set exit status for signals (e.g., 130 for Ctrl+C)
+		if (WTERMSIG(status) == SIGINT)
+			printf("\n"); // Print newline if the child was interrupted by SIGINT
+	}
+	restore_custom_signal_handler(); // Re-enable the custom SIGINT handler in the parent
+}
+
 int execute_commands(t_ast *ast, t_data *data)
 {
     int status;
-    pid_t pid;
 
 	status = 0;
     if (is_builtin(ast->cmd_args)) // Check if the command is a built-in
@@ -102,32 +126,7 @@ int execute_commands(t_ast *ast, t_data *data)
         return (status);
     }
     set_signal_ignore(); // Ignore SIGINT in the parent process
-    pid = fork();
-    if (pid < 0) // Error in forking
-    {
-        perror("fork");
-        return (-1);
-    }
-    else if (pid == 0) // Child process
-    {
-        set_signal_default(); // Restore default SIGINT handling in the child
-        execute_child_command(ast, data);
-        exit(126); // This line should never be reached if execve is successful
-    }
-    else // Parent process
-    {
-        waitpid(pid, &status, 0);
-        if (WIFEXITED(status))
-        {
-            data->exit_status = WEXITSTATUS(status); // Update exit status from child exit code
-        }
-        else if (WIFSIGNALED(status))
-        {
-            data->exit_status = 128 + WTERMSIG(status); // Set exit status for signals (e.g., 130 for Ctrl+C)
-            if (WTERMSIG(status) == SIGINT)
-                printf("\n"); // Print newline if the child was interrupted by SIGINT
-        }
-        restore_custom_signal_handler(); // Re-enable the custom SIGINT handler in the parent
-    }
+    status = fork_and_execute(ast, data); // Fork and execute the command
+	handle_exit_status(status, data); // Handle exit status from the child process
     return (data->exit_status); // Return the last exit stat
 }

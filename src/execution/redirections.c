@@ -105,7 +105,7 @@ int determine_redirection(t_ast *node, t_data *data)
         fd = open_redirection_file(node);
         if (fd == -1)
             return (-1);
-        if (node->type == N_LESS) // Input redirection
+        if (node->type == N_LESS)
         {
             if (dup2(fd, STDIN_FILENO) == -1)
             {
@@ -114,7 +114,7 @@ int determine_redirection(t_ast *node, t_data *data)
                 return (-1);
             }
         }
-        else if (node->type == N_GREAT || node->type == N_DGREAT) // Output redirection
+        else if (node->type == N_GREAT || node->type == N_DGREAT)
         {
             if (dup2(fd, STDOUT_FILENO) == -1)
             {
@@ -123,7 +123,7 @@ int determine_redirection(t_ast *node, t_data *data)
                 return (-1);
             }
         }
-        close(fd); // Close the file descriptor after redirection
+        close(fd);
     }
     return (0);
 }
