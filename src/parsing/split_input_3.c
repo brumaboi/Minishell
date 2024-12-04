@@ -49,7 +49,6 @@ char *expand_token(const char *token, t_data *data)
     int in_double_quote = 0;
     size_t total_length = 0;
 
-    // First pass: Calculate required buffer size
     ptr = token;
     while (*ptr)
     {
@@ -81,13 +80,9 @@ char *expand_token(const char *token, t_data *data)
             ptr++;
         }
     }
-
-    // Allocate enough space for the expanded string
     expanded = malloc(total_length + 1);
     if (!expanded)
         return (NULL);
-
-    // Second pass: Construct the expanded string
     result = expanded;
     ptr = token;
     while (*ptr)
@@ -124,7 +119,6 @@ char *expand_token(const char *token, t_data *data)
     return (expanded);
 }
 
-// Simplified function to handle copying tokens and respecting quotes
 char *copy_token(const char *start, const char *end, t_data *data)
 {
     char *result;

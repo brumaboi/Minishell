@@ -14,7 +14,7 @@
 
 void cleanup_readline(void)
 {
-    rl_clear_history();             // Clear Readline history
+    clear_history();                // Clear history
     rl_free_line_state();           // Free input line state
     rl_cleanup_after_signal();      // Cleanup after signal
 }

@@ -20,14 +20,9 @@ static t_token *new_token(char *value, t_token_type type)
     token = malloc(sizeof(t_token));
     if (!token)
         return (NULL);
-    if (type == T_IDENTIFIER)
-    {
-        if (!value)
-            return (free(token), NULL);
-        token->value = value;
-    }
-    else
-        token->value = NULL;
+    if (value == NULL)
+        return (free(token), NULL);
+    token->value = value;
     token->type = type;
     token->next = NULL;
     return (token);
@@ -42,7 +37,7 @@ static int add_token_to_list(t_token **lst, t_token_type type, int *i, char *val
         return (1);
     new = new_token(value, type);
     if (!new)
-        return (1);
+        return (free(value), 1);
     if (*lst == NULL)
         *lst = new;
     else
@@ -150,13 +145,13 @@ int token_add(char *input, int *i, t_token **lst)
     int len;
 
     len = is_special_char(&input[*i]); // Check for special character length
-    if (len == 2) // Compound tokens like <<, >>
+    if (len == 2 && is_special_char(&input[*i])) // Compound tokens like <<, >>
     {
         if (double_special(input, i, lst, len) == 1)
             return (1);
         return(0);
     }
-    else if (len == 1) // Single-character tokens
+    else if (len == 1 && is_special_char(&input[*i])) // Single-character tokens
     {
         if (single_special(input, i, lst, len) == 1)
             return (1);
