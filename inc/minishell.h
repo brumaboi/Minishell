@@ -152,7 +152,7 @@ char    **env_to_array(t_var *env);
 // redirections
 int     get_redirection_type(t_ast *node);
 int     open_redirection_file(t_ast *node);
-int     determine_redirection(t_ast *node, t_data *data);
+int     determine_redirection(t_ast *node);
 void    execute_asts(t_ast *node, t_data *data);
 // builtins
 int     execute_builtin_echo(t_ast *ast, t_data *data);

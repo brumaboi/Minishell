@@ -53,11 +53,7 @@ static int handle_here_doc(t_ast *node)
     if (!node || !node->file)
         return (-1);
     delimiter = node->file;
-    if (pipe(pipefd) == -1)
-    {
-        perror("pipe");
-        return (-1);
-    }
+    create_pipe(pipefd);
     while (1)
     {
         line = readline("heredoc> ");
@@ -88,11 +84,21 @@ static int handle_here_doc(t_ast *node)
     return (0);
 }
 
-int determine_redirection(t_ast *node, t_data *data)
+int redir_fd(int fd, int target_fd, const char *error_msg)
+{
+    if (dup2(fd, target_fd) == -1)
+    {
+        perror(error_msg);
+        close(fd);
+        return (-1);
+    }
+    return (0);
+}
+
+int determine_redirection(t_ast *node)
 {
     int fd;
 
-    (void)data;
     if (!node || !node->file)
         return (-1);
     if (node->type == N_DLESS) // Handle here-document
@@ -107,22 +113,12 @@ int determine_redirection(t_ast *node, t_data *data)
             return (-1);
         if (node->type == N_LESS)
         {
-            if (dup2(fd, STDIN_FILENO) == -1)
-            {
-                perror("dup2 input redirection");
-                close(fd);
+            if (redir_fd(fd, STDIN_FILENO, "dup2 input redirection") == -1)
                 return (-1);
-            }
         }
         else if (node->type == N_GREAT || node->type == N_DGREAT)
-        {
-            if (dup2(fd, STDOUT_FILENO) == -1)
-            {
-                perror("dup2 output redirection");
-                close(fd);
+            if (redir_fd(fd, STDOUT_FILENO, "dup2 output redirection") == -1)
                 return (-1);
-            }
-        }
         close(fd);
     }
     return (0);
@@ -139,7 +135,7 @@ void execute_asts(t_ast *node, t_data *data)
     {
         saved_stdout = dup(STDOUT_FILENO);
         saved_stdin = dup(STDIN_FILENO);
-        if (determine_redirection(node, data) == -1)
+        if (determine_redirection(node) == -1)
             return;
         if (node->left)
             execute_asts(node->left, data);
