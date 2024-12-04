@@ -92,21 +92,27 @@ void add_oldpwd_exp(t_var **exp)
             ptr = ptr->next;
         }
         oldpwd = ft_strdup("OLDPWD");
-        if (!oldpwd)
-        {
-            free_env_vars(*exp);
-            *exp= NULL;
-            return ;
-        }
-        tmp = p_lstnew(oldpwd, NULL);
-        if (!tmp)
+        if (!oldpwd || !(tmp = p_lstnew(oldpwd, NULL)))
         {
             free_env_vars(*exp);
             *exp = NULL;
-            return ;
+            return;
         }
         p_lstadd_back(exp, tmp);
     }
+}
+
+void swap_swap(t_var *ptr)
+{
+    char *tmp_name;
+    char *tmp_value;
+
+    tmp_name = ptr->name;
+    ptr->name = ptr->next->name;
+    ptr->next->name = tmp_name;
+    tmp_value = ptr->value;
+    ptr->value = ptr->next->value;
+    ptr->next->value = tmp_value;
 }
 
 //we do this so exported vars are organized using some sort of bubblesorting
@@ -115,8 +121,6 @@ void sort_exp(t_var **export)
     int swapped;
     t_var *last_sorted;
     t_var *ptr;
-    char *tmp_name;
-    char *tmp_value;
 
     last_sorted = NULL;
     if (*export == NULL)
@@ -131,12 +135,7 @@ void sort_exp(t_var **export)
             if (ptr->name && ptr->next->name
                 && ft_strncmp(ptr->name, ptr->next->name, ft_strlen(ptr->name)) > 0)
             {
-                tmp_name = ptr->name;
-                ptr->name = ptr->next->name;
-                ptr->next->name = tmp_name;
-                tmp_value = ptr->value;
-                ptr->value = ptr->next->value;
-                ptr->next->value = tmp_value;
+                swap_swap(ptr);
                 swapped = 1;
             }
             ptr = ptr->next;
