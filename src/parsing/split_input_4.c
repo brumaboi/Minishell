@@ -54,19 +54,17 @@ static int add_token_to_list(t_token **lst, t_token_type type, int *i, char *val
     return (0);
 }
 
-int add_identifier(char *input, int *i, t_token **lst)
+int get_length(char *input, int *i, int *start)
 {
-    char *value;
-    int start;
     char quote_char;
-    int length;
+    int len;
 
-    start = *i;
+    *start = *i;
     if (input[*i] == '"' || input[*i] == '\'')
     {
         quote_char = input[*i];
         (*i)++;
-        start = *i;
+        *start = *i;
         while (input[*i] && input[*i] != quote_char)
             (*i)++;
         if (input[*i] == quote_char)
@@ -77,9 +75,19 @@ int add_identifier(char *input, int *i, t_token **lst)
         while (input[*i] && !ft_isspace(input[*i]) && !is_special_char(&input[*i]))
             (*i)++;
     }
-    length = *i - start;
+    len = *i - *start;
     if (input[*i - 1] == '"' || input[*i - 1] == '\'')
-        length -= 1;
+        len -= 1;
+    return (len);
+}
+
+int add_identifier(char *input, int *i, t_token **lst)
+{
+    char *value;
+    int start;
+    int length;
+
+    length = get_length(input, i, &start);
     value = ft_substr(input, start, length);
     if (!value)
         return (1);
