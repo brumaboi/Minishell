@@ -39,16 +39,17 @@ static char *expand_env_var(const char *input, t_data *data)
     return (ft_strdup(env_value));
 }
 
-char *expand_token(const char *token, t_data *data)
+size_t get_expansion_len(const char *token, t_data *data)
 {
-    char *expanded;
-    char *result;
     const char *ptr;
     char *env_value;
-    int in_single_quote = 0;
-    int in_double_quote = 0;
-    size_t total_length = 0;
+    int in_single_quote;
+    int in_double_quote;
+    size_t total_length;
 
+    total_length = 0;
+    in_single_quote = 0;
+    in_double_quote = 0;
     ptr = token;
     while (*ptr)
     {
@@ -80,11 +81,21 @@ char *expand_token(const char *token, t_data *data)
             ptr++;
         }
     }
-    expanded = malloc(total_length + 1);
-    if (!expanded)
-        return (NULL);
+    return (total_length);
+}
+
+void fill_expanded(const char *token, char *expanded, t_data *data)
+{
+    const char *ptr;
+    char *result;
+    char *env_value;
+    int in_single_quote;
+    int in_double_quote;
+
     result = expanded;
     ptr = token;
+    in_single_quote = 0;
+    in_double_quote = 0;
     while (*ptr)
     {
         if (quote_state_and_escape(ptr, &in_single_quote, &in_double_quote))
@@ -116,6 +127,18 @@ char *expand_token(const char *token, t_data *data)
         }
     }
     *result = '\0'; // Null-terminate the expanded string
+}
+
+char *expand_token(const char *token, t_data *data)
+{
+    char *expanded;
+    size_t total_length = 0;
+
+    total_length = get_expansion_len(token, data); //get size
+    expanded = malloc(total_length + 1); //allocate memory for said size
+    if (!expanded)
+        return (NULL);
+    fill_expanded(token, expanded, data); //fill the allocated memory
     return (expanded);
 }
 
