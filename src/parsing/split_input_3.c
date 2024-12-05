@@ -39,10 +39,39 @@ static char *expand_env_var(const char *input, t_data *data)
     return (ft_strdup(env_value));
 }
 
+static size_t handle_env_var(const char **ptr, const char **token, t_data *data)
+{
+    char *env_value;
+    size_t total_length;
+
+    total_length = 0;
+    if (strcmp(*ptr, "$") == 0)
+        return(1);
+    env_value = expand_env_var(*ptr, data);
+    if (env_value)
+    {
+        total_length += ft_strlen(env_value);
+        free(env_value);
+    }
+    while (**ptr && (ft_isalnum(**ptr) || **ptr == '_'))
+        (*ptr)++;
+    *token = *ptr;
+    return (total_length);
+}
+
+static size_t handle_quotes(const char **ptr, int *in_single_quote, int *in_double_quote)
+{
+    if (quote_state_and_escape(*ptr, in_single_quote, in_double_quote))
+    {
+        (*ptr)++;
+        return (1);
+    }
+    return (0);
+}
+
 size_t get_expansion_len(const char *token, t_data *data)
 {
     const char *ptr;
-    char *env_value;
     int in_single_quote;
     int in_double_quote;
     size_t total_length;
@@ -53,33 +82,16 @@ size_t get_expansion_len(const char *token, t_data *data)
     ptr = token;
     while (*ptr)
     {
-        if (quote_state_and_escape(ptr, &in_single_quote, &in_double_quote))
-        {
-            ptr++;
+        if (handle_quotes(&ptr, &in_single_quote, &in_double_quote))
             continue ;
-        }
         if (*ptr == '$' && !in_single_quote)
         {
             ptr++;
-            if (strcmp(token, "$") == 0)
-            {
-                total_length += 1; // Length of "$"
-                continue ;
-            }
-            env_value = expand_env_var(ptr, data);
-            if (env_value)
-            {
-                total_length += ft_strlen(env_value);
-                free(env_value);
-            }
-            while (*ptr && (ft_isalnum(*ptr) || *ptr == '_'))
-                ptr++;
+            total_length += handle_env_var(&ptr, &token, data);
+            continue ;
         }
-        else
-        {
-            total_length++;
-            ptr++;
-        }
+        total_length++;
+        ptr++;
     }
     return (total_length);
 }
