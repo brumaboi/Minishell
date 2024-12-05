@@ -59,7 +59,7 @@ static size_t handle_env_var(const char **ptr, const char **token, t_data *data)
     return (total_length);
 }
 
-static size_t handle_quotes(const char **ptr, int *in_single_quote, int *in_double_quote)
+static size_t handle_quotes_len(const char **ptr, int *in_single_quote, int *in_double_quote)
 {
     if (quote_state_and_escape(*ptr, in_single_quote, in_double_quote))
     {
@@ -82,7 +82,7 @@ size_t get_expansion_len(const char *token, t_data *data)
     ptr = token;
     while (*ptr)
     {
-        if (handle_quotes(&ptr, &in_single_quote, &in_double_quote))
+        if (handle_quotes_len(&ptr, &in_single_quote, &in_double_quote))
             continue ;
         if (*ptr == '$' && !in_single_quote)
         {
@@ -96,11 +96,38 @@ size_t get_expansion_len(const char *token, t_data *data)
     return (total_length);
 }
 
+static void handle_quotes_fill(const char **ptr, char **result, int *in_single_quote, int *in_double_quote)
+{
+    if (quote_state_and_escape(*ptr, in_single_quote, in_double_quote))
+    {
+        *(*result)++ = *(*ptr)++;
+    }
+}
+
+static void copy_fill(const char **ptr, char **result, const char *token, t_data *data)
+{
+    char *env_value;
+
+    if (strcmp(token, "$") == 0)
+    {
+        *(*result)++ = '$'; // Copy "$" as is
+        return;
+    }
+    env_value = expand_env_var(*ptr, data);
+    if (env_value)
+    {
+        ft_strcpy(*result, env_value); // Safe copy
+        *result += ft_strlen(env_value);
+        free(env_value);
+    }
+    while (**ptr && (ft_isalnum(**ptr) || **ptr == '_'))
+        (*ptr)++;
+}
+
 void fill_expanded(const char *token, char *expanded, t_data *data)
 {
     const char *ptr;
     char *result;
-    char *env_value;
     int in_single_quote;
     int in_double_quote;
 
@@ -110,33 +137,15 @@ void fill_expanded(const char *token, char *expanded, t_data *data)
     in_double_quote = 0;
     while (*ptr)
     {
-        if (quote_state_and_escape(ptr, &in_single_quote, &in_double_quote))
-        {
-            *result++ = *ptr++;
-            continue ;
-        }
+        handle_quotes_fill(&ptr, &result, &in_single_quote, &in_double_quote);
         if (*ptr == '$' && !in_single_quote)
         {
             ptr++;
-            if (strcmp(token, "$") == 0)
-            {
-                *result++ = '$'; // Copy "$" as is
-                continue ;
-            }
-            env_value = expand_env_var(ptr, data);
-            if (env_value)
-            {
-                ft_strcpy(result, env_value); // Safe copy
-                result += ft_strlen(env_value);
-                free(env_value);
-            }
-            while (*ptr && (ft_isalnum(*ptr) || *ptr == '_'))
-                ptr++;
+            copy_fill(&ptr, &result, token, data);
+            continue ;
         }
-        else
-        {
+        if (*ptr)
             *result++ = *ptr++;
-        }
     }
     *result = '\0'; // Null-terminate the expanded string
 }
@@ -154,14 +163,29 @@ char *expand_token(const char *token, t_data *data)
     return (expanded);
 }
 
+static char *good_result(char *result, t_data *data, int in_single_quote)
+{
+    char *expanded_result;
+
+    if (!in_single_quote)
+    {
+        expanded_result = expand_token(result, data);
+        free(result);
+        return (expanded_result);
+    }
+    return (result);
+}
+
 char *copy_token(const char *start, const char *end, t_data *data)
 {
     char *result;
-    int in_single_quote = 0;
-    int in_double_quote = 0;
-    int i = 0;
-    const char *ptr = start;
+    int in_single_quote;
+    int in_double_quote;
+    const char *ptr;
 
+    ptr = start;
+    in_single_quote = 0;
+    in_double_quote = 0;
     result = malloc((end - start + 1) * sizeof(char));
     if (!result)
         return (NULL);
@@ -169,17 +193,13 @@ char *copy_token(const char *start, const char *end, t_data *data)
     {
         if (quote_state_and_escape(ptr, &in_single_quote, &in_double_quote))
         {
-            result[i++] = *++ptr;
+            ptr++;
+            result[ptr - start] = *ptr;
             continue ;
         }
-        result[i++] = *ptr++;
+        result[ptr - start] = *ptr;
+        ptr++;
     }
-    result[i] = '\0';
-    if (!in_single_quote)
-    {
-        char *expanded_result = expand_token(result, data);
-        free(result);
-        return (expanded_result);
-    }
-    return (result);
+    result[ptr - start] = '\0';
+    return (good_result(result, data, in_single_quote));
 }
