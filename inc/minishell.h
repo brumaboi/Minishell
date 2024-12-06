@@ -185,6 +185,9 @@ t_var   *find_variable(t_var *env, char *name);
 int set_variable(t_var *var, const char *value);
 int     add_variable(t_var *env, const char *value, char *name);
 
+void cleanup_readline(void);
+void free_free(char *input, char **split_result, t_token *tokens, t_ast *ast);
+
 // void print_ast(t_ast *node);
 
 #endif
