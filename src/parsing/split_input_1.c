@@ -117,10 +117,28 @@ int handle_special(const char *str, int *i, t_norm_split *norm)
     return (0); // Not a special token
 }
 
+static int process_split(const char *str, t_norm_split *norm)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        while (ft_isspace(str[i]))
+            i++;
+        if (str[i] == '\0')
+            break ;
+        if (handle_special(str, &i, norm))
+            continue ;
+        if (!handle_normal(str, &i, norm))
+            return (0);
+    }
+    return (1);
+}
+
 char **split_input(const char *str, int *count, t_token **lst, t_data *data)
 {
     int spaces;
-    int i;
     t_norm_split norm;
 
     norm.idx = 0;
@@ -135,18 +153,8 @@ char **split_input(const char *str, int *count, t_token **lst, t_data *data)
     norm.result = malloc((spaces + 2) * sizeof(char *));
     if (!norm.result)
         return (NULL);
-    i = 0;
-    while (str[i])
-    {
-        while (ft_isspace(str[i]))
-            i++;
-        if (str[i] == '\0')
-            break ;
-        if (handle_special(str, &i, &norm))
-            continue ;
-        if (!handle_normal(str, &i, &norm))
-            return (free_split(norm.result), free_tokens(*norm.lst), NULL);
-    }
+    if (!process_split(str, &norm))
+        return (free_split(norm.result), free_tokens(*norm.lst), NULL);
     norm.result[norm.idx] = NULL;
     *count = norm.idx;
     return (norm.result);
