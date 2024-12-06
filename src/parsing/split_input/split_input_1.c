@@ -10,15 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
-
-typedef struct s_norm_split
-{
-    char **result;
-    t_token **lst;
-    int idx;
-    t_data *data;
-} t_norm_split;
+#include "../../../inc/minishell.h"
 
 // Function to toggle quote states and handle escape sequences
 int quote_state_and_escape(const char *str, int *in_single_quote, int *in_double_quote)

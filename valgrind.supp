@@ -1,0 +1,13 @@
+{
+  Readline
+  Memcheck:Leak
+  fun:malloc
+  obj:/usr/lib/x86_64-linux-gnu/libreadline.so.*
+}
+{
+  ncurses
+  Memcheck:Leak
+  fun:malloc
+  obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.*
+}
+

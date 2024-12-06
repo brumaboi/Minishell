@@ -47,10 +47,12 @@ EXEC_FILES		= $(SRC_DIR)$(EXEC_DIR)execute_commands.c \
 
 PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
 			 	  $(SRC_DIR)$(PARS_DIR)init_data_2.c \
-			 	  $(SRC_DIR)$(PARS_DIR)split_input_1.c \
-			 	  $(SRC_DIR)$(PARS_DIR)split_input_2.c \
-				  $(SRC_DIR)$(PARS_DIR)split_input_3.c \
-			 	  $(SRC_DIR)$(PARS_DIR)split_input_4.c \
+			 	  $(SRC_DIR)$(PARS_DIR)split_input/split_input_1.c \
+			 	  $(SRC_DIR)$(PARS_DIR)split_input/split_input_2.c \
+				  $(SRC_DIR)$(PARS_DIR)split_input/expansion/1_copy_expand.c \
+				  $(SRC_DIR)$(PARS_DIR)split_input/expansion/2_get_len.c \
+				  $(SRC_DIR)$(PARS_DIR)split_input/expansion/3_get_fill.c \
+			 	  $(SRC_DIR)$(PARS_DIR)split_input/split_input_4.c \
 				  $(SRC_DIR)$(PARS_DIR)build_ast/build_ast.c \
 				  $(SRC_DIR)$(PARS_DIR)build_ast/commands.c \
 				  $(SRC_DIR)$(PARS_DIR)build_ast/op_and_or.c \

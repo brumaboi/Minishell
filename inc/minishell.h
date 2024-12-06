@@ -90,6 +90,14 @@ typedef struct s_ast
     char **cmd_args;
 } t_ast;
 
+typedef struct s_norm_split
+{
+    char **result;
+    t_token **lst;
+    int idx;
+    t_data *data;
+} t_norm_split;
+
 //free.c
 void free_split(char **split_array);
 void free_ast(t_ast *ast);
@@ -110,7 +118,10 @@ char *process_special_char(const char *str);
 int	special_char_len(const char *str);
 char **split_input(const char *str, int *count, t_token **lst, t_data *data);
 int	quote_state_and_escape(const char *str, int *in_single_quote, int *in_double_quote);
+size_t get_expansion_len(const char *token, t_data *data);
+void fill_expanded(const char *token, char *expanded, t_data *data);
 char *expand_token(const char *token, t_data *data);
+char *expand_env_var(const char *input, t_data *data);
 //user_input.c
 char *get_input(t_data *data);
 //build_ast.c
