@@ -151,6 +151,9 @@ void child_redirect_input(int prev_fd);
 void wait_for_children(void);
 void pipe_fork(int fd[2], pid_t *pid);
 void execute_pipe(t_ast *node, t_data *data);
+void handle_child(int prev_fd, int fd[2], t_ast *node, t_data *data);
+void parent(int *prev_fd, int fd[2]);
+void execute_node(t_ast *node, t_data *data);
 //execute_logical.c
 void execute_logical(t_ast *node, t_data *data);
 //find_path.c

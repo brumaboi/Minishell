@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../../../inc/minishell.h"
 
 void create_pipe(int fd[2])
 {
@@ -35,18 +35,6 @@ void pipe_fork(int fd[2], pid_t *pid)
 {
     create_pipe(fd);
     fork_process(pid);
-}
-
-void wait_for_children()
-{
-    int status;
-
-    while (wait(&status) > 0)
-        ;
-    if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-    {
-        printf("\n");
-    }
 }
 
 void child_redirect_input(int prev_fd)

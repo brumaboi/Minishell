@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../../../inc/minishell.h"
 
 void execute_last_command(t_ast *node, t_data *data, int prev_fd)
 {
@@ -62,25 +62,6 @@ void execute_node(t_ast *node, t_data *data)
         else
             exit(EXIT_FAILURE);
     }
-}
-
-static void parent(int *prev_fd, int fd[2])
-{
-    close(fd[1]);
-    if (*prev_fd != -1 && *prev_fd != STDIN_FILENO)
-    {
-        close(*prev_fd);
-    }
-    *prev_fd = fd[0];
-}
-
-static void handle_child(int prev_fd, int fd[2], t_ast *node, t_data *data)
-{
-    signal(SIGPIPE, SIG_DFL);
-    set_signal_default();
-    child_redirect_input(prev_fd);
-    child_redirect_output(fd);
-    execute_node(node, data);
 }
 
 void execute_pipe(t_ast *node, t_data *data)
