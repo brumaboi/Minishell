@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../../inc/minishell.h"
-//special_char
 
 int	special_char_len(const char *str)
 {

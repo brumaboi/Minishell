@@ -122,6 +122,9 @@ size_t get_expansion_len(const char *token, t_data *data);
 void fill_expanded(const char *token, char *expanded, t_data *data);
 char *expand_token(const char *token, t_data *data);
 char *expand_env_var(const char *input, t_data *data);
+t_token *new_token(char *value, t_token_type type);
+int add_token_to_list(t_token **lst, t_token_type type, int *i, char *value);
+const char *find_token_end(const char *start);
 //user_input.c
 char *get_input(t_data *data);
 //build_ast.c
