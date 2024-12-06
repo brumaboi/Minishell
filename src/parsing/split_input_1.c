@@ -12,6 +12,14 @@
 
 #include "../../inc/minishell.h"
 
+typedef struct s_norm_split
+{
+    char **result;
+    t_token **lst;
+    int idx;
+    t_data *data;
+} t_norm_split;
+
 // Function to toggle quote states and handle escape sequences
 int quote_state_and_escape(const char *str, int *in_single_quote, int *in_double_quote)
 {
@@ -74,54 +82,72 @@ static const char *find_token_end(const char *start)
     return start;
 }
 
+int handle_normal(const char *str, int *i, t_norm_split *norm)
+{
+    const char *end;
+    
+    end = find_token_end(&str[*i]);
+    if (!end || end <= &str[*i])
+        return (free_split(norm->result), free_tokens(*norm->lst), 0);
+    norm->result[norm->idx] = copy_token(&str[*i], end, norm->data);
+    if (!norm->result[norm->idx]) // Memory allocation failure
+        return (free_split(norm->result), free_tokens(*norm->lst), 0);
+    if (token_add((char *)str, i, norm->lst)) // Error during token addition
+        return (free_split(norm->result), free_tokens(*norm->lst), 0);
+    norm->idx++;
+    *i = end - str;
+    return (1); // Normal token processed
+}
+
+int handle_special(const char *str, int *i, t_norm_split *norm)
+{
+    int len;
+    
+    len = is_special_char(&str[*i]);
+    if (len > 0)
+    {
+        if (token_add((char *)str, i, norm->lst)) // Error during token addition
+            return (free_split(norm->result), free_tokens(*norm->lst), 0);
+        norm->result[norm->idx] = strndup(&str[*i - len], len);
+        if (!norm->result[norm->idx]) // Memory allocation failure
+            return (free_split(norm->result), free_tokens(*norm->lst), 0);
+        norm->idx++;
+        return (1); // Special token processed
+    }
+    return (0); // Not a special token
+}
+
 char **split_input(const char *str, int *count, t_token **lst, t_data *data)
 {
     int spaces;
-    char **result;
-    int idx;
-    const char *end;
     int i;
+    t_norm_split norm;
 
-    idx = 0;
-    i = 0;
+    norm.idx = 0;
+    norm.lst = lst;
+    norm.data = data;
     if (!str || *str == '\0')
     {
         *count = 0;
         return (NULL);
     }
     spaces = count_delimiters(str);
-    result = malloc((spaces + 2) * sizeof(char *));
-    if (!result)
+    norm.result = malloc((spaces + 2) * sizeof(char *));
+    if (!norm.result)
         return (NULL);
+    i = 0;
     while (str[i])
     {
-        while (ft_isspace(str[i])) // Skip leading whitespace
+        while (ft_isspace(str[i]))
             i++;
         if (str[i] == '\0')
-            break;
-        int len = is_special_char(&str[i]);
-        if (len > 0) // Handle special characters
-        {
-            if (token_add((char *)str, &i, lst)) // Add special token to list
-                return (free_split(result), free_tokens(*lst), NULL);
-            result[idx] = strndup(&str[i - len], len); // Copy the special character token
-            if (!result[idx])
-                return (free_split(result), NULL);
-            idx++;
-            continue ; // Skip further processing for this token
-        }
-        end = find_token_end(&str[i]);
-        if (!end || end <= &str[i])  // Safeguard to prevent infinite loop
             break ;
-        result[idx] = copy_token(&str[i], end, data); // Copy non-special token
-        if (!result[idx])
-            return (free_split(result), NULL);
-        if (token_add((char *)str, &i, lst)) // Add the identifier token to the list
-            return (free_split(result), free_tokens(*lst), NULL);
-        idx++;
-        i = end - str; // Update index to the end of the processed token
+        if (handle_special(str, &i, &norm))
+            continue ;
+        if (!handle_normal(str, &i, &norm))
+            return (free_split(norm.result), free_tokens(*norm.lst), NULL);
     }
-    result[idx] = NULL;
-    *count = idx;
-    return (result);
+    norm.result[norm.idx] = NULL;
+    *count = norm.idx;
+    return (norm.result);
 }
