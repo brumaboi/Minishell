@@ -14,25 +14,20 @@
 
 void execute_logical(t_ast *node, t_data *data)
 {
-	int status;
 	int exit_status;
 
-	status = 0;
 	if (!node || !data)
 		return ;
 	execute_asts(node->left, data);
-	if (WIFEXITED(status))
+	exit_status = data->exit_status;
+	if (node->type == N_AND)
 	{
-		exit_status = WEXITSTATUS(status);
-		if (node->type == N_AND)
-		{
-			if (exit_status == 0)
-				execute_asts(node->right, data);
-		}
-		else if (node->type == N_OR)
-		{
-			if (exit_status != 0)
-				execute_asts(node->right, data);
-		}
+		if (exit_status == 0)
+			execute_asts(node->right, data);
+	}
+	else if (node->type == N_OR)
+	{
+		if (exit_status != 0)
+			execute_asts(node->right, data);
 	}
 }
