@@ -12,6 +12,19 @@
 
 #include "../../../inc/minishell.h"
 
+int is_command_valid(char *cmd_name, t_var *env)
+{
+    char *command_path;
+
+    command_path = find_command_path(cmd_name, env);
+    if (command_path)
+    {
+        free(command_path);
+        return (1);
+    }
+    return (0);
+}
+
 void execute_last_command(t_ast *node, t_data *data, int prev_fd)
 {
     pid_t pid;
@@ -46,6 +59,11 @@ void execute_node(t_ast *node, t_data *data)
     {
         if (node->left->type == N_COMMAND)
         {
+            if (!is_command_valid(node->left->cmd_args[0], data->env))
+            {
+                fprintf(stderr, "minishell: %s: command not found\n", node->left->cmd_args[0]);
+                exit(127); // Exit with command-not-found status
+            }
             if (is_builtin(node->left->cmd_args))
             {
                 execute_builtin(node->left, data);
@@ -75,6 +93,14 @@ void execute_pipe(t_ast *node, t_data *data)
     set_signal_ignore();
     while (node && node->type == N_PIPE)
     {
+        // Validate the left command before executing it
+        if (node->left->type == N_COMMAND && 
+            !is_command_valid(node->left->cmd_args[0], data->env))
+        {
+            fprintf(stderr, "minishell: %s: command not found\n", node->left->cmd_args[0]);
+            data->exit_status = 127;
+            return ;
+        }
         pipe_fork(fd, &pid);
         if (pid == 0)
             handle_child(prev_fd, fd, node, data);
@@ -83,7 +109,15 @@ void execute_pipe(t_ast *node, t_data *data)
         node = node->right;
     }
     if (node && node->type == N_COMMAND)
+    {
+        if (!is_command_valid(node->cmd_args[0], data->env))
+        {
+            fprintf(stderr, "minishell: %s: command not found\n", node->cmd_args[0]);
+            data->exit_status = 127;
+            return ;
+        }
         execute_last_command(node, data, prev_fd);
+    }
     else if (node)
         exit(EXIT_FAILURE);
     wait_for_children();
