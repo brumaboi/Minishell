@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:59:07 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/02 11:39:47 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/07 18:49:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,22 @@ char	*find_command_path(char *cmd_name, t_var *env)
 {
 	char	*path_env;
 	char	**path;
-	char	*res;
+	char	*result;
 
 	if (ft_strchr(cmd_name, '/')) // if command has a '/' treat as a path
 	{
-		if (access(cmd_name, F_OK) == 0)
+		if (access(cmd_name, X_OK) == 0)
 			return (ft_strdup(cmd_name));
 		else
 			return (NULL);
 	}
 	path_env = get_enviroment_val(env, "PATH");
-	if (!path_env)
+	if (!path_env || !*path_env)
 		return (NULL);
 	path = ft_split(path_env, ':');
 	if (!path)
 		return (NULL);
-	res = check_command_path(path, cmd_name);
+	result = check_command_path(path, cmd_name);
 	free_array(path);
-	return (res);
+	return (result);
 }
