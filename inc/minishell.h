@@ -155,6 +155,8 @@ void execute_pipe(t_ast *node, t_data *data);
 void handle_child(int prev_fd, int fd[2], t_ast *node, t_data *data);
 void parent(int *prev_fd, int fd[2]);
 void execute_node(t_ast *node, t_data *data);
+int is_command_valid(char *cmd_name, t_var *env);
+void check_command_validity(t_ast *node, t_data *data);
 //execute_logical.c
 void execute_logical(t_ast *node, t_data *data);
 //find_path.c

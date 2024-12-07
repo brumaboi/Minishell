@@ -42,3 +42,26 @@ void handle_child(int prev_fd, int fd[2], t_ast *node, t_data *data)
     child_redirect_output(fd);
     execute_node(node, data);
 }
+
+int is_command_valid(char *cmd_name, t_var *env)
+{
+    char *command_path;
+
+    command_path = find_command_path(cmd_name, env);
+    if (command_path)
+    {
+        free(command_path);
+        return (1);
+    }
+    return (0);
+}
+
+void check_command_validity(t_ast *node, t_data *data)
+{
+    if (node->type == N_COMMAND && 
+        !is_command_valid(node->cmd_args[0], data->env))
+    {
+        fprintf(stderr, "minishell: %s: command not found\n", node->cmd_args[0]);
+        data->exit_status = 127;
+    }
+}
