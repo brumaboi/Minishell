@@ -37,7 +37,8 @@ PARS_DIR		= parsing/
 OTH_DIR			= other/
 OBJ_DIR			= obj/
 
-EXEC_FILES		= $(SRC_DIR)$(EXEC_DIR)execute_commands.c \
+EXEC_FILES		= $(SRC_DIR)$(EXEC_DIR)commands/1_commands.c \
+				  $(SRC_DIR)$(EXEC_DIR)commands/2_builtins.c \
 				  $(SRC_DIR)$(EXEC_DIR)find_path.c \
 				  $(SRC_DIR)$(EXEC_DIR)env_utils.c \
 				  $(SRC_DIR)$(EXEC_DIR)redirections.c \
