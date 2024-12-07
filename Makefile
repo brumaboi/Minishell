@@ -80,6 +80,7 @@ OTH_FILES		= $(SRC_DIR)$(OTH_DIR)signal.c \
 				  $(SRC_DIR)$(OTH_DIR)cleanup.c \
 				  $(SRC_DIR)$(OTH_DIR)free.c \
 				  $(SRC_DIR)$(OTH_DIR)user_input.c \
+				  $(SRC_DIR)$(OTH_DIR)syntax.c \
 
 
 SRC	= $(PARS_FILES) $(EXEC_FILES) $(BUILTIN_FILES) $(OTH_FILES) $(SRC_DIR)main.c

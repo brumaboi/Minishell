@@ -197,6 +197,6 @@ int     add_variable(t_var *env, const char *value, char *name);
 void cleanup_readline(void);
 void free_free(char *input, char **split_result, t_token *tokens, t_ast *ast);
 
-// void print_ast(t_ast *node);
+int correct_syntax(const char *input);
 
 #endif
