@@ -17,6 +17,11 @@ int process_split(char *input, char ***split_result, t_token **tokens, t_data *d
     int count;
 
     count = 0;
+    if (correct_syntax(input))
+    {
+        free(input);
+        return (0);
+    }
     *split_result = split_input(input, &count, tokens, data);
     if (!*split_result || !*tokens)
     {
@@ -25,6 +30,7 @@ int process_split(char *input, char ***split_result, t_token **tokens, t_data *d
     }
     return (1);
 }
+
 void process_input(t_data *data)
 {
     char *input;
@@ -39,11 +45,6 @@ void process_input(t_data *data)
     input = get_input(data);
     if (!input)
         return ;
-    if (correct_syntax(input))
-    {
-        free(input);
-        return ; // Stop processing if there's a syntax error
-    }
     if (!process_split(input, &split_result, &tokens, data))
         return ;
     ast = build_ast(tokens);
