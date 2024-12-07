@@ -56,12 +56,9 @@ int check_syntax(t_token *tokens)
 int validate_syntax(t_token *tokens)
 {
     if (!tokens)
-        return (0);
-    if(check_syntax(tokens))
-    {
-        fprintf(stderr, "syntax error\n");
         return (1);
-    }
+    if(check_syntax(tokens))
+        return (1);
     return (0);
 }
 

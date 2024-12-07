@@ -44,9 +44,6 @@ const char *find_token_end(const char *start)
         start++;
     }
     if (in_single_quote || in_double_quote)
-    {
-        write(2, "syntax error: unmatched quote\n", 30);
         return (NULL);
-    }
     return (start);
 }

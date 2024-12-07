@@ -18,7 +18,6 @@ char *expand_env_var(const char *input, t_data *data)
     char *env_value;
     int var_len;
 
-    // Special case: if input is "?", return the exit status
     if (*input == '?' && *(input + 1) == '\0')
     {
         return ft_itoa(data->exit_status);
