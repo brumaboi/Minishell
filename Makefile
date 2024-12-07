@@ -39,13 +39,16 @@ OBJ_DIR			= obj/
 
 EXEC_FILES		= $(SRC_DIR)$(EXEC_DIR)commands/1_commands.c \
 				  $(SRC_DIR)$(EXEC_DIR)commands/2_builtins.c \
-				  $(SRC_DIR)$(EXEC_DIR)find_path.c \
+				  $(SRC_DIR)$(EXEC_DIR)pipes/1_execute.c \
+				  $(SRC_DIR)$(EXEC_DIR)pipes/2_process.c \
+				  $(SRC_DIR)$(EXEC_DIR)pipes/3_helper.c \
+				  $(SRC_DIR)$(EXEC_DIR)redirections/1_handle_redir.c \
+				  $(SRC_DIR)$(EXEC_DIR)redirections/2_here_doc.c \
+				  $(SRC_DIR)$(EXEC_DIR)redirections/3_redir_utils.c \
 				  $(SRC_DIR)$(EXEC_DIR)env_utils.c \
-				  $(SRC_DIR)$(EXEC_DIR)redirections.c \
-				  $(SRC_DIR)$(EXEC_DIR)pipe/1_execute.c \
-				  $(SRC_DIR)$(EXEC_DIR)pipe/2_process.c \
-				  $(SRC_DIR)$(EXEC_DIR)pipe/3_helper.c \
-				  $(SRC_DIR)$(EXEC_DIR)execute_logical.c \
+				  $(SRC_DIR)$(EXEC_DIR)execute_ast.c \
+				  $(SRC_DIR)$(EXEC_DIR)find_path.c \
+				  $(SRC_DIR)$(EXEC_DIR)logical.c \
 
 PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
 			 	  $(SRC_DIR)$(PARS_DIR)init_data_2.c \

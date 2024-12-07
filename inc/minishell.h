@@ -171,6 +171,9 @@ int     get_redirection_type(t_ast *node);
 int     open_redirection_file(t_ast *node);
 int     determine_redirection(t_ast *node);
 void    execute_asts(t_ast *node, t_data *data);
+int redir_fd(int fd, int target_fd, const char *error_msg);
+void handle_redirection(t_ast *node, t_data *data);
+int handle_here_doc(t_ast *node);
 // builtins
 int     execute_builtin_echo(t_ast *ast, t_data *data);
 int     exe_builtin_cd(t_ast *ast, t_data *data);
