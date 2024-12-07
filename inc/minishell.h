@@ -110,6 +110,7 @@ void env_to_list(t_var **lst, char **env);
 void add_oldpwd_exp(t_var **exp);
 void sort_exp(t_var **export);
 void p_lstadd_back(t_var **lst, t_var *new);
+t_var *p_lstnew(char *name, char *value);
 //split_input.c
 int token_add(char *input, int *i, t_token **lst);
 char *copy_token(const char *start, const char *end, t_data *data);

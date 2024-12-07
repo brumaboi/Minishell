@@ -50,8 +50,9 @@ EXEC_FILES		= $(SRC_DIR)$(EXEC_DIR)commands/1_commands.c \
 				  $(SRC_DIR)$(EXEC_DIR)find_path.c \
 				  $(SRC_DIR)$(EXEC_DIR)logical.c \
 
-PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data_1.c \
-			 	  $(SRC_DIR)$(PARS_DIR)init_data_2.c \
+PARS_FILES		= $(SRC_DIR)$(PARS_DIR)init_data/1_init.c \
+			 	  $(SRC_DIR)$(PARS_DIR)init_data/2_env_list.c \
+				  $(SRC_DIR)$(PARS_DIR)init_data/3_exp_utils.c \
 			 	  $(SRC_DIR)$(PARS_DIR)split_input/split_input.c \
 			 	  $(SRC_DIR)$(PARS_DIR)split_input/special_char.c \
 				  $(SRC_DIR)$(PARS_DIR)split_input/quote_handling.c \
