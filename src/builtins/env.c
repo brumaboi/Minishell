@@ -24,7 +24,6 @@ int	exe_builtin_env(t_ast *ast, t_data *data)
 		return (1);
 	}
 	current_env = data->env;
-	data->env = data->env->next;
 	while (current_env)
 	{
 		if (current_env->value) // to make sure NAME=VALUE format is printed

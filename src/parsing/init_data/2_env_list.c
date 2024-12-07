@@ -62,11 +62,15 @@ void env_to_list(t_var **lst, char **env)
         {
             name = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i]);
             if (!name)
+            {
+                free_env_vars(*lst);
                 return ;
+            }
             value = ft_strdup(ft_strchr(env[i], '=') + 1);
             if (!value)
             {
                 free(name);
+                free_env_vars(*lst);
                 return ;
             }
             p_lstadd_back(lst, p_lstnew(name, value));
