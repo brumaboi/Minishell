@@ -89,16 +89,16 @@ void free_ast(t_ast *ast)
     ast = NULL; // Prevent dangling pointer
 }
 
-void free_split(char **split_array)
+void free_split(char **split)
 {
     int i = 0;
 
-    if (!split_array)
-        return;
-    while (split_array[i])
+    if (!split)
+        return ;
+    while (split[i])
     {
-        free(split_array[i]);
+        free(split[i]);
         i++;
     }
-    free(split_array);
+    free(split);
 }

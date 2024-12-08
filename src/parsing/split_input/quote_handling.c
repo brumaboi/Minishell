@@ -25,9 +25,11 @@ int quote_state_and_escape(const char *str, int *in_single_quote, int *in_double
 
 const char *find_token_end(const char *start)
 {
-    int in_single_quote = 0;
-    int in_double_quote = 0;
+    int in_single_quote;
+    int in_double_quote;
 
+    in_single_quote = 0;
+    in_double_quote = 0;
     while (*start)
     {
         if (*start == '\\' && *(start + 1) && !in_single_quote)
