@@ -37,36 +37,36 @@ static int	count_delimiters(const char *str)
 int handle_normal(const char *str, int *i, t_norm_split *norm)
 {
     const char *end;
-    
+
     end = find_token_end(&str[*i]);
     if (!end || end <= &str[*i])
         return (free_split(norm->result), free_tokens(*norm->lst), 0);
     norm->result[norm->idx] = copy_token(&str[*i], end, norm->data);
-    if (!norm->result[norm->idx]) // Memory allocation failure
+    if (!norm->result[norm->idx])
         return (free_split(norm->result), free_tokens(*norm->lst), 0);
-    if (token_add((char *)str, i, norm->lst)) // Error during token addition
+    if (token_add((char *)str, i, norm->lst, norm->data))
         return (free_split(norm->result), free_tokens(*norm->lst), 0);
     norm->idx++;
     *i = end - str;
-    return (1); // Normal token processed
+    return (1);
 }
 
 int handle_special(const char *str, int *i, t_norm_split *norm)
 {
     int len;
-    
+
     len = is_special_char(&str[*i]);
     if (len > 0)
     {
-        if (token_add((char *)str, i, norm->lst)) // Error during token addition
+        if (token_add((char *)str, i, norm->lst, norm->data))
             return (free_split(norm->result), free_tokens(*norm->lst), 0);
-        norm->result[norm->idx] = strndup(&str[*i - len], len);
-        if (!norm->result[norm->idx]) // Memory allocation failure
+        norm->result[norm->idx] = ft_strndup(&str[*i - len], len);
+        if (!norm->result[norm->idx])
             return (free_split(norm->result), free_tokens(*norm->lst), 0);
         norm->idx++;
-        return (1); // Special token processed
+        return (1);
     }
-    return (0); // Not a special token
+    return (0);
 }
 
 static int process_split(const char *str, t_norm_split *norm)

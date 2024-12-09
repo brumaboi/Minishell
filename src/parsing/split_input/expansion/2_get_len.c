@@ -18,8 +18,12 @@ static size_t handle_env_var(const char **ptr, const char **token, t_data *data)
     size_t total_length;
 
     total_length = 0;
-    if (strcmp(*ptr, "$") == 0)
-        return(1);
+    if (**ptr == '\0' || (!ft_isalnum(**ptr) && **ptr != '_'))
+    {
+        total_length++;
+        (*token) = *ptr;
+        return total_length;
+    }
     env_value = expand_env_var(*ptr, data);
     if (env_value)
     {

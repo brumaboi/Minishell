@@ -20,20 +20,20 @@ char *expand_env_var(const char *input, t_data *data)
 
     if (*input == '?' && *(input + 1) == '\0')
     {
-        return ft_itoa(data->exit_status);
+        return (ft_itoa(data->exit_status));
     }
     var_len = 0;
     while (input[var_len] && (ft_isalnum(input[var_len]) || input[var_len] == '_'))
         var_len++;
     if (var_len == 0)
-        return NULL;
+        return (NULL);
     var_name = ft_strndup(input, var_len);
     if (!var_name)
-        return NULL;
+        return (NULL);
     env_value = getenv(var_name);
     free(var_name);
     if (!env_value)
-        return ft_strdup(""); // Return an empty string if the variable is not found
+        return ft_strdup("");
     return (ft_strdup(env_value));
 }
 
@@ -42,19 +42,19 @@ char *expand_token(const char *token, t_data *data)
     char *expanded;
     size_t total_length = 0;
 
-    total_length = get_expansion_len(token, data); //get size
-    expanded = malloc(total_length + 1); //allocate memory for said size
+    total_length = get_expansion_len(token, data);
+    expanded = malloc(total_length + 1);
     if (!expanded)
         return (NULL);
-    fill_expanded(token, expanded, data); //fill the allocated memory
+    fill_expanded(token, expanded, data);
     return (expanded);
 }
 
-static char *good_result(char *result, t_data *data, int in_single_quote)
+static char *good_result(char *result, t_data *data, int in_single_quotes)
 {
     char *expanded_result;
 
-    if (!in_single_quote)
+    if (!in_single_quotes)
     {
         expanded_result = expand_token(result, data);
         free(result);
@@ -63,30 +63,57 @@ static char *good_result(char *result, t_data *data, int in_single_quote)
     return (result);
 }
 
+char *parse_content(const char *ptr, const char *end, char *result, int *quotes)
+{
+    int idx = 0;
+
+    while (ptr < end)
+    {
+        if (*ptr == '\'' && !quotes[1])
+        {
+            quotes[0] = !quotes[0];
+            ptr++;
+            continue;
+        }
+        else if (*ptr == '"' && !quotes[0])
+        {
+            quotes[1] = !quotes[1];
+            ptr++;
+            continue;
+        }
+        else if (*ptr == '\\' && *(ptr + 1) && !quotes[0])
+        {
+            ptr++;
+            result[idx++] = *ptr;
+        }
+        else
+        {
+            result[idx++] = *ptr;
+        }
+        ptr++;
+    }
+    result[idx] = '\0';
+    return (result);
+}
+
 char *copy_token(const char *start, const char *end, t_data *data)
 {
     char *result;
-    int in_single_quote;
-    int in_double_quote;
+    int quotes[2];
     const char *ptr;
 
+    quotes[0] = 0; // in_single_quote
+    quotes[1] = 0; // in_double_quote
     ptr = start;
-    in_single_quote = 0;
-    in_double_quote = 0;
-    result = malloc((end - start + 1) * sizeof(char));
+    if (*start == '\'' && *(end - 1) == '\'')
+    {
+        quotes[0] = 1;
+        ptr++;
+        end--;
+    }
+    result = malloc((end - ptr + 1) * sizeof(char));
     if (!result)
         return (NULL);
-    while (ptr < end)
-    {
-        if (quote_state_and_escape(ptr, &in_single_quote, &in_double_quote))
-        {
-            ptr++;
-            result[ptr - start] = *ptr;
-            continue ;
-        }
-        result[ptr - start] = *ptr;
-        ptr++;
-    }
-    result[ptr - start] = '\0';
-    return (good_result(result, data, in_single_quote));
+    result = parse_content(ptr, end, result, quotes);
+    return (good_result(result, data, quotes[0]));
 }

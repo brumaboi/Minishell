@@ -62,12 +62,21 @@ typedef enum e_token_type
 	T_IDENTIFIER
 }	t_token_type;
 
+typedef enum e_quote_type
+{
+    NO_QUOTE,
+    SINGLE_QUOTE,
+    DOUBLE_QUOTE
+} t_quote_type;
+
 typedef struct s_token
 {
-	char			*value;
-	t_token_type	type;
-	struct s_token	*next;
-}	t_token;
+    char *value;
+    t_token_type type;
+    t_quote_type quote_type;
+    struct s_token *next;
+} t_token;
+
 
 typedef enum e_ast_type
 {
@@ -112,7 +121,7 @@ void sort_exp(t_var **export);
 void p_lstadd_back(t_var **lst, t_var *new);
 t_var *p_lstnew(char *name, char *value);
 //split_input.c
-int token_add(char *input, int *i, t_token **lst);
+int token_add(char *input, int *i, t_token **lst, t_data *data);
 char *copy_token(const char *start, const char *end, t_data *data);
 int is_special_char(const char *str);
 char *process_special_char(const char *str);
@@ -124,7 +133,7 @@ void fill_expanded(const char *token, char *expanded, t_data *data);
 char *expand_token(const char *token, t_data *data);
 char *expand_env_var(const char *input, t_data *data);
 t_token *new_token(char *value, t_token_type type);
-int add_token_to_list(t_token **lst, t_token_type type, int *i, char *value);
+int add_token_to_list(t_token **lst, t_token *new);
 const char *find_token_end(const char *start);
 //user_input.c
 char *get_input(t_data *data);
