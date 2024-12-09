@@ -12,7 +12,7 @@
 
 #include "../../../../inc/minishell.h"
 
-t_token *new_token(char *value, t_token_type type)
+t_token *new_token(char *value, t_token_type type, t_quote_type quote_type)
 {
     t_token *token;
 
@@ -24,19 +24,17 @@ t_token *new_token(char *value, t_token_type type)
     token->value = value;
     token->type = type;
     token->next = NULL;
+    token->quote_type = quote_type;
     return (token);
 }
 
-int add_token_to_list(t_token **lst, t_token_type type, int *i, char *value)
+int add_token_to_list(t_token **lst, t_token *new)
 {
-    t_token *new;
     t_token *last;
 
-    if (type == T_IDENTIFIER && value == NULL)
-        return (1);
-    new = new_token(value, type);
     if (!new)
-        return (free(value), 1);
+        return (1);
+
     if (*lst == NULL)
         *lst = new;
     else
@@ -46,9 +44,5 @@ int add_token_to_list(t_token **lst, t_token_type type, int *i, char *value)
             last = last->next;
         last->next = new;
     }
-    if (type == T_OPAR || type == T_CPAR || type == T_PIPE || type == T_GREAT || type == T_LESS)
-        (*i)++;
-    else if (type == T_DGREAT || type == T_DLESS || type == T_OR || type == T_AND)
-        (*i) += 2;
     return (0);
 }
