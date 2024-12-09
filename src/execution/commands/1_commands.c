@@ -20,8 +20,7 @@ int	execute_child_command(t_ast *ast, t_data *data)
 	path = find_command_path(ast->cmd_args[0], data->env);
 	if (!path)
 	{
-		printf("minishell: %s: command not found(exe_cmd)\n", ast->cmd_args[0]);
-		exit(126);
+		exit(127);
 	}
 	envpm = env_to_array(data->env);
 	if (!envpm)

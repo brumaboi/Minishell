@@ -56,7 +56,7 @@ static void get_name_value(char *arg, char **name, char **value)
     }
 }
 
-static void process_arg(char *arg, t_data *s_data)
+static int process_arg(char *arg, t_data *s_data)
 {
     char *name;
     char *value;
@@ -67,7 +67,7 @@ static void process_arg(char *arg, t_data *s_data)
     if(!is_valid_var(name))
     {
         handle_invalid_var(arg, name, value);
-        return ;
+        return (1);
     }
     else
     {
@@ -77,12 +77,14 @@ static void process_arg(char *arg, t_data *s_data)
     free(name);
     if (value)
         free(value);
+    return (0);
 }
 
 int exe_builtin_export(t_ast *ast, t_data *data)
 {
     int i;
     char **args;
+    int flag;
     
     i = 1;
     args = ast->cmd_args;
@@ -93,9 +95,9 @@ int exe_builtin_export(t_ast *ast, t_data *data)
     }
     while(args[i])
     {
-        process_arg(args[i], data);
+        flag = process_arg(args[i], data);
         i++;
     }
     sort_exp(&data->exp);
-    return 0;
+    return (flag);
 }

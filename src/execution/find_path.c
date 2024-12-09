@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:59:07 by ezeper            #+#    #+#             */
-/*   Updated: 2024/12/07 18:49:48 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/09 16:27:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*check_command_path(char **path, char *cmd_name)
 		f_path = join_path(path[i], cmd_name);
 		if (!f_path)
 			return (NULL);
-		if (access(f_path, F_OK) == 0)
+		if (access(f_path, X_OK) == 0)
 			// check if file is exists and is executable
 			return (f_path);
 		free(f_path);
@@ -68,7 +68,7 @@ char	*find_command_path(char *cmd_name, t_var *env)
 
 	if (ft_strchr(cmd_name, '/')) // if command has a '/' treat as a path
 	{
-		if (access(cmd_name, X_OK) == 0)
+		if (access(cmd_name, F_OK) == 0)
 			return (ft_strdup(cmd_name));
 		else
 			return (NULL);

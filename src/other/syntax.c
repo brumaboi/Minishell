@@ -80,16 +80,13 @@ int correct_syntax(const char *input)
     i = handle_initial_conditions(input);
     if (i == 1)
         return (1);
-
     while (input[i])
     {
         if (handle_quotes_and_special_chars(input, &i, &in_single_quote, &in_double_quote))
             return (1);
         i++;
     }
-
     if (handle_unmatched_quotes(in_single_quote, in_double_quote))
         return (1);
-
-    return handle_trailing_conditions(input, i - 1);
+    return (handle_trailing_conditions(input, i - 1));
 }

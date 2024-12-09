@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-int process_split(char *input, char ***split_result, t_token **tokens, t_data *data)
+int do_split(char *input, char ***split_result, t_token **tokens, t_data *data)
 {
     int count;
 
@@ -45,7 +45,7 @@ void process_input(t_data *data)
     input = get_input(data);
     if (!input)
         return ;
-    if (!process_split(input, &split_result, &tokens, data))
+    if (!do_split(input, &split_result, &tokens, data))
         return ;
     ast = build_ast(tokens);
     if (!ast)

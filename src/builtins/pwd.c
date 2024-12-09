@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 17:47:14 by ezeper            #+#    #+#             */
-/*   Updated: 2024/11/05 11:12:02 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/12/09 16:16:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int exe_builtin_pwd(void)
     {
         perror("exe_pwd");
         free(current_wd);
-        return (1);
+        return (0);
     }
     ft_putstr_fd(current_wd, 1);
     ft_putchar_fd('\n', 1);
