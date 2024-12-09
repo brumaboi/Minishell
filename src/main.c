@@ -15,12 +15,15 @@
 int do_split(char *input, char ***split_result, t_token **tokens, t_data *data)
 {
     int count;
+    int status;
 
     count = 0;
-    if (correct_syntax(input))
+    status = correct_syntax(input);
+    if (status == 2)
     {
         free(input);
-        return (0);
+        data->exit_status = 2;
+        return (2);
     }
     *split_result = split_input(input, &count, tokens, data);
     if (!*split_result || !*tokens)
@@ -45,7 +48,7 @@ void process_input(t_data *data)
     input = get_input(data);
     if (!input)
         return ;
-    if (!do_split(input, &split_result, &tokens, data))
+    if (do_split(input, &split_result, &tokens, data) != 1)
         return ;
     ast = build_ast(tokens);
     if (!ast)
