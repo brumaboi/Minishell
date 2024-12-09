@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbruma <sbruma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 10:09:06 by sbruma            #+#    #+#             */
-/*   Updated: 2024/05/15 15:12:52 by sbruma           ###   ########.fr       */
+/*   Updated: 2024/12/09 20:00:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../inc/libft.h"
 
 static int	skip_whitespace_and_sign(const char **str)
 {

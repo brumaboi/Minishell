@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ezeper <ezeper@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:37:09 by sbruma            #+#    #+#             */
-/*   Updated: 2024/10/28 17:51:17 by ezeper           ###   ########.fr       */
+/*   Updated: 2024/12/09 19:56:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdarg.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <errno.h>
 
 //ft_is
 int		ft_isalpha(int c);
@@ -111,5 +112,6 @@ char	*ft_itoa(int n);
 char	*ft_utoa(unsigned long n);
 char	*ft_utoa_base(unsigned long value, char *base);
 long	ft_atol(const char *str);
+long	ft_strtol(const char *str, char **endptr, int base);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/13 12:12:14 by sbruma            #+#    #+#              #
-#    Updated: 2024/11/01 15:14:10 by marvin           ###   ########.fr        #
+#    Updated: 2024/12/09 19:54:31 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,8 @@ FTTO_DIR		=	$(SRC_DIR)ft_to/ft_atoi.c \
 					$(SRC_DIR)ft_to/ft_toupper.c \
 					$(SRC_DIR)ft_to/ft_utoa_base.c \
 					$(SRC_DIR)ft_to/ft_utoa.c \
-					$(SRC_DIR)ft_to/ft_atol.c
+					$(SRC_DIR)ft_to/ft_atol.c \
+					$(SRC_DIR)ft_to/ft_strtol.c
 
 FTSTR_DIR		=	$(SRC_DIR)ft_str/ft_split.c \
 					$(SRC_DIR)ft_str/ft_strcat.c \
