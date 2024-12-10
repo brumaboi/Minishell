@@ -42,24 +42,23 @@ int get_length(char *input, int *i, int *start)
 t_quote_type detect_quote_type(const char *input, int start, int end)
 {
     if (input[start] == '\'' && input[end - 1] == '\'')
-        return SINGLE_QUOTE;
+        return (SINGLE_QUOTE);
     if (input[start] == '"' && input[end - 1] == '"')
-        return DOUBLE_QUOTE;
-    return NO_QUOTE;
+        return (DOUBLE_QUOTE);
+    return (NO_QUOTE);
 }
 
 int add_identifier(char *input, int *i, t_token **lst, t_data *data)
 {
     char *value;
     char *expanded_value;
-    int start;
-    int length;
+    int start_length[2];
     t_quote_type quote_type;
     t_token *new_tok;
 
-    length = get_length(input, i, &start);
-    quote_type = detect_quote_type(input, start - 1, *i);
-    value = ft_substr(input, start, length);
+    start_length[1] = get_length(input, i, &start_length[0]);
+    quote_type = detect_quote_type(input, start_length[0] - 1, *i);
+    value = ft_substr(input, start_length[0], start_length[1]);
     if (!value)
         return (1);
     if (quote_type != SINGLE_QUOTE)

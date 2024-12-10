@@ -67,34 +67,40 @@ void handle_dollar(const char **ptr, char **result, t_data *data, int in_single_
     }
 }
 
+int toggle_quotes(const char **ptr, int quote_state[2])
+{
+    if (**ptr == '"' && !quote_state[0])
+    {
+        quote_state[1] = !quote_state[1];
+        (*ptr)++;
+        return (1);
+    }
+    if (**ptr == '\'' && !quote_state[1])
+    {
+        quote_state[0] = !quote_state[0];
+        (*ptr)++;
+        return (1);
+    }
+    return (0);
+}
+
 void fill_expanded(const char *token, char *expanded, t_data *data)
 {
     const char *ptr;
     char *result;
-    int in_single_quote;
-    int in_double_quote;
+    int quote_state[2];
 
     ptr = token;
     result = expanded;
-    in_single_quote = 0;
-    in_double_quote = 0;
+    quote_state[0] = 0;
+    quote_state[1] = 0;
     while (*ptr)
     {   
-        if (*ptr == '"' && !in_single_quote)
+        if (toggle_quotes(&ptr, quote_state))
+            continue ;
+        if (*ptr == '$' && !quote_state[0])
         {
-            in_double_quote = !in_double_quote;
-            ptr++;  // Skip the quote
-            continue;
-        }
-        else if (*ptr == '\'' && !in_double_quote)
-        {
-            in_single_quote = !in_single_quote;
-            ptr++;  // Skip the quote
-            continue;
-        }
-        if (*ptr == '$' && !in_single_quote)
-        {
-            handle_dollar(&ptr, &result, data, in_single_quote);
+            handle_dollar(&ptr, &result, data, quote_state[0]);
             continue ;
         }
         *result++ = *ptr++;

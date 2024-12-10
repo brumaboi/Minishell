@@ -55,15 +55,14 @@ void handle_exit(char **cmd_args)
                 return ;
             }
             exit_code = parse_exit_code(cmd_args[1]);
-            free_cmd_args(cmd_args);
-            exit(exit_code);
         }
         else
         {
             fprintf(stderr, " exit: %s: numeric argument required\n", cmd_args[1]);
-            free_cmd_args(cmd_args);
-            exit(2);
+            exit_code = 2;
         }
+        free_cmd_args(cmd_args);
+        exit(exit_code);
     }
     free_cmd_args(cmd_args);
     exit(0);
