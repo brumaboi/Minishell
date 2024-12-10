@@ -12,24 +12,6 @@
 
 #include "../../../../inc/minishell.h"
 
-// static void handle_quotes_fill(const char **ptr, char **result, int *in_single_quote, int *in_double_quote)
-// {
-//     if (**ptr == '\'' && !*in_double_quote)
-//     {
-//         *in_single_quote = !*in_single_quote;
-//         (*ptr)++;
-//     }
-//     else if (**ptr == '"' && !*in_single_quote)
-//     {
-//         *in_double_quote = !*in_double_quote;
-//         (*ptr)++;
-//     }
-//     else if (**ptr == '$' && *in_single_quote)
-//     {
-//         *(*result)++ = *(*ptr)++;
-//     }
-// }
-
 static void copy_fill(const char **ptr, char **result, t_data *data)
 {
     char *env_value;
@@ -98,7 +80,6 @@ void fill_expanded(const char *token, char *expanded, t_data *data)
     in_double_quote = 0;
     while (*ptr)
     {   
-        // Handle quote state transitions
         if (*ptr == '"' && !in_single_quote)
         {
             in_double_quote = !in_double_quote;

@@ -46,13 +46,13 @@ int add_variable(t_var *env, const char *value, char *name)
 
     new_var = malloc(sizeof(t_var));
     if (!new_var)
-        return (1);  // Handle malloc failure
+        return (1);
     if (name)
-        new_var->name = ft_strdup(name);  // Assuming ft_strdup copies the string
+        new_var->name = ft_strdup(name);
     else
         new_var->name = NULL;
     if (value)
-        new_var->value = ft_strdup(value);  // Assuming ft_strdup copies the string
+        new_var->value = ft_strdup(value);
     else
         new_var->value = NULL;
     if (!new_var->name || (value && !new_var->value))
@@ -60,11 +60,11 @@ int add_variable(t_var *env, const char *value, char *name)
         free(new_var->name);
         free(new_var->value);
         free(new_var);
-        return (1);  // Indicate failure
+        return (1);
     }
     new_var->next = NULL;
     p_lstadd_back(&env, new_var);
-    return (0);  // Success
+    return (0);
 }
 
 int	update_variable(t_var **env, const char *value, char *name)

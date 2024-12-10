@@ -60,14 +60,38 @@ void process_input(t_data *data)
     free_free(input, split_result, tokens, ast);
 }
 
+void print_start(void)
+{
+    printf("\033[H\033[J");
+    printf("\n");
+    printf("\033[91m");
+    printf("██╗    ██╗███████╗ ██████╗ ██████╗ ███╗   ███╗███████╗\n");
+    usleep(400002);
+    printf("██║    ██║██╔════╝██╔════╝██╔═══██╗████╗ ████║██╔════╝\n");
+    usleep(400002);
+    printf("██║ █╗ ██║█████╗  ██║     ██║   ██║██╔████╔██║█████╗  \n");
+    usleep(400002);
+    printf("██║███╗██║██╔══╝  ██║     ██║   ██║██║╚██╔╝██║██╔══╝  \n");
+    usleep(400002);
+    printf("╚███╔███╔╝███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗\n");
+    usleep(400002);
+    printf(" ╚══╝╚══╝ ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝\n");
+    printf("\033[0m");
+    usleep(400002);
+    printf("\033[93m");
+    printf("Welcome to our Minishell! Type 'exit' to quit.\n\n");
+    printf("\033[0m");
+}
+
 int main(int argc, char **argv, char **env)
 {
     t_data data;
 
     (void)argc;
     (void)argv;
-    init_data(&data, env);  //initialize env and exp linked lists
-    init_signals(); //set up signal handlers
+    print_start();
+    init_data(&data, env);
+    init_signals();
     while(1)
     {
         process_input(&data);

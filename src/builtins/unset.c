@@ -53,8 +53,8 @@ int exe_builtin_unset(t_ast *ast, t_data *data)
         }
         else
         {
-            unset_var(&data->env, args[i]);//remove from env list
-            unset_var(&data->exp, args[i]);//remove from exp list
+            unset_var(&data->env, args[i]);
+            unset_var(&data->exp, args[i]);
         }
         i++;
     }

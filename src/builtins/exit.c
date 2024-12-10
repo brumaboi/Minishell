@@ -18,7 +18,7 @@ int is_numeric(const char *str)
         return (0);
     if (*str == '+' || *str == '-')
         str++;
-    if (!*str) // Handle cases like "+" or "-"
+    if (!*str)
         return (0);
     while (*str)
     {
@@ -48,11 +48,11 @@ void handle_exit(char **cmd_args)
     {
         if (is_numeric(cmd_args[1]))
         {
-            if (cmd_args[2]) // Too many arguments
+            if (cmd_args[2])
             {
                 fprintf(stderr, " exit: too many arguments\n");
                 free_cmd_args(cmd_args);
-                return ; // Do not exit, return to shell
+                return ;
             }
             exit_code = parse_exit_code(cmd_args[1]);
             free_cmd_args(cmd_args);
@@ -73,6 +73,6 @@ int exe_builtin_exit(t_ast *ast)
 {
     if (ast->cmd_args == NULL)
         return (1);
-    handle_exit(ast->cmd_args); // Delegate the logic
+    handle_exit(ast->cmd_args);
     return (0);
 }
