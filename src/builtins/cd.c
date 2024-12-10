@@ -25,15 +25,9 @@ int	update_env_values(t_data *data)
 	}
 	old_wd = get_enviroment_val(data->env, "PWD");
 	if (old_wd)
-	{
-		// if (update_variable(&data->env, old_wd, "OLDPWD"))
-			return (1);
-	}
+			return (0);
 	else
-	{
-		// if (add_variable(data->env, current_wd, "OLDPWD"))
 			return (1);
-	}
 	if (update_variable(&data->env, current_wd, "PWD"))
 		return (1);
 	return (0);
