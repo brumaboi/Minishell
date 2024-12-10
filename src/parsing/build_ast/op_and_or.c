@@ -26,7 +26,7 @@ t_ast *create_logical_node(t_token_type type, t_ast *ast, t_ast *right)
     node->left = ast;
     node->right = right;
     node->file = NULL;
-    node->cmd_args = NULL;  
+    node->cmd_args = NULL;
     return (node);
 }
 
@@ -55,4 +55,3 @@ t_ast *parse_logical(t_token **current, t_ast *ast)
     }
     return (ast);
 }
-

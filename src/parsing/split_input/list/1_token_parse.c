@@ -58,7 +58,7 @@ int add_identifier(char *input, int *i, t_token **lst, t_data *data)
     t_token *new_tok;
 
     length = get_length(input, i, &start);
-    quote_type = detect_quote_type(input, start, *i);
+    quote_type = detect_quote_type(input, start - 1, *i);
     value = ft_substr(input, start, length);
     if (!value)
         return (1);

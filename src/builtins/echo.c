@@ -39,22 +39,10 @@ int get_index(t_ast *ast, int *flag)
 
 void print_echo(char *arg, t_data *data)
 {
-    char *expanded_arg;
-
-    expanded_arg = NULL;
     if (strcmp(arg, "$?") == 0)
         printf("%d", data->exit_status);
     else
-    {
-        expanded_arg = expand_token(arg, data);
-        if (expanded_arg)
-        {
-            printf("%s", expanded_arg);
-            free(expanded_arg);
-        }
-        else
-            printf("%s", arg);
-    }
+        printf("%s", arg);
 }
 
 int execute_builtin_echo(t_ast *ast, t_data *data)

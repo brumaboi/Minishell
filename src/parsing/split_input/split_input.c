@@ -41,7 +41,7 @@ int handle_normal(const char *str, int *i, t_norm_split *norm)
     end = find_token_end(&str[*i]);
     if (!end || end <= &str[*i])
         return (free_split(norm->result), free_tokens(*norm->lst), 0);
-    norm->result[norm->idx] = copy_token(&str[*i], end, norm->data);
+    norm->result[norm->idx] = ft_substr(str, *i, end - &str[*i]);
     if (!norm->result[norm->idx])
         return (free_split(norm->result), free_tokens(*norm->lst), 0);
     if (token_add((char *)str, i, norm->lst, norm->data))

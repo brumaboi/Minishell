@@ -12,28 +12,23 @@
 
 #include "../../../../inc/minishell.h"
 
-static void handle_quotes_fill(const char **ptr, char **result, int *in_single_quote, int *in_double_quote)
-{
-    if (**ptr == '\'' && !*in_double_quote)
-    {
-        *in_single_quote = !*in_single_quote;
-        *(*result)++ = *(*ptr)++;
-    }
-    else if (**ptr == '"' && !*in_single_quote)
-    {
-        *in_double_quote = !*in_double_quote;
-        *(*result)++ = *(*ptr)++;
-    }
-    else if (**ptr == '\\' && *(*ptr + 1) && !*in_single_quote)
-    {
-        *(*result)++ = *++(*ptr);
-        (*ptr)++;
-    }
-    else if (**ptr == '$' && *in_single_quote)
-    {
-        *(*result)++ = *(*ptr)++;
-    }
-}
+// static void handle_quotes_fill(const char **ptr, char **result, int *in_single_quote, int *in_double_quote)
+// {
+//     if (**ptr == '\'' && !*in_double_quote)
+//     {
+//         *in_single_quote = !*in_single_quote;
+//         (*ptr)++;
+//     }
+//     else if (**ptr == '"' && !*in_single_quote)
+//     {
+//         *in_double_quote = !*in_double_quote;
+//         (*ptr)++;
+//     }
+//     else if (**ptr == '$' && *in_single_quote)
+//     {
+//         *(*result)++ = *(*ptr)++;
+//     }
+// }
 
 static void copy_fill(const char **ptr, char **result, t_data *data)
 {
@@ -84,7 +79,8 @@ void handle_dollar(const char **ptr, char **result, t_data *data, int in_single_
         else
         {
             *(*result)++ = '$';
-            *(*result)++ = *(*ptr)++;
+            if (**ptr)
+                *(*result)++ = *(*ptr)++;
         }
     }
 }
@@ -101,16 +97,26 @@ void fill_expanded(const char *token, char *expanded, t_data *data)
     in_single_quote = 0;
     in_double_quote = 0;
     while (*ptr)
-    {
-        handle_quotes_fill(&ptr, &result, &in_single_quote, &in_double_quote);
-        handle_dollar(&ptr, &result, data, in_single_quote);
-        if (*ptr == '$' && in_single_quote)
+    {   
+        // Handle quote state transitions
+        if (*ptr == '"' && !in_single_quote)
         {
-            *result++ = *ptr++;
+            in_double_quote = !in_double_quote;
+            ptr++;  // Skip the quote
+            continue;
+        }
+        else if (*ptr == '\'' && !in_double_quote)
+        {
+            in_single_quote = !in_single_quote;
+            ptr++;  // Skip the quote
+            continue;
+        }
+        if (*ptr == '$' && !in_single_quote)
+        {
+            handle_dollar(&ptr, &result, data, in_single_quote);
             continue ;
         }
-        if (*ptr)
-            *result++ = *ptr++;
+        *result++ = *ptr++;
     }
     *result = '\0';
 }

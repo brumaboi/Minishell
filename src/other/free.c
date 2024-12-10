@@ -60,7 +60,6 @@ void free_cmd_args(char **cmd_args)
     cmd_args = NULL; // Prevent double-free
 }
 
-
 void free_ast(t_ast *ast)
 {
     if (!ast)

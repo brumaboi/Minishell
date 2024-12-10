@@ -65,21 +65,22 @@ static char *good_result(char *result, t_data *data, int in_single_quotes)
 
 char *parse_content(const char *ptr, const char *end, char *result, int *quotes)
 {
-    int idx = 0;
+    int idx;
 
+    idx = 0;
     while (ptr < end)
     {
         if (*ptr == '\'' && !quotes[1])
         {
             quotes[0] = !quotes[0];
             ptr++;
-            continue;
+            continue ;
         }
         else if (*ptr == '"' && !quotes[0])
         {
             quotes[1] = !quotes[1];
             ptr++;
-            continue;
+            continue ;
         }
         else if (*ptr == '\\' && *(ptr + 1) && !quotes[0])
         {
