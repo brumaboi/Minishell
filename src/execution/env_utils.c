@@ -63,9 +63,9 @@ char	*create_env_entry(t_var *env)
 
 char	**env_to_array(t_var *env)
 {
-	char **envp;
-	char *env_entry;
-	int i;
+	char	**envp;
+	char	*env_entry;
+	int		i;
 
 	i = 0;
 	envp = (char **)malloc(sizeof(char *) * (count_env_variables(env) + 1));

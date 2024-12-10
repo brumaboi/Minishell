@@ -14,8 +14,8 @@
 
 int	execute_child_command(t_ast *ast, t_data *data)
 {
-	char *path;
-	char **envpm;
+	char	*path;
+	char	**envpm;
 
 	path = find_command_path(ast->cmd_args[0], data->env);
 	if (!path)
@@ -36,53 +36,53 @@ int	execute_child_command(t_ast *ast, t_data *data)
 	exit(126);
 }
 
-int fork_and_execute(t_ast *ast, t_data *data)
+int	fork_and_execute(t_ast *ast, t_data *data)
 {
-	int status;
-	pid_t pid;
+	int		status;
+	pid_t	pid;
 
 	pid = fork();
-    if (pid < 0) // Error in forking
-    {
-        perror("fork");
-        return (-1);
-    }
-    else if (pid == 0)
-    {
-        set_signal_default(); // Restore default SIGINT handling in the child
-        execute_child_command(ast, data);
-        exit(126); // This line should never be reached if execve is successful
-    }
+	if (pid < 0)
+	{
+		perror("fork");
+		return (-1);
+	}
+	else if (pid == 0)
+	{
+		set_signal_default();
+		execute_child_command(ast, data);
+		exit(126);
+	}
 	waitpid(pid, &status, 0);
-	return(status);
+	return (status);
 }
 
-void handle_exit_status(int status, t_data *data)
+void	handle_exit_status(int status, t_data *data)
 {
 	if (WIFEXITED(status))
-		data->exit_status = WEXITSTATUS(status); // Update exit status from child exit code
+		data->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
-		data->exit_status = 128 + WTERMSIG(status); // Set exit status for signals (e.g., 130 for Ctrl+C)
+		data->exit_status = 128 + WTERMSIG(status);
 		if (WTERMSIG(status) == SIGINT)
-			printf("\n"); // Print newline if the child was interrupted by SIGINT
+			printf("\n");
 	}
-	restore_custom_signal_handler(); // Re-enable the custom SIGINT handler in the parent
+	restore_custom_signal_handler();
 }
 
-int execute_commands(t_ast *ast, t_data *data)
+int	execute_commands(t_ast *ast, t_data *data)
 {
-    int status;
+	int	status;
 
 	status = 0;
-    if (is_builtin(ast->cmd_args)) // Check if the command is a built-in
-    {
-        status = execute_builtin(ast, data); // Execute built-in command and get status
-        data->exit_status = status;     // Update last exit status
-        return (status);
-    }
-    set_signal_ignore(); // Ignore SIGINT in the parent process
-    status = fork_and_execute(ast, data); // Fork and execute the command
-	handle_exit_status(status, data); // Handle exit status from the child process
-    return (data->exit_status); // Return the last exit stat
+	if (is_builtin(ast->cmd_args))
+	{
+		status = execute_builtin(ast, data);
+		data->exit_status = status;
+		return (status);
+	}
+	set_signal_ignore();
+	status = fork_and_execute(ast, data);
+	handle_exit_status(status, data);
+	return (data->exit_status);
 }

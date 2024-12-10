@@ -12,9 +12,9 @@
 
 #include "../../inc/minishell.h"
 
-void execute_logical(t_ast *node, t_data *data)
+void	execute_logical(t_ast *node, t_data *data)
 {
-	int exit_status;
+	int	exit_status;
 
 	if (!node || !data)
 		return ;
