@@ -57,8 +57,6 @@ typedef enum e_token_type
 	T_OR,
 	T_AND,
     T_BACKGROUND,
-	T_OPAR,
-	T_CPAR,
 	T_IDENTIFIER
 }	t_token_type;
 

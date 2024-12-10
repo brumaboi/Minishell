@@ -44,8 +44,7 @@ int is_special_char(const char *str)
     {
         return (2); // Compound token length
     }
-    if (*str == '|' || *str == '<' || *str == '>' || *str == '&' ||
-        *str == '(' || *str == ')' || *str == ';')
+    if (*str == '|' || *str == '<' || *str == '>' || *str == '&')
     {
         return (1); // Single token length
     }

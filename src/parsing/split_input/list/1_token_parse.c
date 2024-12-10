@@ -116,10 +116,6 @@ int single_special(char *input, int *i, t_token **lst, int len)
         type = T_GREAT;
     else if (input[*i] == '|')
         type = T_PIPE;
-    else if (input[*i] == '(')
-        type = T_OPAR;
-    else if (input[*i] == ')')
-        type = T_CPAR;
     else
         return (1);
     value = ft_strndup(&input[*i], len);
