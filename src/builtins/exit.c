@@ -12,66 +12,66 @@
 
 #include "../../inc/minishell.h"
 
-int is_numeric(const char *str)
+int	is_numeric(const char *str)
 {
-    if (!str || !*str)
-        return (0);
-    if (*str == '+' || *str == '-')
-        str++;
-    if (!*str)
-        return (0);
-    while (*str)
-    {
-        if (!ft_isdigit((unsigned char)*str))
-            return (0);
-        str++;
-    }
-    return (1);
+	if (!str || !*str)
+		return (0);
+	if (*str == '+' || *str == '-')
+		str++;
+	if (!*str)
+		return (0);
+	while (*str)
+	{
+		if (!ft_isdigit((unsigned char)*str))
+			return (0);
+		str++;
+	}
+	return (1);
 }
 
-int parse_exit_code(const char *str)
+int	parse_exit_code(const char *str)
 {
-    long value;
+	long	value;
 
-    value = ft_strtol(str, NULL, 10);
-    if (value < 0)
-        value = 256 + (value % 256);
-    return (value % 256);
+	value = ft_strtol(str, NULL, 10);
+	if (value < 0)
+		value = 256 + (value % 256);
+	return (value % 256);
 }
 
-void handle_exit(char **cmd_args)
+void	handle_exit(char **cmd_args)
 {
-    int exit_code;
+	int	exit_code;
 
-    exit_code = 0;
-    if (cmd_args[1])
-    {
-        if (is_numeric(cmd_args[1]))
-        {
-            if (cmd_args[2])
-            {
-                fprintf(stderr, " exit: too many arguments\n");
-                free_cmd_args(cmd_args);
-                return ;
-            }
-            exit_code = parse_exit_code(cmd_args[1]);
-        }
-        else
-        {
-            fprintf(stderr, " exit: %s: numeric argument required\n", cmd_args[1]);
-            exit_code = 2;
-        }
-        free_cmd_args(cmd_args);
-        exit(exit_code);
-    }
-    free_cmd_args(cmd_args);
-    exit(0);
+	exit_code = 0;
+	if (cmd_args[1])
+	{
+		if (is_numeric(cmd_args[1]))
+		{
+			if (cmd_args[2])
+			{
+				fprintf(stderr, " exit: too many arguments\n");
+				free_cmd_args(cmd_args);
+				return ;
+			}
+			exit_code = parse_exit_code(cmd_args[1]);
+		}
+		else
+		{
+			fprintf(stderr, " exit: %s: numeric argument required\n", cmd_args[1]);
+			exit_code = 2;
+		}
+		free_cmd_args(cmd_args);
+		exit(exit_code);
+	}
+	free_cmd_args(cmd_args);
+	exit(0);
 }
 
-int exe_builtin_exit(t_ast *ast)
+int	exe_builtin_exit(t_ast *ast)
 {
-    if (ast->cmd_args == NULL)
-        return (1);
-    handle_exit(ast->cmd_args);
-    return (0);
+	if (ast->cmd_args == NULL)
+		return (1);
+	handle_exit(ast->cmd_args);
+	return (0);
 }

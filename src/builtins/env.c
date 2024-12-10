@@ -14,8 +14,8 @@
 
 int	exe_builtin_env(t_ast *ast, t_data *data)
 {
-	char **args;
-	t_var *current_env;
+	char	**args;
+	t_var	*current_env;
 
 	args = ast->cmd_args;
 	if (args[1])
@@ -26,7 +26,7 @@ int	exe_builtin_env(t_ast *ast, t_data *data)
 	current_env = data->env;
 	while (current_env)
 	{
-		if (current_env->value) // to make sure NAME=VALUE format is printed
+		if (current_env->value)
 		{
 			ft_putstr_fd(current_env->name, 1);
 			ft_putstr_fd("=", 1);

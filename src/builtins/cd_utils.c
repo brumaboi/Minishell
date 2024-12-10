@@ -12,7 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-// ITERATES THROUGH LINKED LIST TO FIND VARIABLE NAMED "NAME",in our case it wil be PWD and OLDPWD
 t_var	*find_variable(t_var *env, char *name)
 {
 	while (env)
@@ -27,7 +26,7 @@ t_var	*find_variable(t_var *env, char *name)
 // Updates the value of existing variable
 int	set_variable(t_var *var, const char *value)
 {
-    char *new_val;
+	char	*new_val;
 
 	if (!var)
 		return (1);
@@ -40,31 +39,31 @@ int	set_variable(t_var *var, const char *value)
 	return (0);
 }
 
-int add_variable(t_var *env, const char *value, char *name)
+int	add_variable(t_var *env, const char *value, char *name)
 {
-    t_var *new_var;
+	t_var	*new_var;
 
-    new_var = malloc(sizeof(t_var));
-    if (!new_var)
-        return (1);
-    if (name)
-        new_var->name = ft_strdup(name);
-    else
-        new_var->name = NULL;
-    if (value)
-        new_var->value = ft_strdup(value);
-    else
-        new_var->value = NULL;
-    if (!new_var->name || (value && !new_var->value))
+	new_var = malloc(sizeof(t_var));
+	if (!new_var)
+		return (1);
+	if (name)
+		new_var->name = ft_strdup(name);
+	else
+		new_var->name = NULL;
+	if (value)
+		new_var->value = ft_strdup(value);
+	else
+		new_var->value = NULL;
+	if (!new_var->name || (value && !new_var->value))
 	{
-        free(new_var->name);
-        free(new_var->value);
-        free(new_var);
-        return (1);
-    }
-    new_var->next = NULL;
-    p_lstadd_back(&env, new_var);
-    return (0);
+		free(new_var->name);
+		free(new_var->value);
+		free(new_var);
+		return (1);
+	}
+	new_var->next = NULL;
+	p_lstadd_back(&env, new_var);
+	return (0);
 }
 
 int	update_variable(t_var **env, const char *value, char *name)

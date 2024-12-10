@@ -12,7 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-// since cd changes the state of shell env. variables must be updated so this function updates PWD and OLDPWD variables
 int	update_env_values(t_data *data)
 {
 	char	current_wd[PATH_MAX];
@@ -25,9 +24,9 @@ int	update_env_values(t_data *data)
 	}
 	old_wd = get_enviroment_val(data->env, "PWD");
 	if (old_wd)
-			return (0);
+		return (0);
 	else
-			return (1);
+		return (1);
 	if (update_variable(&data->env, current_wd, "PWD"))
 		return (1);
 	return (0);
@@ -85,7 +84,7 @@ int	exe_builtin_cd(t_ast *ast, t_data *data)
 {
 	char	*target_dir;
 	char	*pwd;
-	char **args;
+	char	**args;
 
 	args = ast->cmd_args;
 	if (check_variables_cd(args, data) != 0)
