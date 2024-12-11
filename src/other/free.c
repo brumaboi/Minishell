@@ -12,92 +12,95 @@
 
 #include "../../inc/minishell.h"
 
-void free_env_vars(t_var *env)
+void	free_env_vars(t_var *env)
 {
-    t_var *tmp;
-    while (env)
-    {
-        tmp = env;
-        env = env->next;
-        free(tmp->name);
-        free(tmp->value);
-        free(tmp);
-    }
+	t_var	*tmp;
+
+	while (env)
+	{
+		tmp = env;
+		env = env->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
+	}
 }
 
-void free_tokens(t_token *tokens)
+void	free_tokens(t_token *tokens)
 {
-    t_token *current;
-    t_token *next;
+	t_token	*current;
+	t_token	*next;
 
-    current = tokens;
-    while (current)
-    {
-        next = current->next;
-        if (current->value)
-        {
-            free(current->value);
-            current->value = NULL;
-        }
-        free(current);
-        current = next;
-    }
+	current = tokens;
+	while (current)
+	{
+		next = current->next;
+		if (current->value)
+		{
+			free(current->value);
+			current->value = NULL;
+		}
+		free(current);
+		current = next;
+	}
 }
 
-void free_cmd_args(char **cmd_args)
+void	free_cmd_args(char **cmd_args)
 {
-    int i = 0;
+	int	i;
 
-    if (!cmd_args)
-        return;
-    while (cmd_args[i])
-    {
-        free(cmd_args[i]);
-        cmd_args[i] = NULL; // Prevent dangling pointers
-        i++;
-    }
-    free(cmd_args);
-    cmd_args = NULL; // Prevent double-free
+	i = 0;
+	if (!cmd_args)
+		return ;
+	while (cmd_args[i])
+	{
+		free(cmd_args[i]);
+		cmd_args[i] = NULL;
+		i++;
+	}
+	free(cmd_args);
+	cmd_args = NULL;
 }
 
-void free_ast(t_ast *ast)
+void	free_ast(t_ast *ast)
 {
-    if (!ast)
-        return ;
-    if (ast->left)
-    {
-        free_ast(ast->left);
-        ast->left = NULL;
-    }
-    if (ast->right)
-    {
-        free_ast(ast->right);
-        ast->right = NULL;
-    }
-    if (ast->file)
-    {
-        free(ast->file);
-        ast->file = NULL;
-    }
-    if (ast->cmd_args)
-    {
-        free_cmd_args(ast->cmd_args);
-        ast->cmd_args = NULL; // Prevent double-free
-    }
-    free(ast);
-    ast = NULL; // Prevent dangling pointer
+	if (!ast)
+		return ;
+	if (ast->left)
+	{
+		free_ast(ast->left);
+		ast->left = NULL;
+	}
+	if (ast->right)
+	{
+		free_ast(ast->right);
+		ast->right = NULL;
+	}
+	if (ast->file)
+	{
+		free(ast->file);
+		ast->file = NULL;
+	}
+	if (ast->cmd_args)
+	{
+		free_cmd_args(ast->cmd_args);
+		ast->cmd_args = NULL;
+	}
+	free(ast);
+	ast = NULL;
 }
 
-void free_split(char **split)
+void	free_split(char **split)
 {
-    int i = 0;
+	int	i;
 
-    if (!split)
-        return ;
-    while (split[i])
-    {
-        free(split[i]);
-        i++;
-    }
-    free(split);
+	i = 0;
+	if (!split)
+		return ;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }
