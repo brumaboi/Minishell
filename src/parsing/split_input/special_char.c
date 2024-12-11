@@ -23,30 +23,30 @@ int	special_char_len(const char *str)
 	return (0);
 }
 
-char *process_special_char(const char *str)
+char	*process_special_char(const char *str)
 {
-    char *result;
-    int len;
+	char	*result;
+	int		len;
 
-    len = special_char_len(str);
-    result = malloc((len + 1) * sizeof(char));
-    if (!result)
-        return (NULL);
-    ft_strncpy(result, str, len);
-    result[1] = '\0';
-    return (result);
+	len = special_char_len(str);
+	result = malloc((len + 1) * sizeof(char));
+	if (!result)
+		return (NULL);
+	ft_strncpy(result, str, len);
+	result[1] = '\0';
+	return (result);
 }
 
-int is_special_char(const char *str)
+int	is_special_char(const char *str)
 {
-    if (strncmp(str, "<<", 2) == 0 || strncmp(str, ">>", 2) == 0 ||
-        strncmp(str, "&&", 2) == 0 || strncmp(str, "||", 2) == 0)
-    {
-        return (2); // Compound token length
-    }
-    if (*str == '|' || *str == '<' || *str == '>' || *str == '&')
-    {
-        return (1); // Single token length
-    }
-    return (0); // Not a special character
+	if (strncmp(str, "<<", 2) == 0 || strncmp(str, ">>", 2) == 0
+		|| strncmp(str, "&&", 2) == 0 || strncmp(str, "||", 2) == 0)
+	{
+		return (2);
+	}
+	if (*str == '|' || *str == '<' || *str == '>' || *str == '&')
+	{
+		return (1);
+	}
+	return (0);
 }
