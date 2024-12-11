@@ -64,7 +64,8 @@ static int	detect_base(const char **str, int base)
 	return (base);
 }
 
-static long	process_conversion(const char **str, char **endptr, int base, int sign)
+static long	process_conversion(const char **str,
+								char **endptr, int base, int sign)
 {
 	long	result;
 	int		digit;

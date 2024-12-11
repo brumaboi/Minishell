@@ -39,14 +39,22 @@ static int	empty_check(t_token **token)
 
 int	parse_arguments(t_token **token, char ***cmd_args, int *args_count)
 {
+	size_t	new_size;
+	size_t	old_size;
+
 	*cmd_args = NULL;
 	*args_count = 0;
 	while (*token && (*token)->type == T_IDENTIFIER)
 	{
 		if (empty_check(token))
 			continue ;
-		*cmd_args = ft_realloc(*cmd_args, sizeof(char *) * (*args_count + 1), sizeof(char *) * (*args_count + 2));
-		if (!*cmd_args || !((*cmd_args)[*args_count] = ft_strdup((*token)->value)))
+		new_size = sizeof(char *) * (*args_count + 2);
+		old_size = sizeof(char *) * (*args_count + 1);
+		*cmd_args = ft_realloc(*cmd_args, old_size, new_size);
+		if (!*cmd_args)
+			return (free_cmd_args(*cmd_args), 0);
+		(*cmd_args)[*args_count] = ft_strdup((*token)->value);
+		if (!(*cmd_args)[*args_count])
 			return (free_cmd_args(*cmd_args), 0);
 		(*args_count)++;
 		*token = (*token)->next;

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 11:22:42 by sbruma            #+#    #+#             */
-/*   Updated: 2024/12/11 01:54:43 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/11 02:26:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,11 @@ char	**ft_split(const char *s, char c)
 	int		num_words;
 	char	**result;
 
+	result = NULL;
 	if (!s)
 		return (NULL);
 	num_words = count_words(s, c);
-	*result = malloc((num_words + 1) * sizeof(char *));
+	result = malloc((num_words + 1) * sizeof(char *));
 	if (!result)
 		return (NULL);
 	return (fill_result(s, c, result));

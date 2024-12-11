@@ -41,7 +41,8 @@ void	process_question_mark(char **result, t_data *data, const char **ptr)
 	(*ptr)++;
 }
 
-void	handle_dollar(const char **ptr, char **result, t_data *data, int in_single_quote)
+void	handle_dollar(const char **ptr, char **result, t_data *data,
+						int in_single_quote)
 {
 	if (**ptr == '$' && !in_single_quote)
 	{

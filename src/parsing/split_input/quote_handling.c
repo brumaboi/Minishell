@@ -12,7 +12,8 @@
 
 #include "../../../inc/minishell.h"
 
-int	quote_state_and_escape(const char *str, int *in_single_quote, int *in_double_quote)
+int	quote_state_and_escape(const char *str, int *in_single_quote,
+							int *in_double_quote)
 {
 	if (*str == '\\' && *(str + 1) && !*in_single_quote)
 		return (1);
@@ -41,7 +42,8 @@ const char	*find_token_end(const char *start)
 			in_single_quote = !in_single_quote;
 		else if (*start == '"' && !in_single_quote)
 			in_double_quote = !in_double_quote;
-		if (!in_single_quote && !in_double_quote && (is_special_char(start) || ft_isspace(*start)))
+		if (!in_single_quote && !in_double_quote
+			&& (is_special_char(start) || ft_isspace(*start)))
 			break ;
 		start++;
 	}

@@ -29,7 +29,8 @@ int	handle_initial_conditions(const char *input)
 	return (i);
 }
 
-int	handle_quotes_and_special_chars(const char *input, int *i, int *in_single_quote, int *in_double_quote)
+int	handle_quotes_and_special_chars(const char *input, int *i,
+									int *in_single_quote, int *in_double_quote)
 {
 	int	len;
 
@@ -44,7 +45,8 @@ int	handle_quotes_and_special_chars(const char *input, int *i, int *in_single_qu
 		{
 			if (is_special_char(&input[*i + len]) > 0)
 			{
-				fprintf(stderr, " syntax error near unexpected token `%.*s'\n", len, &input[*i]);
+				fprintf(stderr, " syntax error near unexpected token `%.*s'\n",
+					len, &input[*i]);
 				return (1);
 			}
 			*i += len - 1;
@@ -89,7 +91,8 @@ int	correct_syntax(const char *input)
 		return (2);
 	while (input[i])
 	{
-		if (handle_quotes_and_special_chars(input, &i, &in_single_quote, &in_double_quote))
+		if (handle_quotes_and_special_chars(input, &i,
+				&in_single_quote, &in_double_quote))
 			return (2);
 		i++;
 	}

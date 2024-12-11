@@ -36,7 +36,8 @@ t_ast	*create_redirection_node(t_token_type type, char *file)
 	return (node);
 }
 
-t_ast	*create_redir(t_token **current, t_ast *ast, t_token_type redirection_type)
+t_ast	*create_redir(t_token **current, t_ast *ast,
+						t_token_type redirection_type)
 {
 	t_token	*token;
 	char	*file;

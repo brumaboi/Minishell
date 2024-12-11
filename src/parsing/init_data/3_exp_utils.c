@@ -12,7 +12,6 @@
 
 #include "../../../inc/minishell.h"
 
-//we add OLDPWD to the exported variables if it doesn't exist - this is used to keep track of the previous directory
 void	add_oldpwd_exp(t_var **exp)
 {
 	t_var	*ptr;
@@ -29,7 +28,8 @@ void	add_oldpwd_exp(t_var **exp)
 			ptr = ptr->next;
 		}
 		oldpwd = ft_strdup("OLDPWD");
-		if (!oldpwd || !(tmp = p_lstnew(oldpwd, NULL)))
+		tmp = p_lstnew(oldpwd, NULL);
+		if (!oldpwd || !tmp)
 		{
 			free_env_vars(*exp);
 			*exp = NULL;
@@ -69,7 +69,8 @@ void	sort_exp(t_var **export)
 		while (ptr->next != last_sorted)
 		{
 			if (ptr->name && ptr->next->name
-				&& ft_strncmp(ptr->name, ptr->next->name, ft_strlen(ptr->name)) > 0)
+				&& ft_strncmp(ptr->name, ptr->next->name,
+					ft_strlen(ptr->name)) > 0)
 			{
 				swap_swap(ptr);
 				swapped = 1;

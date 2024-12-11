@@ -123,8 +123,10 @@ char		*copy_token(const char *start, const char *end, t_data *data);
 int			is_special_char(const char *str);
 char		*process_special_char(const char *str);
 int			special_char_len(const char *str);
-char		**split_input(const char *str, int *count, t_token **lst, t_data *data);
-int			quote_state_and_escape(const char *str, int *in_single_quote, int *in_double_quote);
+char		**split_input(const char *str, int *count,
+				t_token **lst, t_data *data);
+int			quote_state_and_escape(const char *str,
+				int *in_single_quote, int *in_double_quote);
 size_t		get_expansion_len(const char *token, t_data *data);
 void		fill_expanded(const char *token, char *expanded, t_data *data);
 char		*expand_token(const char *token, t_data *data);
@@ -132,6 +134,7 @@ char		*expand_env_var(const char *input, t_data *data);
 t_token		*new_token(char *value, t_token_type type, t_quote_type quote_type);
 int			add_token_to_list(t_token **lst, t_token *new);
 const char	*find_token_end(const char *start);
+int			get_length(char *input, int *i, int *start);
 //user_input.c
 char		*get_input(t_data *data);
 //build_ast.c
@@ -201,7 +204,8 @@ int			set_variable(t_var *var, const char *value);
 int			add_variable(t_var *env, const char *value, char *name);
 
 void		cleanup_readline(void);
-void		free_free(char *input, char **split_result, t_token *tokens, t_ast *ast);
+void		free_free(char *input, char **split_result,
+				t_token *tokens, t_ast *ast);
 
 int			correct_syntax(const char *input);
 

@@ -61,7 +61,8 @@ void	check_command_validity(t_ast *node, t_data *data)
 	if (node->type == N_COMMAND
 		&& !is_command_valid(node->cmd_args[0], data->env))
 	{
-		fprintf(stderr, "minishell: %s: command not found\n", node->cmd_args[0]);
+		fprintf(stderr, "minishell: %s: command not found\n",
+			node->cmd_args[0]);
 		data->exit_status = 127;
 	}
 }

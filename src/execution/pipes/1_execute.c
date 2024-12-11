@@ -75,7 +75,8 @@ void	last_last(t_ast *node, t_data *data, int prev_fd)
 	{
 		if (!is_command_valid(node->cmd_args[0], data->env))
 		{
-			fprintf(stderr, "minishell: %s: command not found\n", node->cmd_args[0]);
+			fprintf(stderr, "minishell: %s: command not found\n",
+				node->cmd_args[0]);
 			data->exit_status = 127;
 			return ;
 		}

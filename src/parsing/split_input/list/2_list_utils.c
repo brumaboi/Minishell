@@ -45,3 +45,31 @@ int	add_token_to_list(t_token **lst, t_token *new)
 	}
 	return (0);
 }
+
+int	get_length(char *input, int *i, int *start)
+{
+	char	quote_char;
+	int		len;
+
+	*start = *i;
+	if (input[*i] == '"' || input[*i] == '\'')
+	{
+		quote_char = input[*i];
+		(*i)++;
+		*start = *i;
+		while (input[*i] && input[*i] != quote_char)
+			(*i)++;
+		if (input[*i] == quote_char)
+			(*i)++;
+	}
+	else
+	{
+		while (input[*i] && !ft_isspace(input[*i])
+			&& !is_special_char(&input[*i]))
+			(*i)++;
+	}
+	len = *i - *start;
+	if (input[*i - 1] == '"' || input[*i - 1] == '\'')
+		len -= 1;
+	return (len);
+}

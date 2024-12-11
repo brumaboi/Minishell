@@ -39,32 +39,32 @@ int	parse_exit_code(const char *str)
 	return (value % 256);
 }
 
-void	handle_exit(char **cmd_args)
+void	handle_exit(char **cmds)
 {
 	int	exit_code;
 
 	exit_code = 0;
-	if (cmd_args[1])
+	if (cmds[1])
 	{
-		if (is_numeric(cmd_args[1]))
+		if (is_numeric(cmds[1]))
 		{
-			if (cmd_args[2])
+			if (cmds[2])
 			{
 				fprintf(stderr, " exit: too many arguments\n");
-				free_cmd_args(cmd_args);
+				free_cmd_args(cmds);
 				return ;
 			}
-			exit_code = parse_exit_code(cmd_args[1]);
+			exit_code = parse_exit_code(cmds[1]);
 		}
 		else
 		{
-			fprintf(stderr, " exit: %s: numeric argument required\n", cmd_args[1]);
+			fprintf(stderr, " exit: %s: numeric argument required\n", cmds[1]);
 			exit_code = 2;
 		}
-		free_cmd_args(cmd_args);
+		free_cmd_args(cmds);
 		exit(exit_code);
 	}
-	free_cmd_args(cmd_args);
+	free_cmd_args(cmds);
 	exit(0);
 }
 

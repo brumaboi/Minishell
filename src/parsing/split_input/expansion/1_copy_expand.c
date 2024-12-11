@@ -23,7 +23,8 @@ char	*expand_env_var(const char *input, t_data *data)
 		return (ft_itoa(data->exit_status));
 	}
 	var_len = 0;
-	while (input[var_len] && (ft_isalnum(input[var_len]) || input[var_len] == '_'))
+	while (input[var_len] && (ft_isalnum(input[var_len])
+			|| input[var_len] == '_'))
 		var_len++;
 	if (var_len == 0)
 		return (NULL);
@@ -63,7 +64,8 @@ static char	*good_result(char *result, t_data *data, int in_single_quotes)
 	return (result);
 }
 
-char	*parse_content(const char *ptr, const char *end, char *result, int *quotes)
+char	*parse_content(const char *ptr, const char *end,
+						char *result, int *quotes)
 {
 	int	idx;
 

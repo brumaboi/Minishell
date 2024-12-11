@@ -12,7 +12,8 @@
 
 #include "../../../../inc/minishell.h"
 
-static size_t	handle_env_var(const char **ptr, const char **token, t_data *data)
+static size_t	handle_env_var(const char **ptr, const char **token,
+								t_data *data)
 {
 	char	*env_value;
 	size_t	total_length;
@@ -36,7 +37,8 @@ static size_t	handle_env_var(const char **ptr, const char **token, t_data *data)
 	return (total_length);
 }
 
-static size_t	handle_quotes_len(const char **ptr, int *in_single_quote, int *in_double_quote)
+static size_t	handle_quotes_len(const char **ptr, int *in_single_quote,
+									int *in_double_quote)
 {
 	if (quote_state_and_escape(*ptr, in_single_quote, in_double_quote))
 	{
