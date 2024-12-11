@@ -48,7 +48,8 @@ void	execute_node(t_ast *node, t_data *data)
 		{
 			if (!is_command_valid(node->left->cmd_args[0], data->env))
 			{
-				fprintf(stderr, "minishell: %s: command not found\n", node->left->cmd_args[0]);
+				fprintf(stderr, "minishell: %s: command not found\n",
+					node->left->cmd_args[0]);
 				exit(127);
 			}
 			if (is_builtin(node->left->cmd_args))
@@ -64,8 +65,7 @@ void	execute_node(t_ast *node, t_data *data)
 			execute_pipe(node->left, data);
 			exit(EXIT_SUCCESS);
 		}
-		else
-			exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 }
 

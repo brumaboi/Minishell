@@ -85,14 +85,9 @@ char	*parse_content(const char *ptr, const char *end,
 			continue ;
 		}
 		else if (*ptr == '\\' && *(ptr + 1) && !quotes[0])
-		{
-			ptr++;
-			result[idx++] = *ptr;
-		}
+			result[idx++] = *++ptr;
 		else
-		{
 			result[idx++] = *ptr;
-		}
 		ptr++;
 	}
 	result[idx] = '\0';
