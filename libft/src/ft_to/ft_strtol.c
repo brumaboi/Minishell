@@ -74,7 +74,7 @@ static long	process_conversion(const char **str, char **endptr, int base, int si
 	{
 		digit = char_to_digit(**str);
 		if (digit < 0 || digit >= base)
-			break;
+			break ;
 		if (result > (LONG_MAX - digit) / base)
 		{
 			errno = ERANGE;

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:37:09 by sbruma            #+#    #+#             */
-/*   Updated: 2024/12/09 19:56:58 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/11 01:53:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
-int ft_isspace(int c);
+int		ft_isspace(int c);
 
 //ft_lst
 typedef struct s_list
@@ -57,7 +57,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_calloc(size_t count, size_t size);
-void *ft_realloc(void *ptr, size_t old_size, size_t new_size);
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 //ft_piscine
 int		ft_fibonacci(int index);
