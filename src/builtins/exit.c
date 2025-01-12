@@ -51,7 +51,6 @@ void	handle_exit(char **cmds)
 			if (cmds[2])
 			{
 				fprintf(stderr, " exit: too many arguments\n");
-				free_cmd_args(cmds);
 				return ;
 			}
 			exit_code = parse_exit_code(cmds[1]);
