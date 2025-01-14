@@ -12,17 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-int many_spaces(const char *str)
-{
-	while (*str)
-	{
-		if (!ft_isspace(*str))
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
 int	handle_initial_conditions(const char *input)
 {
 	int	i;
@@ -42,11 +31,31 @@ int	handle_initial_conditions(const char *input)
 	return (i);
 }
 
+int	handle_special_chars(const char *input, int *i)
+{
+	int	len;
+	int	j;
+
+	len = is_special_char(&input[*i]);
+	if (len > 0)
+	{
+		j = *i + len;
+		while (ft_isspace(input[j]))
+			j++;
+		if (is_special_char(&input[j]) > 0)
+		{
+			fprintf(stderr, " syntax error near unexpected token `%.*s'\n",
+				len, &input[*i]);
+			return (1);
+		}
+		*i += len - 1;
+	}
+	return (0);
+}
+
 int	handle_quotes_and_special_chars(const char *input, int *i,
 									int *in_single_quote, int *in_double_quote)
 {
-	int	len;
-
 	if (input[*i] == '\'' && !(*in_double_quote))
 		*in_single_quote = !(*in_single_quote);
 	else if (input[*i] == '"' && !(*in_single_quote))
@@ -54,29 +63,7 @@ int	handle_quotes_and_special_chars(const char *input, int *i,
 	if ((*in_single_quote || *in_double_quote) && input[*i + 1] == '\0')
 		return (fprintf(stderr, " syntax error: unmatched quote\n"), 1);
 	if (!(*in_single_quote) && !(*in_double_quote))
-	{
-		len = is_special_char(&input[*i]);
-		if (len > 0)
-		{
-			if (is_special_char(&input[*i + len]) > 0)
-			{
-				fprintf(stderr, " syntax error near unexpected token `%.*s'\n",
-					len, &input[*i]);
-				return (1);
-			}
-			*i += len - 1;
-		}
-	}
-	return (0);
-}
-
-int	handle_unmatched_quotes(int in_single_quote, int in_double_quote)
-{
-	if (in_single_quote || in_double_quote)
-	{
-		fprintf(stderr, " syntax error: unmatched quote\n");
-		return (1);
-	}
+		return (handle_special_chars(input, i));
 	return (0);
 }
 

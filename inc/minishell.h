@@ -202,11 +202,13 @@ int			update_variable(t_var **env, const char *value, char *name);
 t_var		*find_variable(t_var *env, char *name);
 int			set_variable(t_var *var, const char *value);
 int			add_variable(t_var *env, const char *value, char *name);
-
+//clean
 void		cleanup_readline(void);
 void		free_free(char *input, char **split_result,
 				t_token *tokens, t_ast *ast);
-
+//syntax
 int			correct_syntax(const char *input);
+int			many_spaces(const char *str);
+int			handle_unmatched_quotes(int in_single_quote, int in_double_quote);
 
 #endif
